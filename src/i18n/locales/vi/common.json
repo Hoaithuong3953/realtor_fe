@@ -1,1 +1,26 @@
-{}
+{
+  "errors": {
+    "forbidden": {
+      "title": "Từ chối truy cập",
+      "description": "Bạn không có quyền xem nội dung này. Vui lòng liên hệ quản trị viên nếu bạn cho rằng đây là một sự nhầm lẫn",
+      "back": "Quay lại trang trước",
+      "home": "Về Trang chủ"
+    },
+    "notFound": {
+      "title": "Không tìm thấy trang",
+      "description": "Trang bạn đang tìm kiếm có thể đã bị xóa, đổi tên hoặc tạm thời không truy cập được",
+      "home": "Quay về Trang chủ"
+    },
+    "serverError": {
+      "title": "Đã xảy ra sự cố kỹ thuật",
+      "description": "Hệ thống đang gặp gián đoạn tạm thời. Chúng tôi đang cố gắng khắc phục sự cố này nhanh nhất có thể",
+      "retry": "Tải lại trang",
+      "home": "Về Trang chủ"
+    },
+    "maintenance": {
+      "title": "Hệ thống đang bảo trì",
+      "description": "Để nâng cấp chất lượng dịch vụ, hệ thống hiện đang tạm bảo trì. Vui lòng quay lại sau ít phút. Xin lỗi vì sự bất tiện này",
+      "retry": "Thử lại"
+    }
+  }
+}

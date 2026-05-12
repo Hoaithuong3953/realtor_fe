@@ -15,10 +15,22 @@ export interface ApiErrorResponse {
 }
 
 /**
- * Normalized error structure returned by FE Base for UI rendering
+ * Normalized error class returned by FE Base for UI rendering.
+ * Inherits from Error to comply with ESLint promise rejection requirements.
  */
-export interface NormalizedError {
+export class NormalizedError extends Error {
   statusCode: number;                    // HTTP status code (400, 401, 403, 422, 500...)
   fieldErrors?: Record<string, boolean>; // Object mapping field names to boolean flags for form validation (e.g., { email: true })
   raw?: unknown;                         // Original raw error object for debugging purposes
+
+  constructor(statusCode: number, message: string = "API Error", fieldErrors?: Record<string, boolean>, raw?: unknown) {
+    super(message);
+    this.name = "NormalizedError";
+    this.statusCode = statusCode;
+    this.fieldErrors = fieldErrors;
+    this.raw = raw;
+
+    // Set prototype explicitly to ensure instanceof works correctly in transpilations
+    Object.setPrototypeOf(this, NormalizedError.prototype);
+  }
 }

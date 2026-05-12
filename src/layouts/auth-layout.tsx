@@ -35,7 +35,7 @@ function AuthLayout({ children, className }: AuthLayoutProps) {
           <div className="bg-black/30 backdrop-blur-2xl border border-white/10 p-8 lg:p-10 rounded-3xl max-w-lg shadow-2xl animate-in slide-in-from-bottom-8 duration-700 space-y-6">
             {/* Main Project Title */}
             <h2 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight border-b border-white/10 pb-4">
-              {t("hero_title")}
+              {t("layout.hero_title")}
             </h2>
 
             {/* Factual Feature List */}
@@ -46,8 +46,8 @@ function AuthLayout({ children, className }: AuthLayoutProps) {
                   <Brain className="size-5" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-white text-base leading-snug">{t("feature_1_title")}</h3>
-                  <p className="text-white/70 text-sm leading-relaxed">{t("feature_1_desc")}</p>
+                  <h3 className="font-semibold text-white text-base leading-snug">{t("layout.features.client_storage.title")}</h3>
+                  <p className="text-white/70 text-sm leading-relaxed">{t("layout.features.client_storage.desc")}</p>
                 </div>
               </div>
 
@@ -57,8 +57,8 @@ function AuthLayout({ children, className }: AuthLayoutProps) {
                   <Bot className="size-5" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-white text-base leading-snug">{t("feature_2_title")}</h3>
-                  <p className="text-white/70 text-sm leading-relaxed">{t("feature_2_desc")}</p>
+                  <h3 className="font-semibold text-white text-base leading-snug">{t("layout.features.property_matching.title")}</h3>
+                  <p className="text-white/70 text-sm leading-relaxed">{t("layout.features.property_matching.desc")}</p>
                 </div>
               </div>
 
@@ -68,8 +68,8 @@ function AuthLayout({ children, className }: AuthLayoutProps) {
                   <Users className="size-5" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-white text-base leading-snug">{t("feature_3_title")}</h3>
-                  <p className="text-white/70 text-sm leading-relaxed">{t("feature_3_desc")}</p>
+                  <h3 className="font-semibold text-white text-base leading-snug">{t("layout.features.internal_management.title")}</h3>
+                  <p className="text-white/70 text-sm leading-relaxed">{t("layout.features.internal_management.desc")}</p>
                 </div>
               </div>
             </div>

@@ -1,5 +1,6 @@
  
 /* eslint-disable no-console -- centralized logging abstraction */
+import { formatDateTime } from "./date-formatter";
 
 type LogLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
 
@@ -88,8 +89,8 @@ class Logger {
       return;
     }
 
-    const timestamp = new Date().toISOString();
-    const prefix = `[${timestamp}] [${level}]`;
+    // Format timestamp in GMT+7 using centralized date formatter
+    const prefix = `[${formatDateTime(new Date())}] [${level}]`;
 
     // Distinct styling for each log level in the browser Console during development
     const styles = {

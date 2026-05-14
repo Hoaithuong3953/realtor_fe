@@ -11,5 +11,6 @@ export const apiClient = axios.create({
   timeout: API_CONFIG.TIMEOUT,
   headers: {
     "Content-Type": "application/json",
+    "X-Tenant-Slug": "realtor-demo",
   },
 });

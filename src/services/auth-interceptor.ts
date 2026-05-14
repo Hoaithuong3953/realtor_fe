@@ -99,9 +99,14 @@ export const setupAuthInterceptors = () => {
         return Promise.reject(error);
       }
 
-      // Prevent infinite loop recursion if the refresh token API call itself fails
-      if (originalRequest.url?.includes(API_ENDPOINTS.AUTH.REFRESH)) {
-        logger.error("Token Refresh Failed", error.response?.data);
+      // Prevent infinite loop recursion or false session expirations for Login/Refresh API calls
+      if (
+        originalRequest.url?.includes(API_ENDPOINTS.AUTH.REFRESH) ||
+        originalRequest.url?.includes(API_ENDPOINTS.AUTH.LOGIN)
+      ) {
+        if (originalRequest.url?.includes(API_ENDPOINTS.AUTH.REFRESH)) {
+          logger.error("Token Refresh Failed", error.response?.data);
+        }
         const normalizedError = handleApiError(error);
         return Promise.reject(normalizedError);
       }

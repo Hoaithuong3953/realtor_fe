@@ -77,3 +77,21 @@ export const useCurrentUserQuery = (enable = true) => {
         staleTime: 1000 * 60 * 5,
     })
 }
+
+/**
+ * Hook for requesting password reset link
+ */
+export const useForgotPasswordMutation = () => {
+  const { t } = useTranslation("auth");
+
+  return useMutation({
+    mutationFn: authService.forgotPassword,
+    onSuccess: () => {
+      toast.success(t("forgot_password.success_msg"));
+    },
+    onError: (error) => {
+      logger.error("Forgot password API failed", handleApiError(error));
+      toast.error(t("forgot_password.error_msg"));
+    },
+  });
+};

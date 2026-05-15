@@ -13,5 +13,6 @@ export const API_ENDPOINTS = {
     LOGOUT: "/auth/logout",
     REGISTER: "/auth/register",
     ME: "/auth/me",
+    FORGOT_PASSWORD: "/auth/forgot-password",
   },
 } as const;

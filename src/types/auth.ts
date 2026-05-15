@@ -3,7 +3,7 @@ import type { AuthUserOut } from "./user";
 export interface TokenPair {
   access_token: string;
   refresh_token: string;
-  token_type: string; // usually "bearer"
+  token_type: string;
   expires_in: number;
 }
 
@@ -23,4 +23,12 @@ export interface RefreshRequest {
 
 export interface LogoutRequest {
   refresh_token: string;
+}
+
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ForgotPasswordResponse {
+  message: string;
 }

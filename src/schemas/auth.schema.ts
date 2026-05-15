@@ -16,4 +16,10 @@ export const loginSchema = z.object({
     password: passwordSchema,
 })
 
+// Schema for forgot password form
+export const forgotPasswordSchema = z.object({
+    email: emailSchema,
+})
+
 export type LoginFormValues = z.infer<typeof loginSchema>
+export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>

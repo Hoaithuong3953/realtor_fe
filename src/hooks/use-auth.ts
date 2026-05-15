@@ -21,7 +21,7 @@ export const useLoginMutation = () => {
         mutationFn: authService.login,
         onSuccess: (data) => {
             const {user, tokens} = data
-            setLoginSuccess(user, tokens.access_token, tokens.refresh_token)
+            setLoginSuccess(user, tokens.access_token)
             logger.info("User logged in successfully", { email: user.email, userId: user.id });
             toast.success(t("login.success_msg"))
             void navigate(paths.home)
@@ -40,14 +40,11 @@ export const useLogoutMutation = () => {
     const {t} = useTranslation("auth")
     const navigate = useNavigate()
     const logout = useAuthStore((state) => state.logout)
-    const refreshToken = useAuthStore((state) => state.refreshToken)
     const queryClient = useQueryClient()
 
     return useMutation({
         mutationFn: async () => {
-            if (refreshToken) {
-                await authService.logout(refreshToken)
-            }
+            await authService.logout()
         },
         onSuccess: () => {
             queryClient.clear()

@@ -9,6 +9,7 @@ import { API_CONFIG } from "@/constants/api";
 export const apiClient = axios.create({
   baseURL: (import.meta.env.VITE_API_BASE_URL as string) || API_CONFIG.DEFAULT_BASE_URL,
   timeout: API_CONFIG.TIMEOUT,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     "X-Tenant-Slug": "realtor-demo",

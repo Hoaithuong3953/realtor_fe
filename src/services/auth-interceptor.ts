@@ -56,7 +56,7 @@ export const forceLogout = (reason: "expired" | "revoked" | "manual_logout" = "e
 };
 
 /**
- * Main registration function. Guards against duplicate registrations from HMR or dynamic imports.
+ * Main registration function. Guards against duplicate registrations from HMR or dynamic imports
  */
 export const setupAuthInterceptors = () => {
   if (isInterceptorsRegistered) {return;}
@@ -76,7 +76,7 @@ export const setupAuthInterceptors = () => {
     }
   );
 
-  // RESPONSE INTERCEPTOR: Intercept 401 errors, execute silent refresh, queue calls, and normalize error structures
+  // RESPONSE INTERCEPTOR: Intercept 401 errors, execute silent refresh, queue calls and normalize error structures
   apiClient.interceptors.response.use(
     (response) => {
       if (import.meta.env.DEV) {
@@ -127,12 +127,11 @@ export const setupAuthInterceptors = () => {
         originalRequest._retry = true;
         isRefreshing = true;
 
-        const refreshToken = useAuthStore.getState().refreshToken;
         const currentUser = useAuthStore.getState().user;
         const isAuthenticated = useAuthStore.getState().isAuthenticated;
 
         // Defensive guard: Ensure valid local session states before hitting the endpoint
-        if (!refreshToken || !currentUser || !isAuthenticated) {
+        if (!currentUser || !isAuthenticated) {
           logger.warn("Authentication credentials or user profile missing. Skipping token refresh.");
           forceLogout("expired");
           const normalizedError = handleApiError(error);
@@ -153,15 +152,12 @@ export const setupAuthInterceptors = () => {
         try {
           logger.info("Access token expired, attempting background token refresh...");
           
-          // Execute background call using raw axios to bypass client interceptors.
-          // FastAPI Backend expects empty body and refresh token passed via "X-Refresh-Token" Header.
+          // Execute background call using raw axios to bypass client interceptors
           const response = await axios.post<LoginResponse>(
             `${apiClient.defaults.baseURL}${API_ENDPOINTS.AUTH.REFRESH}`,
             {},
             {
-              headers: {
-                "X-Refresh-Token": refreshToken,
-              },
+              withCredentials: true,
               signal: refreshAbortController.signal,
             }
           );
@@ -169,16 +165,15 @@ export const setupAuthInterceptors = () => {
           // Clear watchdog timer once response is successfully received
           clearTimeout(refreshTimeoutId);
 
-          // Extract standard access and refresh credentials from nested tokens object
-          const { access_token: newAccessToken, refresh_token: newRefreshToken } = response.data.tokens;
+          // Extract standard access token from nested tokens object
+          const { access_token: newAccessToken } = response.data.tokens;
 
           logger.info("Token refresh successful, updating credentials.");
 
           // Save new credentials back to Zustand store
           useAuthStore.getState().setLoginSuccess(
             currentUser,
-            newAccessToken,
-            newRefreshToken
+            newAccessToken
           );
 
           // Update default Authorization headers for future queries

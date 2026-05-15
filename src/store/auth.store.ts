@@ -7,9 +7,8 @@ import type { AuthUserOut } from "@/types"
 interface AuthState {
   user: AuthUserOut | null
   accessToken: string | null
-  refreshToken: string | null
   isAuthenticated: boolean
-  setLoginSuccess: (user: AuthUserOut, accessToken: string, refreshToken: string) => void
+  setLoginSuccess: (user: AuthUserOut, accessToken: string) => void
   logout: () => void
 }
 
@@ -18,23 +17,20 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       accessToken: null,
-      refreshToken: null,
       isAuthenticated: false,
-      setLoginSuccess: (user, accessToken, refreshToken) => {
-        set({ user, accessToken, refreshToken, isAuthenticated: true })
+      setLoginSuccess: (user, accessToken) => {
+        set({ user, accessToken, isAuthenticated: true })
       },
       logout: () => {
-        set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false })
+        set({ user: null, accessToken: null, isAuthenticated: false })
       },
     }),
     {
       name: STORAGE_KEYS.AUTH_STORE,
       version: 1,
-      // Persists session states including refreshToken to localStorage to survive tab closure and reloads
       partialize: (state) => ({
         user: state.user,
         accessToken: state.accessToken,
-        refreshToken: state.refreshToken,
         isAuthenticated: state.isAuthenticated,
       }),
     }

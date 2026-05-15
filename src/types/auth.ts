@@ -17,14 +17,6 @@ export interface LoginResponse {
   tokens: TokenPair;
 }
 
-export interface RefreshRequest {
-  refresh_token: string;
-}
-
-export interface LogoutRequest {
-  refresh_token: string;
-}
-
 export interface ForgotPasswordRequest {
   email: string;
 }

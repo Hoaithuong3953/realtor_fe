@@ -21,5 +21,15 @@ export const forgotPasswordSchema = z.object({
     email: emailSchema,
 })
 
+// Schema for reset password form
+export const resetPasswordSchema = z.object({
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, { message: "login.validation.password_required" })
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "login.validation.passwords_must_match",
+    path: ["confirmPassword"],
+})
+
 export type LoginFormValues = z.infer<typeof loginSchema>
 export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>
+export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>

@@ -92,3 +92,23 @@ export const useForgotPasswordMutation = () => {
     },
   });
 };
+
+/**
+ * Hook for resetting password
+ */
+export const useResetPasswordMutation = () => {
+  const { t } = useTranslation("auth");
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: authService.resetPassword,
+    onSuccess: () => {
+      toast.success(t("reset_password.success_msg"));
+      void navigate(paths.auth.login);
+    },
+    onError: (error) => {
+      logger.error("Reset password API failed", handleApiError(error));
+      toast.error(t("reset_password.error_msg"));
+    },
+  });
+};

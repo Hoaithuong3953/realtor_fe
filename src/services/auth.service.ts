@@ -6,6 +6,8 @@ import type {
     ForgotPasswordResponse,
     LoginRequest,
     LoginResponse,
+    ResetPasswordRequest,
+    ResetPasswordResponse,
 } from "@/types";
 
 export const authService = {
@@ -51,4 +53,16 @@ export const authService = {
         )
         return response.data
     },
+
+    /**
+     * Service function for user reset password
+     * [POST] /auth/reset-password
+     */
+    resetPassword: async (payload: ResetPasswordRequest): Promise<ResetPasswordResponse> => {
+        const response = await apiClient.post<ResetPasswordResponse>(
+            API_ENDPOINTS.AUTH.RESET_PASSWORD,
+            payload,
+        )
+        return response.data
+    }
 }

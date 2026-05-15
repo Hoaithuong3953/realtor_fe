@@ -14,6 +14,7 @@ const MaintenancePage = React.lazy(() => import("@/pages/errors/maintenance"))
 
 const LoginPage = React.lazy(() => import("@/pages/auth/login"))
 const ForgotPasswordPage = React.lazy(() => import("@/pages/auth/forgot-password"))
+const ResetPasswordPage = React.lazy(() => import("@/pages/auth/reset-password"))
 
 // Helper function to render lazy-loaded components with Suspense
 const lazyLoad = (Component: React.ComponentType<object>, props = {}) => (
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
     children: [
       { path: paths.auth.login, element: lazyLoad(LoginPage) },
       { path: paths.auth.forgotPassword, element: lazyLoad(ForgotPasswordPage) },
+      { path: paths.auth.resetPassword, element: lazyLoad(ResetPasswordPage) },
     ]
   },
   {

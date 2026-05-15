@@ -3,6 +3,7 @@ export const paths = {
   auth: {
     login: "/login",
     forgotPassword: "/forgot-password",
+    resetPassword: "/reset-password",
   },
   errors: {
     forbidden: "/403",

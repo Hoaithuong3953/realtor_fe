@@ -4,12 +4,15 @@ import { createBrowserRouter } from "react-router-dom"
 import { LoadingScreen } from "@/components/molecules"
 import { ErrorLayout } from "@/layouts/error-layout"
 import { paths } from "@/routes/paths"
+import { AuthLayout } from "@/layouts/auth-layout"
 
 // Lazy load page components
 const NotFoundPage = React.lazy(() => import("@/pages/errors/not-found"))
 const ForbiddenPage = React.lazy(() => import("@/pages/errors/forbidden"))
 const InternalErrorPage = React.lazy(() => import("@/pages/errors/internal-error"))
 const MaintenancePage = React.lazy(() => import("@/pages/errors/maintenance"))
+
+const LoginPage = React.lazy(() => import("@/pages/auth/login"))
 
 // Helper function to render lazy-loaded components with Suspense
 const lazyLoad = (Component: React.ComponentType<object>, props = {}) => (
@@ -19,6 +22,12 @@ const lazyLoad = (Component: React.ComponentType<object>, props = {}) => (
 )
 
 export const router = createBrowserRouter([
+  {
+    element: <AuthLayout />,
+    children: [
+      { path: paths.auth.login, element: lazyLoad(LoginPage) },
+    ]
+  },
   {
     element: <ErrorLayout />,
     children: [

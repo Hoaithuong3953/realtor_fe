@@ -5,6 +5,7 @@ import { LoadingScreen } from "@/components/molecules"
 import { ErrorLayout } from "@/layouts/error-layout"
 import { paths } from "@/routes/paths"
 import { AuthLayout } from "@/layouts/auth-layout"
+import { GuestGuard } from "@/routes/guards/guest-guard"
 
 // Lazy load page components
 const NotFoundPage = React.lazy(() => import("@/pages/errors/not-found"))
@@ -25,7 +26,11 @@ const lazyLoad = (Component: React.ComponentType<object>, props = {}) => (
 
 export const router = createBrowserRouter([
   {
-    element: <AuthLayout />,
+    element: (
+      <GuestGuard>
+        <AuthLayout />
+      </GuestGuard>
+    ),
     children: [
       { path: paths.auth.login, element: lazyLoad(LoginPage) },
       { path: paths.auth.forgotPassword, element: lazyLoad(ForgotPasswordPage) },

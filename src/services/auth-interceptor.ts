@@ -82,7 +82,12 @@ export const setupAuthInterceptors = () => {
       if (import.meta.env.DEV) {
         logger.debug(`API Success: ${response.config.method?.toUpperCase()} ${response.config.url}`, response.data);
       }
-      return response;
+      const rawData = response.data as unknown;
+      const responseData = rawData as { data?: unknown };
+      return {
+        ...response,
+        data: responseData.data !== undefined ? responseData.data : rawData
+      };
     },
     async (error: unknown) => {
       if (!isAxiosError(error)) {
@@ -153,7 +158,7 @@ export const setupAuthInterceptors = () => {
           logger.info("Access token expired, attempting background token refresh...");
           
           // Execute background call using raw axios to bypass client interceptors
-          const response = await axios.post<LoginResponse>(
+          const response = await axios.post<{ data: LoginResponse }>(
             `${apiClient.defaults.baseURL}${API_ENDPOINTS.AUTH.REFRESH}`,
             {},
             {
@@ -165,8 +170,8 @@ export const setupAuthInterceptors = () => {
           // Clear watchdog timer once response is successfully received
           clearTimeout(refreshTimeoutId);
 
-          // Extract standard access token from nested tokens object
-          const { access_token: newAccessToken } = response.data.tokens;
+          // Extract standard access token from nested tokens object (unwrap BaseResponse)
+          const { access_token: newAccessToken } = response.data.data.tokens;
 
           logger.info("Token refresh successful, updating credentials.");
 

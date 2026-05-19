@@ -26,14 +26,16 @@ type UserMenuProps = {
     name: string
     email: string
     avatarUrl?: string
+    role_code?: string
   }
   menuGroups?: UserMenuItemType[][]
   children?: React.ReactNode
   side?: "top" | "right" | "bottom" | "left"
   align?: "start" | "center" | "end"
+  showHeader?: boolean
 }
 
-function UserMenu({ user, menuGroups, children, side = "bottom", align = "end" }: UserMenuProps) {
+function UserMenu({ user, menuGroups, children, side = "bottom", align = "end", showHeader = true }: UserMenuProps) {
   const { t } = useTranslation("common")
 
   return (
@@ -51,18 +53,24 @@ function UserMenu({ user, menuGroups, children, side = "bottom", align = "end" }
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align={align} side={side} sideOffset={4}>
-        <DropdownMenuLabel className="p-0 font-normal">
-          <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-            <Avatar src={user.avatarUrl} name={user.name} size="md" />
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{user.name}</span>
+        {showHeader && (
+          <DropdownMenuLabel className="p-0 font-normal">
+            <div className="flex flex-col gap-1 px-3 py-2 text-left text-sm">
+              <div className="flex items-center justify-between gap-2">
+                <span className="truncate font-medium">{user.name}</span>
+                {user.role_code && (
+                  <span className="text-xs px-1.5 py-0.5 bg-muted rounded text-muted-foreground font-medium text-[10px]">
+                    {user.role_code}
+                  </span>
+                )}
+              </div>
               <span className="truncate text-xs text-muted-foreground">{user.email}</span>
             </div>
-          </div>
-        </DropdownMenuLabel>
+          </DropdownMenuLabel>
+        )}
         {menuGroups?.map((group, index) => (
           <React.Fragment key={index}>
-            <DropdownMenuSeparator />
+            {(showHeader || index > 0) && <DropdownMenuSeparator />}
             <DropdownMenuGroup>
               {group.map((item, itemIndex) => {
                 const isLink = !!item.url

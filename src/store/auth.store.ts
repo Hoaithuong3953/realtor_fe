@@ -8,7 +8,9 @@ interface AuthState {
   user: AuthUserOut | null
   accessToken: string | null
   isAuthenticated: boolean
+  avatarUrl: string | null
   setLoginSuccess: (user: AuthUserOut, accessToken: string) => void
+  setAvatar: (avatarUrl: string | null) => void
   logout: () => void
 }
 
@@ -18,11 +20,15 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       accessToken: null,
       isAuthenticated: false,
+      avatarUrl: null,
       setLoginSuccess: (user, accessToken) => {
         set({ user, accessToken, isAuthenticated: true })
       },
+      setAvatar: (avatarUrl) => {
+        set({ avatarUrl })
+      },
       logout: () => {
-        set({ user: null, accessToken: null, isAuthenticated: false })
+        set({ user: null, accessToken: null, isAuthenticated: false, avatarUrl: null })
       },
     }),
     {
@@ -32,6 +38,7 @@ export const useAuthStore = create<AuthState>()(
         user: state.user,
         accessToken: state.accessToken,
         isAuthenticated: state.isAuthenticated,
+        avatarUrl: state.avatarUrl,
       }),
     }
   )

@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export type UserMenuItemType = {
+type UserMenuItemType = {
   title: string
   icon?: React.ElementType
   url?: string
@@ -33,10 +33,21 @@ type UserMenuProps = {
   side?: "top" | "right" | "bottom" | "left"
   align?: "start" | "center" | "end"
   showHeader?: boolean
+  showAvatarInHeader?: boolean
+  contentClassName?: string
 }
 
-function UserMenu({ user, menuGroups, children, side = "bottom", align = "end", showHeader = true }: UserMenuProps) {
-  const { t } = useTranslation("common")
+export const UserMenu = ({
+  user,
+  menuGroups,
+  children,
+  side = "bottom",
+  align = "end",
+  showHeader = true,
+  showAvatarInHeader = false,
+  contentClassName = "w-56",
+}: UserMenuProps) => {
+  const { t } = useTranslation("dashboard")
 
   return (
     <DropdownMenu>
@@ -44,7 +55,7 @@ function UserMenu({ user, menuGroups, children, side = "bottom", align = "end", 
         {children ? (
           children
         ) : (
-          <button 
+          <button
             className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={t("aria.open_user_menu")}
           >
@@ -52,19 +63,33 @@ function UserMenu({ user, menuGroups, children, side = "bottom", align = "end", 
           </button>
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align={align} side={side} sideOffset={4}>
+      <DropdownMenuContent
+        className={contentClassName}
+        align={align}
+        side={side}
+        sideOffset={4}
+      >
         {showHeader && (
           <DropdownMenuLabel className="p-0 font-normal">
-            <div className="flex flex-col gap-1 px-3 py-2 text-left text-sm">
-              <div className="flex items-center justify-between gap-2">
-                <span className="truncate font-medium">{user.name}</span>
-                {user.role_code && (
-                  <span className="text-xs px-1.5 py-0.5 bg-muted rounded text-muted-foreground font-medium text-[10px]">
-                    {user.role_code}
-                  </span>
-                )}
+            <div
+              className={`flex ${showAvatarInHeader ? "items-center gap-2 px-1 py-1.5" : "flex-col gap-1 px-3 py-2"} text-left text-sm`}
+            >
+              {showAvatarInHeader && (
+                <Avatar src={user.avatarUrl} name={user.name} size="md" />
+              )}
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <div className="flex items-center gap-2">
+                  <span className="truncate font-semibold">{user.name}</span>
+                  {user.role_code && (
+                    <span className="text-[10px] px-1.5 py-0.5 bg-muted rounded text-muted-foreground font-medium">
+                      {user.role_code}
+                    </span>
+                  )}
+                </div>
+                <span className="truncate text-xs text-muted-foreground">
+                  {user.email}
+                </span>
               </div>
-              <span className="truncate text-xs text-muted-foreground">{user.email}</span>
             </div>
           </DropdownMenuLabel>
         )}
@@ -85,8 +110,8 @@ function UserMenu({ user, menuGroups, children, side = "bottom", align = "end", 
                   : ""
 
                 return isLink ? (
-                  <DropdownMenuItem 
-                    key={itemIndex} 
+                  <DropdownMenuItem
+                    key={itemIndex}
                     className={itemClassName}
                     asChild
                   >
@@ -95,8 +120,8 @@ function UserMenu({ user, menuGroups, children, side = "bottom", align = "end", 
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem 
-                    key={itemIndex} 
+                  <DropdownMenuItem
+                    key={itemIndex}
                     className={itemClassName}
                     onClick={item.onClick}
                   >
@@ -112,4 +137,4 @@ function UserMenu({ user, menuGroups, children, side = "bottom", align = "end", 
   )
 }
 
-export { UserMenu }
+export type { UserMenuItemType }

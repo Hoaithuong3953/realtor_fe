@@ -21,7 +21,7 @@ type CardProps = Omit<React.ComponentProps<typeof UICard>, "title"> & {
   footerClassName?: string
 }
 
-function Card({
+export const Card = ({
   className,
   title,
   description,
@@ -32,7 +32,7 @@ function Card({
   headerClassName,
   footerClassName,
   ...props
-}: CardProps) {
+}: CardProps) => {
   const hasHeader = title || description || action
 
   return (
@@ -40,17 +40,22 @@ function Card({
       {hasHeader ? (
         <CardHeader className={headerClassName}>
           {title ? <CardTitle>{title}</CardTitle> : null}
-          {description ? <CardDescription>{description}</CardDescription> : null}
+          {description ? (
+            <CardDescription>{description}</CardDescription>
+          ) : null}
           {action ? <CardAction>{action}</CardAction> : null}
         </CardHeader>
       ) : null}
 
-      {children ? <CardContent className={cn(contentClassName)}>{children}</CardContent> : null}
+      {children ? (
+        <CardContent className={cn(contentClassName)}>{children}</CardContent>
+      ) : null}
 
-      {footer ? <CardFooter className={cn(footerClassName)}>{footer}</CardFooter> : null}
+      {footer ? (
+        <CardFooter className={cn(footerClassName)}>{footer}</CardFooter>
+      ) : null}
     </UICard>
   )
 }
 
-export { Card }
 export type { CardProps }

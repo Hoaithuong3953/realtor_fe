@@ -18,7 +18,10 @@ import {
 } from "@/components/ui/input-group"
 import { cn } from "@/lib/utils"
 
-type InputProps = Omit<React.ComponentProps<typeof InputGroupInput>, "prefix" | "suffix"> & {
+type InputProps = Omit<
+  React.ComponentProps<typeof InputGroupInput>,
+  "prefix" | "suffix"
+> & {
   label?: React.ReactNode
   description?: React.ReactNode
   error?: React.ReactNode
@@ -28,7 +31,7 @@ type InputProps = Omit<React.ComponentProps<typeof InputGroupInput>, "prefix" | 
   containerClassName?: string
 }
 
-function Input({
+export const Input = ({
   id,
   className,
   label,
@@ -40,7 +43,7 @@ function Input({
   disabled,
   containerClassName,
   ...props
-}: InputProps) {
+}: InputProps) => {
   const generatedId = React.useId()
   const inputId = id ?? `input-${generatedId}`
   const [showPassword, setShowPassword] = React.useState(false)
@@ -53,7 +56,11 @@ function Input({
     <InputGroup className={className} aria-invalid={!!error || undefined}>
       {prefix ? (
         <InputGroupAddon align="inline-start">
-          {typeof prefix === "string" ? <InputGroupText>{prefix}</InputGroupText> : prefix}
+          {typeof prefix === "string" ? (
+            <InputGroupText>{prefix}</InputGroupText>
+          ) : (
+            prefix
+          )}
         </InputGroupAddon>
       ) : null}
 
@@ -64,9 +71,15 @@ function Input({
         type={inputType}
       />
 
-      {(suffix || isPassword) ? (
+      {suffix || isPassword ? (
         <InputGroupAddon align="inline-end">
-          {suffix ? (typeof suffix === "string" ? <InputGroupText>{suffix}</InputGroupText> : suffix) : null}
+          {suffix ? (
+            typeof suffix === "string" ? (
+              <InputGroupText>{suffix}</InputGroupText>
+            ) : (
+              suffix
+            )
+          ) : null}
           {isPassword ? (
             <InputGroupButton
               type="button"
@@ -103,12 +116,13 @@ function Input({
 
       <FieldContent>
         {renderInput()}
-        {description ? <FieldDescription>{description}</FieldDescription> : null}
+        {description ? (
+          <FieldDescription>{description}</FieldDescription>
+        ) : null}
         {error ? <FieldError>{error}</FieldError> : null}
       </FieldContent>
     </Field>
   )
 }
 
-export { Input }
 export type { InputProps }

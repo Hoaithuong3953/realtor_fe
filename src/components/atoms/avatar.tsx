@@ -7,7 +7,10 @@ import {
 } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 
-export type AvatarProps = Omit<React.ComponentProps<typeof PrimitiveAvatar>, "size"> & {
+type AvatarProps = Omit<
+  React.ComponentProps<typeof PrimitiveAvatar>,
+  "size"
+> & {
   src?: string
   name?: string
   fallback?: React.ReactNode
@@ -23,13 +26,17 @@ const sizeClasses = {
 } as const
 
 function getInitials(name: string) {
-  if (!name) {return "U"}
+  if (!name) {
+    return "U"
+  }
   const parts = name.trim().split(/\s+/)
-  if (parts.length === 1) {return parts[0].substring(0, 2).toUpperCase()}
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2).toUpperCase()
+  }
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
 }
 
-function Avatar({
+export const Avatar = ({
   src,
   name = "",
   fallback,
@@ -37,7 +44,7 @@ function Avatar({
   rounded = true,
   className,
   ...props
-}: AvatarProps) {
+}: AvatarProps) => {
   const roundedClass = rounded ? "rounded-full" : "rounded-md"
 
   return (
@@ -46,11 +53,13 @@ function Avatar({
       {...props}
     >
       <AvatarImage src={src} alt={name} />
-      <AvatarFallback className={cn(roundedClass, "bg-primary/10 text-primary font-medium")}>
+      <AvatarFallback
+        className={cn(roundedClass, "bg-primary/10 text-primary font-medium")}
+      >
         {fallback || getInitials(name)}
       </AvatarFallback>
     </PrimitiveAvatar>
   )
 }
 
-export { Avatar }
+export type { AvatarProps }

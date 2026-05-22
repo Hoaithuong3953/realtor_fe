@@ -3,7 +3,13 @@ import * as React from "react"
 import { Button as PrimitiveButton, Spinner } from "@/components/ui"
 import { cn } from "@/lib/utils"
 
-type ButtonVariant = "solid" | "outline" | "secondary" | "ghost" | "destructive" | "link"
+type ButtonVariant =
+  | "solid"
+  | "outline"
+  | "secondary"
+  | "ghost"
+  | "destructive"
+  | "link"
 type ButtonSize = "xs" | "sm" | "md" | "lg" | "icon"
 
 type ButtonProps = Omit<
@@ -40,7 +46,7 @@ const semanticClasses = {
   link: "text-link hover:text-link-hover",
 } as const
 
-function Button({
+export const Button = ({
   className,
   variant = "solid",
   size = "md",
@@ -52,13 +58,15 @@ function Button({
   disabled,
   children,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   const isDisabled = disabled || isLoading
   const isIconSize = size === "icon"
   const primitiveVariant = variantMap[variant]
   const primitiveSize = sizeMap[size]
-  const iconContent = leftIcon ?? rightIcon ?? (React.isValidElement(children) ? children : null)
-  const customSemanticClass = semanticClasses[variant as keyof typeof semanticClasses] || ""
+  const iconContent =
+    leftIcon ?? rightIcon ?? (React.isValidElement(children) ? children : null)
+  const customSemanticClass =
+    semanticClasses[variant as keyof typeof semanticClasses] || ""
 
   let content: React.ReactNode
 
@@ -68,7 +76,7 @@ function Button({
     content = (
       <>
         <Spinner data-icon="inline-start" />
-        {!isIconSize ? loadingText ?? children : null}
+        {!isIconSize ? (loadingText ?? children) : null}
       </>
     )
   } else if (isIconSize) {
@@ -87,11 +95,7 @@ function Button({
     <PrimitiveButton
       variant={primitiveVariant}
       size={primitiveSize}
-      className={cn(
-        fullWidth && "w-full",
-        customSemanticClass,
-        className
-      )}
+      className={cn(fullWidth && "w-full", customSemanticClass, className)}
       disabled={isDisabled}
       aria-disabled={isDisabled}
       aria-busy={isLoading || undefined}
@@ -102,5 +106,4 @@ function Button({
   )
 }
 
-export { Button }
-export type { ButtonProps, ButtonSize,ButtonVariant }
+export type { ButtonProps, ButtonSize, ButtonVariant }

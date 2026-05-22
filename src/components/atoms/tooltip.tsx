@@ -7,7 +7,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-export type TooltipProps = Omit<React.ComponentProps<typeof PrimitiveTooltip>, "children"> & {
+type TooltipProps = Omit<
+  React.ComponentProps<typeof PrimitiveTooltip>,
+  "children"
+> & {
   children: React.ReactNode
   content: React.ReactNode
   side?: "top" | "right" | "bottom" | "left"
@@ -15,14 +18,14 @@ export type TooltipProps = Omit<React.ComponentProps<typeof PrimitiveTooltip>, "
   delayDuration?: number
 }
 
-function Tooltip({
+export const Tooltip = ({
   children,
   content,
   side = "top",
   align = "center",
   delayDuration = 200,
   ...props
-}: TooltipProps) {
+}: TooltipProps) => {
   if (!content) {
     return <>{children}</>
   }
@@ -30,9 +33,7 @@ function Tooltip({
   return (
     <TooltipProvider delayDuration={delayDuration}>
       <PrimitiveTooltip {...props}>
-        <TooltipTrigger asChild>
-          {children}
-        </TooltipTrigger>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent side={side} align={align}>
           {content}
         </TooltipContent>
@@ -41,4 +42,4 @@ function Tooltip({
   )
 }
 
-export { Tooltip }
+export type { TooltipProps }

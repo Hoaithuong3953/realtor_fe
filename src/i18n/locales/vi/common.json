@@ -1,4 +1,9 @@
 {
+  "theme": {
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Hệ thống"
+  },
   "errors": {
     "forbidden": {
       "title": "Từ chối truy cập",

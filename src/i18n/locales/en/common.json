@@ -1,4 +1,9 @@
 {
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
   "errors": {
     "forbidden": {
       "title": "Access Denied",

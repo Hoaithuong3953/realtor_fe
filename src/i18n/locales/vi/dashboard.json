@@ -1,0 +1,34 @@
+{
+  "nav": {
+    "overview": "Tổng quan",
+    "dashboard": "Bảng điều khiển",
+    "management": "Quản lý",
+    "properties": "Bất động sản",
+    "properties_list": "Danh sách",
+    "properties_create": "Thêm mới",
+    "properties_import": "Lịch sử Import",
+    "clients": "Khách hàng",
+    "clients_list": "Danh sách",
+    "clients_create": "Thêm mới",
+    "ai": "Trợ lý AI",
+    "chat": "Chatbot AI",
+    "system": "Hệ thống",
+    "users": "Người dùng",
+    "roles": "Phân quyền",
+    "settings": "Cài đặt"
+  },
+  "command": {
+    "search": "Tìm kiếm hoặc gõ lệnh...",
+    "search_short": "Tìm kiếm...",
+    "placeholder": "Gõ tên trang hoặc tính năng cần tìm...",
+    "empty": "Không tìm thấy kết quả."
+  },
+  "user_menu": {
+    "profile": "Hồ sơ cá nhân",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất"
+  },
+  "aria": {
+    "open_user_menu": "Mở menu người dùng"
+  }
+}

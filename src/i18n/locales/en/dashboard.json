@@ -1,0 +1,34 @@
+{
+  "nav": {
+    "overview": "Overview",
+    "dashboard": "Dashboard",
+    "management": "Management",
+    "properties": "Properties",
+    "properties_list": "All Properties",
+    "properties_create": "Add New",
+    "properties_import": "Import History",
+    "clients": "Clients",
+    "clients_list": "All Clients",
+    "clients_create": "Add New",
+    "ai": "AI Assistant",
+    "chat": "AI Chatbot",
+    "system": "System",
+    "users": "Users",
+    "roles": "Roles & Permissions",
+    "settings": "Settings"
+  },
+  "command": {
+    "search": "Search or type a command...",
+    "search_short": "Search...",
+    "placeholder": "Type a page name or feature to search...",
+    "empty": "No results found."
+  },
+  "user_menu": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "aria": {
+    "open_user_menu": "Open user menu"
+  }
+}

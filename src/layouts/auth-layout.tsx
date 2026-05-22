@@ -4,14 +4,14 @@ import { useTranslation } from "react-i18next"
 import { Outlet } from "react-router-dom"
 
 import { cn } from "@/lib/utils"
-import { LanguageSwitcher } from "@/components/molecules/language-switcher"
+import { LanguageSwitcher } from "@/components/molecules"
 
 type AuthLayoutProps = {
   children?: React.ReactNode
   className?: string
 }
 
-function AuthLayout({ children, className }: AuthLayoutProps) {
+export function AuthLayout({ children, className }: AuthLayoutProps) {
   const { t } = useTranslation("auth")
   return (
     <div className={cn("min-h-screen w-full flex bg-background", className)}>
@@ -90,5 +90,3 @@ function AuthLayout({ children, className }: AuthLayoutProps) {
     </div>
   )
 }
-
-export { AuthLayout }

@@ -2,7 +2,7 @@ import * as React from "react"
 import { Outlet } from "react-router-dom"
 
 import { cn } from "@/lib/utils"
-import { LanguageSwitcher } from "@/components/molecules/language-switcher"
+import { LanguageSwitcher } from "@/components/molecules"
 
 type ErrorLayoutProps = {
   children?: React.ReactNode

@@ -4,7 +4,22 @@
     "dark": "Dark",
     "system": "System"
   },
+  "actions": {
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "edit": "Edit",
+    "delete": "Delete",
+    "reset": "Reset",
+    "search": "Search...",
+    "noResults": "No results found"
+  },
   "errors": {
+    "400": "Invalid request data. Please check and try again",
+    "401": "Your session has expired. Please log in again",
+    "403": "You do not have permission to perform this action",
+    "404": "The requested data does not exist or has been deleted",
+    "500": "The system encountered a server error, please try again later",
     "forbidden": {
       "title": "Access Denied",
       "description": "You do not have permission to view this content. Please contact the administrator if you believe this is an error",

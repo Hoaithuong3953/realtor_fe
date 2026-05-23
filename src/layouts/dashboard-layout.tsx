@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom"
+import { RouteErrorBoundary } from "@/components/atoms/route-error-boundary"
 
 import {
   DashboardHeader,
@@ -13,7 +14,9 @@ export function DashboardLayout() {
       <SidebarInset>
         <DashboardHeader />
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <Outlet />
+          <RouteErrorBoundary>
+            <Outlet />
+          </RouteErrorBoundary>
         </div>
       </SidebarInset>
     </SidebarProvider>

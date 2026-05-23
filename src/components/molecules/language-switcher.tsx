@@ -1,11 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { Globe } from "lucide-react"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Dropdown } from "@/components/molecules/dropdown"
 import { Button } from "@/components/ui"
 
 /**
@@ -21,8 +16,8 @@ export const LanguageSwitcher = () => {
   const currentLangLabel = i18n.language.startsWith("vi") ? "VI" : "EN"
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Dropdown
+      trigger={
         <Button
           variant="ghost"
           size="sm"
@@ -31,29 +26,23 @@ export const LanguageSwitcher = () => {
           <Globe className="size-4 text-muted-foreground" />
           <span className="text-sm font-medium">{currentLangLabel}</span>
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[120px]">
-        <DropdownMenuItem
-          onClick={() => changeLanguage("vi")}
-          className={
-            i18n.language.startsWith("vi")
-              ? "bg-accent text-accent-foreground"
-              : ""
-          }
-        >
-          Tiếng Việt
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => changeLanguage("en")}
-          className={
-            !i18n.language.startsWith("vi")
-              ? "bg-accent text-accent-foreground"
-              : ""
-          }
-        >
-          English
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      }
+      align="end"
+      className="w-[120px]"
+      items={[
+        {
+          id: "vi",
+          label: "Tiếng Việt",
+          onClick: () => changeLanguage("vi"),
+          className: i18n.language.startsWith("vi") ? "bg-accent text-accent-foreground" : "",
+        },
+        {
+          id: "en",
+          label: "English",
+          onClick: () => changeLanguage("en"),
+          className: !i18n.language.startsWith("vi") ? "bg-accent text-accent-foreground" : "",
+        },
+      ]}
+    />
   )
 }

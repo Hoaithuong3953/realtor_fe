@@ -4,7 +4,22 @@
     "dark": "Tối",
     "system": "Hệ thống"
   },
+  "actions": {
+    "retry": "Thử lại",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa",
+    "reset": "Làm mới",
+    "search": "Tìm kiếm...",
+    "noResults": "Không có kết quả nào"
+  },
   "errors": {
+    "400": "Dữ liệu yêu cầu không hợp lệ. Vui lòng kiểm tra lại",
+    "401": "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại",
+    "403": "Bạn không có quyền thực hiện thao tác này",
+    "404": "Dữ liệu không tồn tại hoặc đã bị xóa",
+    "500": "Hệ thống gặp sự cố máy chủ, vui lòng thử lại sau",
     "forbidden": {
       "title": "Từ chối truy cập",
       "description": "Bạn không có quyền xem nội dung này. Vui lòng liên hệ quản trị viên nếu bạn cho rằng đây là một sự nhầm lẫn",

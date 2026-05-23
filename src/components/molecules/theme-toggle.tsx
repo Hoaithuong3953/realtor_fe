@@ -1,14 +1,9 @@
 import { Monitor, Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
 import { useTranslation } from "react-i18next"
 
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Dropdown } from "@/components/molecules/dropdown"
+import { useThemeStore } from "@/store/theme.store"
 
 const themes = [
   { value: "light", labelKey: "theme.light", icon: Sun },
@@ -17,31 +12,25 @@ const themes = [
 ] as const
 
 export const ThemeToggle = () => {
-  const { setTheme, theme } = useTheme()
+  const { theme, setTheme } = useThemeStore()
   const { t } = useTranslation("common")
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Dropdown
+      align="end"
+      trigger={
         <Button variant="ghost" size="icon-sm" aria-label="Toggle theme">
           <Sun className="size-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute size-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {themes.map(({ value, labelKey, icon: Icon }) => (
-          <DropdownMenuItem
-            key={value}
-            onClick={() => setTheme(value)}
-            className={
-              theme === value ? "bg-accent text-accent-foreground" : ""
-            }
-          >
-            <Icon className="mr-2 size-4" />
-            {t(labelKey)}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      }
+      items={themes.map(({ value, labelKey, icon }) => ({
+        id: value,
+        icon,
+        label: t(labelKey),
+        onClick: () => setTheme(value),
+        className: theme === value ? "bg-accent text-accent-foreground" : "",
+      }))}
+    />
   )
 }

@@ -1,4 +1,5 @@
 import type { ListingResponse } from "@/types/api";
+import { formatPrice } from "./currency-formatter";
 
 type TranslationFn = (key: string, options?: Record<string, unknown>) => string;
 
@@ -36,4 +37,21 @@ export function formatListingType(type?: ListingType, t?: TranslationFn): { labe
     label: t(`type.${type}`),
     className: listingTypeColorMap[type] || ""
   };
+}
+
+export function formatListingPrice(
+  property: { price?: number | null; listing_type?: string | null; attributes?: Record<string, unknown> | { rent_period?: string; [key: string]: unknown } | null }, 
+  t: TranslationFn, 
+  language: string
+): string {
+  const basePrice = formatPrice(property.price, t, language);
+  if (property.listing_type === "rent" && property.attributes?.rent_period) {
+    if (property.attributes.rent_period === "month") {
+      return `${basePrice}${t("detail.units.per_month")}`;
+    }
+    if (property.attributes.rent_period === "year") {
+      return `${basePrice}${t("detail.units.per_year")}`;
+    }
+  }
+  return basePrice;
 }

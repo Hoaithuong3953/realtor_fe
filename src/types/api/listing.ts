@@ -1,3 +1,8 @@
+export const LISTING_TYPES = ["sale", "rent"] as const;
+export const PROPERTY_TYPES = ["apartment", "house", "villa", "land"] as const;
+export const LISTING_STATUSES = ["active", "draft", "inactive"] as const;
+export const IMPORT_LISTING_STATUSES = ["active", "draft", "inactive", "sold", "rented"] as const;
+
 export interface ImportJobResponse {
   id: number;
   tenant_id: number;
@@ -19,9 +24,9 @@ export interface ListingCreate {
   description?: string | null;
   price?: number;
   area?: number;
-  listing_type: "sale" | "rent";
-  property_type: "apartment" | "house" | "villa" | "land";
-  status?: "active" | "draft" | "inactive";
+  listing_type: ListingType;
+  property_type: PropertyType;
+  status?: ListingStatus;
   address_text?: string | null;
   location_json?: Record<string, unknown>;
   geo?: Record<string, unknown>;
@@ -36,9 +41,9 @@ export interface ListingImportItem {
   description?: string | null;
   price?: number;
   area?: number;
-  listing_type: "sale" | "rent";
-  property_type: "apartment" | "house" | "villa" | "land";
-  status?: "active" | "draft" | "inactive" | "sold" | "rented";
+  listing_type: ListingType;
+  property_type: PropertyType;
+  status?: ImportListingStatus;
   address_text?: string | null;
   location_json?: Record<string, unknown>;
   geo?: Record<string, unknown>;
@@ -86,9 +91,9 @@ export interface ListingResponse {
   description?: string | null;
   price?: number;
   area?: number;
-  listing_type: "sale" | "rent";
-  property_type: "apartment" | "house" | "villa" | "land";
-  status?: "active" | "draft" | "inactive";
+  listing_type: ListingType;
+  property_type: PropertyType;
+  status?: ListingStatus;
   address_text?: string | null;
   id: number;
   tenant_id: number;
@@ -109,7 +114,7 @@ export interface ListingResponse {
 }
 
 export interface ListingStatusUpdate {
-  status: "active" | "draft" | "inactive";
+  status: ListingStatus;
 }
 
 export interface ListingUpdate {
@@ -117,9 +122,9 @@ export interface ListingUpdate {
   description?: string | null;
   price?: number | null;
   area?: number | null;
-  listing_type?: "sale" | "rent" | null;
-  property_type?: "apartment" | "house" | "villa" | "land" | null;
-  status?: "active" | "draft" | "inactive" | null;
+  listing_type?: ListingType | null;
+  property_type?: PropertyType | null;
+  status?: ListingStatus | null;
   address_text?: string | null;
   location_json?: Record<string, unknown> | null;
   geo?: Record<string, unknown> | null;
@@ -127,3 +132,8 @@ export interface ListingUpdate {
   attributes?: Record<string, unknown> | null;
   media?: Record<string, unknown>[] | null;
 }
+
+export type ListingType = typeof LISTING_TYPES[number];
+export type PropertyType = typeof PROPERTY_TYPES[number];
+export type ListingStatus = typeof LISTING_STATUSES[number];
+export type ImportListingStatus = typeof IMPORT_LISTING_STATUSES[number];

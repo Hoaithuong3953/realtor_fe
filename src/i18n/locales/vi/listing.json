@@ -1,4 +1,43 @@
 {
+  "title": "Quản lý Bất động sản",
+  "subtitle": "Danh sách tất cả các bất động sản trong hệ thống",
+  "add_new": "Thêm mới bất động sản",
+  "detail_title": "Chi tiết Bất động sản",
+  "delete_confirm_title": "Xác nhận xóa",
+  "delete_confirm_desc": "Bạn có chắc chắn muốn xóa bất động sản này? Hành động này không thể hoàn tác",
+  "pause_confirm_desc": "Bạn có chắc chắn muốn tạm ngưng hiển thị bất động sản này?",
+  "reopen_confirm_desc": "Bạn có chắc chắn muốn hiển thị lại bất động sản này?",
+  "status_update_success_msg": "Cập nhật trạng thái thành công",
+  "status_update_error_msg": "Không thể cập nhật trạng thái",
+  "delete_success_msg": "Đã xóa bất động sản",
+  "delete_error_msg": "Xóa bất động sản thất bại",
+  "no_results": "Không tìm thấy kết quả",
+  "adjust_filters": "Thử điều chỉnh lại bộ lọc tìm kiếm hoặc thêm mới bất động sản",
+  "no_data": "Không có dữ liệu",
+  "filter": {
+    "search": "Tìm kiếm theo tên, địa chỉ...",
+    "all_type": "Tất cả loại hình",
+    "all_status": "Tất cả trạng thái",
+    "all_properties": "Tất cả bất động sản",
+    "min_price": "Giá từ",
+    "max_price": "Đến giá",
+    "min_area": "Diện tích từ (m²)",
+    "max_area": "Đến diện tích (m²)"
+  },
+  "table": {
+    "property": "Bất động sản",
+    "price": "Giá",
+    "listing_type": "Loại hình",
+    "status": "Trạng thái",
+    "actions": "Hành động"
+  },
+  "action": {
+    "pause": "Tạm ngưng",
+    "reopen": "Mở lại",
+    "delete": "Xóa",
+    "detail": "Chi tiết",
+    "clear_filter": "Xóa lọc"
+  },
   "propertyType": {
     "apartment": "Căn hộ",
     "house": "Nhà phố",
@@ -15,16 +54,20 @@
     "rent": "Cho thuê"
   },
   "detail": {
-    "image": "Ảnh",
+    "image": "Hình ảnh",
     "highlights": "Đặc điểm nổi bật",
     "property_type": "Loại hình",
     "bedrooms": "Phòng ngủ",
     "bathrooms": "Phòng tắm",
     "area": "Diện tích",
-    "description": "Mô tả chi tiết",
+    "description": "Mô tả",
+    "deposit": "Tiền cọc",
+    "months_deposit": "tháng cọc",
     "units": {
       "beds": "PN",
-      "baths": "WC"
+      "baths": "WC",
+      "per_month": "/tháng",
+      "per_year": "/năm"
     }
   }
 }

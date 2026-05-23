@@ -1,4 +1,43 @@
 {
+  "title": "Properties Management",
+  "subtitle": "List of all properties in the system",
+  "add_new": "Add New",
+  "detail_title": "Property Details",
+  "delete_confirm_title": "Confirm Deletion",
+  "delete_confirm_desc": "Are you sure you want to delete this property? This action cannot be undone",
+  "pause_confirm_desc": "Are you sure you want to pause the visibility of this property?",
+  "reopen_confirm_desc": "Are you sure you want to reopen and show this property?",
+  "status_update_success_msg": "Status updated successfully",
+  "status_update_error_msg": "Failed to update status",
+  "delete_success_msg": "Property deleted successfully",
+  "delete_error_msg": "Failed to delete property",
+  "no_results": "No results found",
+  "adjust_filters": "Try adjusting your search filters or add a new property",
+  "no_data": "No data available",
+  "filter": {
+    "search": "Search by name, address...",
+    "all_type": "All types",
+    "all_status": "All status",
+    "all_properties": "All properties",
+    "min_price": "Min Price",
+    "max_price": "Max Price",
+    "min_area": "Min Area (m²)",
+    "max_area": "Max Area (m²)"
+  },
+  "table": {
+    "property": "Property",
+    "price": "Price",
+    "listing_type": "Type",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "action": {
+    "pause": "Pause",
+    "reopen": "Reopen",
+    "delete": "Delete",
+    "detail": "View Detail",
+    "clear_filter": "Clear Filter"
+  },
   "propertyType": {
     "apartment": "Apartment",
     "house": "House",
@@ -22,9 +61,13 @@
     "bathrooms": "Bathrooms",
     "area": "Area",
     "description": "Description",
+    "deposit": "Deposit",
+    "months_deposit": "months deposit",
     "units": {
       "beds": "Beds",
-      "baths": "Baths"
+      "baths": "Baths",
+      "per_month": "/mo",
+      "per_year": "/yr"
     }
   }
 }

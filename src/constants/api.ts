@@ -16,4 +16,9 @@ export const API_ENDPOINTS = {
     FORGOT_PASSWORD: "/auth/forgot-password",
     RESET_PASSWORD: "/auth/reset-password",
   },
+  LISTINGS: {
+    ROOT: "/listings",
+    DETAIL: (id: string | number) => `/listings/${id}`,
+    STATUS: (id: string | number) => `/listings/${id}/status`,
+  },
 } as const;

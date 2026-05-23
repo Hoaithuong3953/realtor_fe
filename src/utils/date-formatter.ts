@@ -55,3 +55,28 @@ export function formatDateOnly(input?: string | number | Date | null): string {
     return "";
   }
 }
+
+/**
+ * Categorize a date string into "today", "last7days", or "older"
+ */
+export function getDateGroupKey(dateString: string): "today" | "last7days" | "older" {
+  try {
+    const date = new Date(dateString)
+    if (isNaN(date.getTime())) return "older"
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    
+    const targetDate = new Date(date)
+    targetDate.setHours(0, 0, 0, 0)
+    
+    const diffTime = today.getTime() - targetDate.getTime()
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+    
+    if (diffDays === 0) return "today"
+    if (diffDays <= 7) return "last7days"
+    return "older"
+  } catch {
+    return "older"
+  }
+}

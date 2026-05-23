@@ -1,0 +1,30 @@
+{
+  "propertyType": {
+    "apartment": "Apartment",
+    "house": "House",
+    "villa": "Villa",
+    "land": "Land"
+  },
+  "status": {
+    "active": "Active",
+    "draft": "Draft",
+    "inactive": "Inactive"
+  },
+  "type": {
+    "sale": "For Sale",
+    "rent": "For Rent"
+  },
+  "detail": {
+    "image": "Image",
+    "highlights": "Highlights",
+    "property_type": "Property Type",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "area": "Area",
+    "description": "Description",
+    "units": {
+      "beds": "Beds",
+      "baths": "Baths"
+    }
+  }
+}

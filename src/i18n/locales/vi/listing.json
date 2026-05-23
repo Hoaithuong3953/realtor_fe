@@ -1,0 +1,30 @@
+{
+  "propertyType": {
+    "apartment": "Căn hộ",
+    "house": "Nhà phố",
+    "villa": "Biệt thự",
+    "land": "Đất nền"
+  },
+  "status": {
+    "active": "Đang hoạt động",
+    "draft": "Bản nháp",
+    "inactive": "Ngừng hoạt động"
+  },
+  "type": {
+    "sale": "Bán",
+    "rent": "Cho thuê"
+  },
+  "detail": {
+    "image": "Ảnh",
+    "highlights": "Đặc điểm nổi bật",
+    "property_type": "Loại hình",
+    "bedrooms": "Phòng ngủ",
+    "bathrooms": "Phòng tắm",
+    "area": "Diện tích",
+    "description": "Mô tả chi tiết",
+    "units": {
+      "beds": "PN",
+      "baths": "WC"
+    }
+  }
+}

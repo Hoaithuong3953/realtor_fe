@@ -12,7 +12,9 @@
     "delete": "Delete",
     "reset": "Reset",
     "search": "Search...",
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "previous": "Previous",
+    "next": "Next"
   },
   "errors": {
     "400": "Invalid request data. Please check and try again",

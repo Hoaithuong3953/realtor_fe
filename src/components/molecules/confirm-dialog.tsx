@@ -43,7 +43,7 @@ export const ConfirmDialog = ({
             <DialogDescription>{description}</DialogDescription>
           )}
         </DialogHeader>
-        <DialogFooter className="gap-2 sm:gap-0 mt-4">
+        <DialogFooter className="gap-3 sm:gap-0 sm:space-x-3 mt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             {finalCancelText}
           </Button>

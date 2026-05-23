@@ -17,7 +17,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import type { NavGroup } from "@/constants/navigation"
+import type { NavGroup } from "@/types/ui/navigation"
 
 type NavMainProps = {
   groups: NavGroup[]

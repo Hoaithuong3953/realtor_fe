@@ -41,7 +41,7 @@ export const CommandMenu = () => {
     <>
       <Button
         variant="outline"
-        className="relative h-9 w-full justify-start rounded-full bg-muted/40 hover:bg-muted/60 text-sm font-normal text-muted-foreground shadow-none sm:pr-12"
+        className="relative h-9 w-full justify-start rounded-md bg-muted/40 hover:bg-muted/60 text-sm font-normal text-muted-foreground shadow-none sm:pr-12"
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />

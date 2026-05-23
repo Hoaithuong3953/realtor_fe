@@ -12,7 +12,9 @@
     "delete": "Xóa",
     "reset": "Làm mới",
     "search": "Tìm kiếm...",
-    "noResults": "Không có kết quả nào"
+    "noResults": "Không có kết quả nào",
+    "previous": "Trước đó",
+    "next": "Tiếp theo"
   },
   "errors": {
     "400": "Dữ liệu yêu cầu không hợp lệ. Vui lòng kiểm tra lại",

@@ -22,7 +22,7 @@ type NavUserProps = {
 
 export const NavUser = ({ user, onLogout }: NavUserProps) => {
   const { isMobile } = useSidebar()
-  const menuGroups = getUserMenuConfig(onLogout)
+  const   menuGroups = getUserMenuConfig(onLogout)
 
   return (
     <SidebarMenu>

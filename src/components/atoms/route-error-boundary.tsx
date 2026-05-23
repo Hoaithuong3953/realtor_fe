@@ -57,7 +57,7 @@ class RouteErrorBoundaryClass extends React.Component<ClassProps, State> {
   }
 }
 
-export function RouteErrorBoundary({ children }: { children?: React.ReactNode }) {
+export const RouteErrorBoundary = ({ children }: { children?: React.ReactNode }) => {
   const { t } = useTranslation("common");
   return <RouteErrorBoundaryClass t={t}>{children}</RouteErrorBoundaryClass>;
 }

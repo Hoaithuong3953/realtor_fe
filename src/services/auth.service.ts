@@ -8,7 +8,7 @@ import type {
     LoginResponse,
     ResetPasswordRequest,
     ResetPasswordResponse,
-} from "@/types";
+} from "@/types/api";
 
 export const authService = {
     /** 

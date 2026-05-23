@@ -9,28 +9,10 @@ import {
   UserCog,
   Users,
 } from "lucide-react"
-import type { ElementType } from "react"
 
 import type { UserMenuItemType } from "@/components/molecules"
+import type { NavGroup } from "@/types/ui"
 import { paths } from "@/routes/paths"
-
-export type NavItem = {
-  title: string
-  url: string
-  icon?: ElementType
-  isActive?: boolean
-  items?: NavSubItem[]
-}
-
-export type NavSubItem = {
-  title: string
-  url: string
-}
-
-export type NavGroup = {
-  label: string
-  items: NavItem[]
-}
 
 export const navigationConfig: NavGroup[] = [
   {

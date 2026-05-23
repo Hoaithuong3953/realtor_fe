@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 import { STORAGE_KEYS } from "@/constants/auth"
-import type { AuthUserOut } from "@/types"
+import type { AuthUserOut } from "@/types/api"
 
 interface AuthState {
   user: AuthUserOut | null

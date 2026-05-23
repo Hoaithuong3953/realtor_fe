@@ -3,7 +3,7 @@ import axios, { type InternalAxiosRequestConfig, isAxiosError } from "axios";
 import { API_ENDPOINTS } from "@/constants/api";
 import { apiClient } from "@/lib/api-client";
 import { useAuthStore } from "@/store/auth.store";
-import type { LoginResponse } from "@/types";
+import type { LoginResponse } from "@/types/api";
 import { authEvents } from "@/utils/auth-events";
 import { handleApiError } from "@/utils/error-handler";
 import { logger } from "@/utils/logger";

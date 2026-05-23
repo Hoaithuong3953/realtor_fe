@@ -27,9 +27,10 @@ export const useLoginMutation = () => {
             void navigate(paths.home)
         },
         onError: (error) => {
-            logger.error("Login failed", handleApiError(error))
+            logger.error("Login failed", handleApiError(error, false))
             toast.error(t("login.error_msg"))
         },
+        meta: { errorMessage: false }
     })
 }
 
@@ -55,9 +56,10 @@ export const useLogoutMutation = () => {
         onError: (error) => {
             queryClient.clear()
             logout()
-            logger.error("Logout failed, but user session cleared", handleApiError(error))
+            logger.error("Logout failed, but user session cleared", handleApiError(error, false))
             void navigate(paths.auth.login)
-        }
+        },
+        meta: { errorMessage: false }
     })
 }
 
@@ -87,9 +89,10 @@ export const useForgotPasswordMutation = () => {
       toast.success(t("forgot_password.success_msg"));
     },
     onError: (error) => {
-      logger.error("Forgot password API failed", handleApiError(error));
+      logger.error("Forgot password API failed", handleApiError(error, false));
       toast.error(t("forgot_password.error_msg"));
     },
+    meta: { errorMessage: false }
   });
 };
 
@@ -107,8 +110,9 @@ export const useResetPasswordMutation = () => {
       void navigate(paths.auth.login);
     },
     onError: (error) => {
-      logger.error("Reset password API failed", handleApiError(error));
+      logger.error("Reset password API failed", handleApiError(error, false));
       toast.error(t("reset_password.error_msg"));
     },
+    meta: { errorMessage: false }
   });
 };

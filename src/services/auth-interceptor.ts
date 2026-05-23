@@ -112,7 +112,7 @@ export const setupAuthInterceptors = () => {
         if (originalRequest.url?.includes(API_ENDPOINTS.AUTH.REFRESH)) {
           logger.error("Token Refresh Failed", error.response?.data);
         }
-        const normalizedError = handleApiError(error);
+        const normalizedError = handleApiError(error, false);
         return Promise.reject(normalizedError);
       }
 
@@ -139,7 +139,7 @@ export const setupAuthInterceptors = () => {
         if (!currentUser || !isAuthenticated) {
           logger.warn("Authentication credentials or user profile missing. Skipping token refresh.");
           forceLogout("expired");
-          const normalizedError = handleApiError(error);
+          const normalizedError = handleApiError(error, false);
           return Promise.reject(normalizedError);
         }
 
@@ -201,7 +201,7 @@ export const setupAuthInterceptors = () => {
           logger.error("Failed to refresh token", refreshError);
           processQueue(refreshError, null);
           forceLogout("revoked");
-          const normalizedError = handleApiError(refreshError);
+          const normalizedError = handleApiError(refreshError, false);
           return Promise.reject(normalizedError);
         } finally {
           isRefreshing = false;
@@ -215,7 +215,7 @@ export const setupAuthInterceptors = () => {
         error.response?.data
       );
 
-      const normalizedError = handleApiError(error);
+      const normalizedError = handleApiError(error, false);
       return Promise.reject(normalizedError);
     }
   );

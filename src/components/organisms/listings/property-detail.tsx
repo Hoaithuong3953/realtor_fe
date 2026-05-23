@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/carousel"
 import { cn } from "@/lib/utils"
 
+import { formatListingType, formatPropertyType, formatListingStatus, formatListingPrice } from "@/utils/listing-formatter"
 import { formatPrice } from "@/utils/currency-formatter"
-import { formatListingType, formatPropertyType, formatListingStatus } from "@/utils/listing-formatter"
 import { useTranslation } from "react-i18next"
 import { Tag } from "@/components/atoms"
 import { Badge } from "@/components/ui"
@@ -43,7 +43,7 @@ export type PropertyDetailViewProps = {
   className?: string
 }
 
-export function PropertyDetailView({ property, footerActions, className }: PropertyDetailViewProps) {
+export const PropertyDetailView = ({ property, footerActions, className }: PropertyDetailViewProps) => {
   const { t, i18n } = useTranslation("listing")
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
@@ -146,13 +146,7 @@ export function PropertyDetailView({ property, footerActions, className }: Prope
               <span>{property.address_text}</span>
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-primary shrink-0 flex items-baseline gap-1">
-              {formatPrice(property.price, t, i18n.language)}
-              {property.listing_type === "rent" && property.attributes?.rent_period === "month" && (
-                <span className="text-lg font-medium text-muted-foreground">/tháng</span>
-              )}
-              {property.listing_type === "rent" && property.attributes?.rent_period === "year" && (
-                <span className="text-lg font-medium text-muted-foreground">/năm</span>
-              )}
+              {formatListingPrice(property, t, i18n.language)}
             </div>
           </div>
         </div>
@@ -174,8 +168,10 @@ export function PropertyDetailView({ property, footerActions, className }: Prope
             <div className="flex flex-col gap-2 p-3.5 rounded-xl bg-muted/40 border border-border/40">
               <Banknote className="size-5 text-primary" />
               <div>
-                <p className="text-[11px] text-muted-foreground uppercase font-medium tracking-wider">Tiền cọc</p>
-                <p className="font-semibold text-foreground text-sm mt-0.5">{formatPrice(property.attributes?.deposit, t, i18n.language)}</p>
+                <p className="text-[11px] text-muted-foreground uppercase font-medium tracking-wider">{t("detail.deposit") || "Deposit"}</p>
+                <div className="flex items-baseline gap-1.5 mt-0.5">
+                  <p className="font-semibold text-foreground text-sm">{formatPrice(property.attributes?.deposit, t, i18n.language)}</p>
+                </div>
               </div>
             </div>
           )}

@@ -1,41 +1,16 @@
 import { MapPin, BedDouble, Bath, SquareDashed } from "lucide-react"
 
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton, Badge } from "@/components/ui"
 import { cn } from "@/lib/utils"
-import { formatPrice } from "@/utils/currency-formatter"
-import { formatListingType, formatPropertyType } from "@/utils/listing-formatter"
+import { formatListingType, formatPropertyType, formatListingPrice } from "@/utils/listing-formatter"
 import { useTranslation } from "react-i18next"
 import { Button, Tag, Tooltip } from "@/components/atoms"
-import { Badge } from "@/components/ui/badge"
+import { ConfirmAction } from "@/components/molecules"
+import type { PropertyItemData, PropertyAction } from "@/types/ui/property"
 
-export type PropertyAction = {
-  id: string
-  label: string
-  icon?: React.ElementType
-  variant?: "solid" | "secondary" | "outline" | "ghost" | "destructive" | "link"
-  onClick?: (e: React.MouseEvent) => void
-}
+export type { PropertyAction }
 
-export type PropertyCardData = {
-  id?: string | number
-  title: string
-  price?: number
-  address_text?: string
-  listing_type?: "sale" | "rent"
-  property_type?: "apartment" | "house" | "villa" | "land"
-  status?: "active" | "draft" | "inactive"
-  area?: number
-  media?: Array<{ url: string; [key: string]: unknown }>
-  tags?: string[]
-  attributes?: {
-    rent_period?: string
-    bedrooms?: number | string
-    bathrooms?: number | string
-    [key: string]: unknown
-  }
-}
-
-export type PropertyCardProps = PropertyCardData & {
+export type PropertyCardProps = PropertyItemData & {
   className?: string
   onClick?: () => void
   actions?: PropertyAction[]
@@ -103,9 +78,7 @@ export const PropertyCard = ({
           <Badge 
             className="h-6 px-2.5 py-1 text-xs border-transparent bg-foreground/80 text-background shadow-sm backdrop-blur-md hover:bg-foreground rounded-sm font-bold"
           >
-            {formatPrice(price, t, i18n.language)}
-            {listing_type === "rent" && attributes?.rent_period === "month" && "/tháng"}
-            {listing_type === "rent" && attributes?.rent_period === "year" && "/năm"}
+            {formatListingPrice({ price, listing_type, attributes }, t, i18n.language)}
           </Badge>
         </div>
       </div>
@@ -143,7 +116,7 @@ export const PropertyCard = ({
           <div className="h-px w-full bg-border/60" />
           <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium">
             {bedrooms !== undefined && (
-              <Tooltip content={`${bedrooms} phòng ngủ`} side="bottom">
+              <Tooltip content={`${bedrooms} ${t("detail.bedrooms").toLowerCase()}`} side="bottom">
                 <div className="flex items-center gap-1.5">
                   <BedDouble className="size-3.5" />
                   <span>{bedrooms}</span>
@@ -151,7 +124,7 @@ export const PropertyCard = ({
               </Tooltip>
             )}
             {bathrooms !== undefined && (
-              <Tooltip content={`${bathrooms} phòng tắm`} side="bottom">
+              <Tooltip content={`${bathrooms} ${t("detail.bathrooms").toLowerCase()}`} side="bottom">
                 <div className="flex items-center gap-1.5">
                   <Bath className="size-3.5" />
                   <span>{bathrooms}</span>
@@ -159,7 +132,7 @@ export const PropertyCard = ({
               </Tooltip>
             )}
             {area !== undefined && (
-              <Tooltip content={`Diện tích ${area}m²`} side="bottom">
+              <Tooltip content={`${t("detail.area")} ${area}m²`} side="bottom">
                 <div className="flex items-center gap-1.5">
                   <SquareDashed className="size-3.5" />
                   <span>{area}m²</span>
@@ -174,20 +147,41 @@ export const PropertyCard = ({
         <div className="pt-2 mt-auto flex gap-2 w-full">
           {actions.map((action) => {
             const Icon = action.icon
-            return (
+            const buttonElement = (
               <Button
                 key={action.id}
                 variant={action.variant || "solid"}
-                fullWidth
                 className={cn(
+                  "flex-1",
                   action.variant === "secondary" && "bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 font-medium"
                 )}
-                onClick={action.onClick}
+                onClick={(e) => {
+                  if (!action.confirmTitle) {
+                    e.stopPropagation()
+                    action.onClick?.(e)
+                  }
+                }}
               >
                 {Icon && <Icon className="mr-2 size-4" />}
                 {action.label}
               </Button>
             )
+
+            if (action.confirmTitle) {
+              return (
+                <ConfirmAction
+                  key={action.id}
+                  title={action.confirmTitle}
+                  description={action.confirmDescription}
+                  onConfirm={() => action.onClick?.({} as React.MouseEvent)}
+                  confirmVariant={action.variant === "destructive" ? "destructive" : "solid"}
+                >
+                  {buttonElement}
+                </ConfirmAction>
+              )
+            }
+
+            return buttonElement
           })}
         </div>
       )}

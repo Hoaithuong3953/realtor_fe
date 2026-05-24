@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 
 import { Button } from "@/components/ui/button"
 import { Dropdown } from "@/components/molecules/dropdown"
-import { useThemeStore } from "@/store/theme.store"
+import { useAppStore } from "@/store/app.store"
 
 const themes = [
   { value: "light", labelKey: "theme.light", icon: Sun },
@@ -12,7 +12,7 @@ const themes = [
 ] as const
 
 export const ThemeToggle = () => {
-  const { theme, setTheme } = useThemeStore()
+  const { theme, setTheme } = useAppStore()
   const { t } = useTranslation("common")
 
   return (

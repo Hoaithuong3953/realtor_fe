@@ -6,6 +6,9 @@ import { logger } from "@/utils/logger";
 import { NormalizedError } from "@/types/api";
 
 function getHttpStatus(error: unknown): number {
+  if (error instanceof NormalizedError) {
+    return error.statusCode;
+  }
   if (isAxiosError(error) && error.response?.status !== undefined) {
     return error.response.status;
   }
@@ -46,6 +49,9 @@ export function handleApiError(error: unknown, showToast = true): NormalizedErro
       // Do not show global toast for field validation errors
       showToast = false;
     }
+  } else if (error instanceof NormalizedError) {
+    message = error.message;
+    fieldErrors = error.fieldErrors;
   } else if (error instanceof Error) {
     message = error.message;
   }
@@ -77,5 +83,5 @@ export function handleApiError(error: unknown, showToast = true): NormalizedErro
     toast.error(displayMessage);
   }
 
-  return new NormalizedError(statusCode, displayMessage, fieldErrors, error);
+  return new NormalizedError(statusCode, displayMessage, fieldErrors, error instanceof NormalizedError ? error.raw : error);
 }

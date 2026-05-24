@@ -1,21 +1,33 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
+import i18n from "i18next"
 
 export type Theme = "dark" | "light" | "system"
 
-interface ThemeState {
+interface AppState {
   theme: Theme
   setTheme: (theme: Theme) => void
+  language: "vi" | "en"
+  setLanguage: (lang: "vi" | "en") => void
+  viewMode: "grid" | "list"
+  setViewMode: (mode: "grid" | "list") => void
 }
 
-export const useThemeStore = create<ThemeState>()(
+export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
       theme: "system",
       setTheme: (theme) => set({ theme }),
+      language: "vi",
+      setLanguage: (language) => {
+        set({ language })
+        void i18n.changeLanguage(language)
+      },
+      viewMode: "grid",
+      setViewMode: (viewMode) => set({ viewMode }),
     }),
     {
-      name: "vite-ui-theme",
+      name: "app-preferences",
     }
   )
 )
@@ -35,15 +47,12 @@ const applyTheme = (theme: Theme) => {
   root.classList.add(theme)
 }
 
-// Khởi tạo Theme ngay khi load file (không cần chờ React mount)
-applyTheme(useThemeStore.getState().theme)
+applyTheme(useAppStore.getState().theme)
 
-// Tự động apply vào DOM mỗi khi Store bị thay đổi
-useThemeStore.subscribe((state) => applyTheme(state.theme))
+useAppStore.subscribe((state) => applyTheme(state.theme))
 
-// Lắng nghe sự thay đổi giao diện từ Hệ điều hành (Windows/Mac)
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-  if (useThemeStore.getState().theme === "system") {
+  if (useAppStore.getState().theme === "system") {
     applyTheme("system")
   }
 })

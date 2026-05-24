@@ -31,7 +31,7 @@ type InputProps = Omit<
   containerClassName?: string
 }
 
-export const Input = ({
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
   id,
   className,
   label,
@@ -43,7 +43,7 @@ export const Input = ({
   disabled,
   containerClassName,
   ...props
-}: InputProps) => {
+}, ref) => {
   const generatedId = React.useId()
   const inputId = id ?? `input-${generatedId}`
   const [showPassword, setShowPassword] = React.useState(false)
@@ -65,6 +65,7 @@ export const Input = ({
       ) : null}
 
       <InputGroupInput
+        ref={ref}
         id={inputId}
         disabled={disabled}
         {...props}
@@ -123,6 +124,7 @@ export const Input = ({
       </FieldContent>
     </Field>
   )
-}
+})
+Input.displayName = "Input"
 
 export type { InputProps }

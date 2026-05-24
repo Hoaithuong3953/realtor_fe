@@ -19,10 +19,10 @@ export default function InternalErrorPage() {
       </div>
       <div className="flex gap-4 justify-center">
         <Button variant="outline" onClick={() => window.location.reload()}>
-          {t("errors.serverError.retry")}
+          {t("actions.reload_page")}
         </Button>
         <Button onClick={() => { void navigate(paths.home); }}>
-          {t("errors.serverError.home")}
+          {t("actions.go_home")}
         </Button>
       </div>
     </div>

@@ -14,7 +14,13 @@
     "search": "Search...",
     "noResults": "No results found",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "save": "Save",
+    "save_draft": "Save Draft",
+    "back": "Back",
+    "go_back": "Go Back",
+    "go_home": "Go Home",
+    "reload_page": "Reload Page"
   },
   "errors": {
     "400": "Invalid request data. Please check and try again",
@@ -24,25 +30,19 @@
     "500": "The system encountered a server error, please try again later",
     "forbidden": {
       "title": "Access Denied",
-      "description": "You do not have permission to view this content. Please contact the administrator if you believe this is an error",
-      "back": "Go Back",
-      "home": "Go Home"
+      "description": "You do not have permission to view this content. Please contact the administrator if you believe this is an error"
     },
     "notFound": {
       "title": "Page Not Found",
-      "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable",
-      "home": "Go Home"
+      "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable"
     },
     "serverError": {
       "title": "Internal Server Error",
-      "description": "The system is experiencing a temporary interruption. We are working to resolve this as quickly as possible",
-      "retry": "Reload Page",
-      "home": "Go Home"
+      "description": "The system is experiencing a temporary interruption. We are working to resolve this as quickly as possible"
     },
     "maintenance": {
       "title": "Under Maintenance",
-      "description": "To improve our service quality, the system is temporarily down for maintenance. Please check back in a few minutes. We apologize for the inconvenience",
-      "retry": "Try Again"
+      "description": "To improve our service quality, the system is temporarily down for maintenance. Please check back in a few minutes. We apologize for the inconvenience"
     }
   }
 }

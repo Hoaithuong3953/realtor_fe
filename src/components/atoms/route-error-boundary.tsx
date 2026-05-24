@@ -47,7 +47,7 @@ class RouteErrorBoundaryClass extends React.Component<ClassProps, State> {
           </p>
           <Button onClick={this.handleReset} variant="outline" className="gap-2">
             <RefreshCcw className="size-4" />
-            {t("errors.serverError.retry")}
+            {t("actions.retry")}
           </Button>
         </div>
       );

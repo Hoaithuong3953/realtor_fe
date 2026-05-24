@@ -18,7 +18,7 @@ export default function NotFoundPage() {
         </p>
       </div>
       <Button onClick={() => { void navigate(paths.home); }} size="lg">
-        {t("errors.notFound.home")}
+        {t("actions.go_home")}
       </Button>
     </div>
   )

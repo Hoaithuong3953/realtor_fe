@@ -14,7 +14,13 @@
     "search": "Tìm kiếm...",
     "noResults": "Không có kết quả nào",
     "previous": "Trước đó",
-    "next": "Tiếp theo"
+    "next": "Tiếp theo",
+    "save": "Lưu",
+    "save_draft": "Lưu nháp",
+    "back": "Quay lại",
+    "go_back": "Quay lại trang trước",
+    "go_home": "Về Trang chủ",
+    "reload_page": "Tải lại trang"
   },
   "errors": {
     "400": "Dữ liệu yêu cầu không hợp lệ. Vui lòng kiểm tra lại",
@@ -24,25 +30,19 @@
     "500": "Hệ thống gặp sự cố máy chủ, vui lòng thử lại sau",
     "forbidden": {
       "title": "Từ chối truy cập",
-      "description": "Bạn không có quyền xem nội dung này. Vui lòng liên hệ quản trị viên nếu bạn cho rằng đây là một sự nhầm lẫn",
-      "back": "Quay lại trang trước",
-      "home": "Về Trang chủ"
+      "description": "Bạn không có quyền xem nội dung này. Vui lòng liên hệ quản trị viên nếu bạn cho rằng đây là một sự nhầm lẫn"
     },
     "notFound": {
       "title": "Không tìm thấy trang",
-      "description": "Trang bạn đang tìm kiếm có thể đã bị xóa, đổi tên hoặc tạm thời không truy cập được",
-      "home": "Quay về Trang chủ"
+      "description": "Trang bạn đang tìm kiếm có thể đã bị xóa, đổi tên hoặc tạm thời không truy cập được"
     },
     "serverError": {
       "title": "Đã xảy ra sự cố kỹ thuật",
-      "description": "Hệ thống đang gặp gián đoạn tạm thời. Chúng tôi đang cố gắng khắc phục sự cố này nhanh nhất có thể",
-      "retry": "Tải lại trang",
-      "home": "Về Trang chủ"
+      "description": "Hệ thống đang gặp gián đoạn tạm thời. Chúng tôi đang cố gắng khắc phục sự cố này nhanh nhất có thể"
     },
     "maintenance": {
       "title": "Hệ thống đang bảo trì",
-      "description": "Để nâng cấp chất lượng dịch vụ, hệ thống hiện đang tạm bảo trì. Vui lòng quay lại sau ít phút. Xin lỗi vì sự bất tiện này",
-      "retry": "Thử lại"
+      "description": "Để nâng cấp chất lượng dịch vụ, hệ thống hiện đang tạm bảo trì. Vui lòng quay lại sau ít phút. Xin lỗi vì sự bất tiện này"
     }
   }
 }

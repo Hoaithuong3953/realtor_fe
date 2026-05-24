@@ -15,7 +15,7 @@ export default function MaintenancePage() {
         </p>
       </div>
       <Button onClick={() => window.location.reload()} size="lg">
-        {t("errors.maintenance.retry")}
+        {t("actions.retry")}
       </Button>
     </div>
   )

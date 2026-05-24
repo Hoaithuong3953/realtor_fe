@@ -19,10 +19,10 @@ export default function ForbiddenPage() {
       </div>
       <div className="flex gap-4 justify-center">
         <Button variant="outline" onClick={() => { void navigate(-1); }}>
-          {t("errors.forbidden.back")}
+          {t("actions.go_back")}
         </Button>
         <Button onClick={() => { void navigate(paths.home); }}>
-          {t("errors.forbidden.home")}
+          {t("actions.go_home")}
         </Button>
       </div>
     </div>

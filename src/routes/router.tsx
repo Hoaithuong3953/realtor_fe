@@ -20,7 +20,9 @@ const ForgotPasswordPage = React.lazy(() => import("@/pages/auth/forgot-password
 const ResetPasswordPage = React.lazy(() => import("@/pages/auth/reset-password"))
 
 const DashboardHomePage = React.lazy(() => import("@/pages/dashboard/dashboard"))
-const PropertiesPage = React.lazy(() => import("@/pages/dashboard/properties"))
+const PropertiesPage = React.lazy(() => import("@/pages/dashboard/properties/list"))
+const PropertiesCreatePage = React.lazy(() => import("@/pages/dashboard/properties/create"))
+const PropertiesEditPage = React.lazy(() => import("@/pages/dashboard/properties/edit"))
 const ClientsPage = React.lazy(() => import("@/pages/dashboard/clients"))
 const ChatPage = React.lazy(() => import("@/pages/dashboard/chat"))
 const UsersPage = React.lazy(() => import("@/pages/dashboard/users"))
@@ -44,23 +46,34 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: paths.dashboard.root, element: lazyLoad(DashboardHomePage) },
-      { path: paths.dashboard.properties, element: lazyLoad(PropertiesPage) },
+
+      // Properties routes
+      { path: paths.dashboard.properties.root, element: lazyLoad(PropertiesPage) },
       {
-        path: `${paths.dashboard.properties}/create`,
-        element: lazyLoad(PropertiesPage),
+        path: paths.dashboard.properties.create,
+        element: lazyLoad(PropertiesCreatePage),
       },
       {
-        path: `${paths.dashboard.properties}/import-jobs`,
-        element: lazyLoad(PropertiesPage),
+        path: paths.dashboard.properties.edit,
+        element: lazyLoad(PropertiesEditPage),
       },
-      { path: paths.dashboard.clients, element: lazyLoad(ClientsPage) },
+
+      // Clients routes
       {
-        path: `${paths.dashboard.clients}/create`,
+        path: paths.dashboard.clients.root,
         element: lazyLoad(ClientsPage),
       },
+
+      // Chat routes
       { path: paths.dashboard.chat, element: lazyLoad(ChatPage) },
+
+      // Users routes
       { path: paths.dashboard.users, element: lazyLoad(UsersPage) },
+
+      // Roles routes
       { path: paths.dashboard.roles, element: lazyLoad(RolesPage) },
+
+      // Settings routes
       { path: paths.dashboard.settings, element: lazyLoad(SettingsPage) },
     ],
   },

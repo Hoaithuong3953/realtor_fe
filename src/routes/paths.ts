@@ -2,8 +2,14 @@ export const paths = {
   home: "/",
   dashboard: {
     root: "/",
-    properties: "/properties",
-    clients: "/clients",
+    properties: {
+      root: "/properties",
+      create: "/properties/create",
+      edit: "/properties/:id/edit",
+    },
+    clients: {
+      root: "/clients",
+    },
     chat: "/chat",
     users: "/users",
     roles: "/roles",

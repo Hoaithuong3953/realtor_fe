@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export const clientSchema = z.object({
   full_name: z.string().min(1, { message: "validation.name_invalid" }),
-  phone: z.string().nullable().optional().refine(val => !val || /^[0-9+\s.()-]{10,15}$/.test(val), { message: "validation.phone_invalid" }),
+  phone: z.string().nullable().optional().refine(val => !val || /^0[0-9\s.()-]{9,14}$/.test(val), { message: "validation.phone_invalid" }),
   email: z.string().email({ message: "validation.email_invalid" }).nullable().optional().or(z.literal("")),
   customer_type: z.enum(["buyer", "seller", "renter", "landlord"]).optional(),
   goal_type: z.enum(["buy", "rent", "sell", "lease"]).optional(),

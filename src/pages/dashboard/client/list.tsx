@@ -49,9 +49,7 @@ export default function ClientsPage() {
   const { data, isLoading } = useClientsQuery(apiParams)
 
   const handleDelete = (id: number) => {
-    if (window.confirm(t("messages.delete_confirm_desc"))) {
-      deleteClient(id)
-    }
+    deleteClient(id)
   }
 
   return (
@@ -119,8 +117,10 @@ export default function ClientsPage() {
             label: t("common:actions.delete"),
             icon: Trash2,
             variant: "destructive",
+            confirmTitle: t("messages.delete_confirm_title", { defaultValue: "Xác nhận xóa" }),
+            confirmDescription: t("messages.delete_confirm_desc"),
             onClick: (e) => {
-              e.stopPropagation()
+              e?.stopPropagation?.()
               handleDelete(client.id)
             }
           }

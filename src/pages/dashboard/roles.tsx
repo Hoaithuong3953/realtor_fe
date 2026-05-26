@@ -1,13 +1,22 @@
+import { useTranslation } from "react-i18next"
+import { useRolesQuery } from "@/hooks/use-roles"
+import { PermissionMatrix } from "@/components/organisms/roles/permission-matrix"
+
 export default function RolesPage() {
+  const { t } = useTranslation(["role"])
+  const { data: rolesData, isLoading } = useRolesQuery()
+
   return (
-    <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed">
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Phân quyền Hệ thống
-        </h1>
-        <p className="text-muted-foreground text-sm">
-          Tính năng đang được phát triển...
-        </p>
+    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
+      <div className="flex items-center justify-between space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">{t("role:matrix.title")}</h2>
+      </div>
+      <p className="text-muted-foreground">
+        {t("role:matrix.description")}
+      </p>
+      
+      <div className="mt-8">
+        <PermissionMatrix roles={rolesData || []} isLoading={isLoading} />
       </div>
     </div>
   )

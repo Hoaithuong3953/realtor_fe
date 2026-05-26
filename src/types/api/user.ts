@@ -90,3 +90,5 @@ export interface UserUpdate {
   role_id?: number | null;
   status?: string | null;
 }
+
+export const USER_STATUSES = ["active", "inactive", "locked"] as const;

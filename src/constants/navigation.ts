@@ -46,6 +46,11 @@ export const navigationConfig: NavGroup[] = [
         url: paths.dashboard.clients.root,
         icon: Users,
       },
+      {
+        title: "nav.users",
+        url: paths.dashboard.users,
+        icon: UserCog,
+      },
     ],
   },
   {
@@ -61,11 +66,7 @@ export const navigationConfig: NavGroup[] = [
   {
     label: "nav.system",
     items: [
-      {
-        title: "nav.users",
-        url: paths.dashboard.users,
-        icon: UserCog,
-      },
+      
       {
         title: "nav.roles",
         url: paths.dashboard.roles,

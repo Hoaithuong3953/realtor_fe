@@ -31,6 +31,21 @@
     "name_asc": "Tên (A-Z)",
     "name_desc": "Tên (Z-A)"
   },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Tạm dừng",
+    "locked": "Đã khóa",
+    "new": "Mới",
+    "contacted": "Đã liên hệ",
+    "negotiating": "Đang thương lượng",
+    "closed_won": "Chốt thành công",
+    "closed_lost": "Thất bại",
+    "draft": "Bản nháp",
+    "published": "Đang đăng",
+    "rented": "Đã cho thuê",
+    "sold": "Đã bán",
+    "archived": "Đã lưu trữ"
+  },
   "errors": {
     "400": "Dữ liệu yêu cầu không hợp lệ. Vui lòng kiểm tra lại",
     "401": "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại",

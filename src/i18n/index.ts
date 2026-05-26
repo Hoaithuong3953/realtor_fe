@@ -36,7 +36,7 @@ void i18n
   .init({
     resources,
     fallbackLng: "vi",
-    ns: ["common", "auth", "dashboard", "listing", "chat", "client"],
+    ns: ["common", "auth", "dashboard", "listing", "client"],
     defaultNS: "common",
     interpolation: {
       escapeValue: false,

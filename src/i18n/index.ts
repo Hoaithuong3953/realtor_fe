@@ -3,12 +3,10 @@ import LanguageDetector from "i18next-browser-languagedetector"
 import { initReactI18next } from "react-i18next"
 
 import enAuth from "./locales/en/auth.json"
-import enChat from "./locales/en/chat.json"
 import enCommon from "./locales/en/common.json"
 import enDashboard from "./locales/en/dashboard.json"
 import enListing from "./locales/en/listing.json"
 import viAuth from "./locales/vi/auth.json"
-import viChat from "./locales/vi/chat.json"
 import viCommon from "./locales/vi/common.json"
 import viDashboard from "./locales/vi/dashboard.json"
 import viListing from "./locales/vi/listing.json"
@@ -19,14 +17,12 @@ const resources = {
     auth: viAuth,
     dashboard: viDashboard,
     listing: viListing,
-    chat: viChat,
   },
   en: {
     common: enCommon,
     auth: enAuth,
     dashboard: enDashboard,
     listing: enListing,
-    chat: enChat,
   },
 } as const
 

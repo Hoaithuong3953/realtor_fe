@@ -1,11 +1,15 @@
-import { MapPin, BedDouble, Bath, SquareDashed } from "lucide-react"
+import React, { useState } from "react"
+import { MapPin, SquareDashed, ImageOff, Info, MoreHorizontal, Clock } from "lucide-react"
+import { ATTRIBUTE_CONFIG, EXCLUDED_CARD_ATTRIBUTES } from "@/constants/listing"
 
 import { Skeleton, Badge } from "@/components/ui"
 import { cn } from "@/lib/utils"
-import { formatListingType, formatPropertyType, formatListingPrice } from "@/utils/listing-formatter"
+import { formatListingType, formatPropertyType, formatListingPrice, formatListingStatus, formatShortAddress, formatLocalizedAddress } from "@/utils/listing-formatter"
+import { formatShortDateTime } from "@/utils/date-formatter"
 import { useTranslation } from "react-i18next"
-import { Button, Tag, Tooltip } from "@/components/atoms"
+import { Button, Tag, Tooltip, ListingBadge } from "@/components/atoms"
 import { ConfirmAction } from "@/components/molecules"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import type { PropertyItemData, PropertyAction } from "@/types/ui/property"
 
 export type { PropertyAction }
@@ -25,17 +29,34 @@ export const PropertyCard = ({
   attributes,
   listing_type,
   property_type,
+  status,
   className,
   onClick,
   actions,
   tags,
+  updated_at,
 }: PropertyCardProps) => {
   const { t, i18n } = useTranslation("listing")
   const firstMedia = media?.[0];
   const url = firstMedia && typeof firstMedia.url === "string" ? firstMedia.url : undefined;
-  const imageUrl = url || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=80"
-  const bedrooms = attributes?.bedrooms
-  const bathrooms = attributes?.bathrooms
+  const imageUrl = url;
+  
+  const [imageError, setImageError] = useState(false)
+
+  React.useEffect(() => {
+    setImageError(false)
+  }, [imageUrl])
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+  const validAttributes = Object.entries(attributes || {})
+    .filter(([key, value]) => !EXCLUDED_CARD_ATTRIBUTES.includes(key) && value !== undefined && value !== null && value !== "")
+    .slice(0, 3)
+
+  const hasMetrics = Boolean(area) || validAttributes.length > 0
+
+  const primaryActions = actions?.filter(a => a.isPrimary) || []
+  const secondaryActions = actions?.filter(a => !a.isPrimary) || []
 
   return (
     <div 
@@ -45,34 +66,22 @@ export const PropertyCard = ({
         className
       )}
     >
-      <div className="overflow-hidden rounded-md relative bg-muted">
-        <img
-          src={imageUrl}
-          alt={title}
-          className="aspect-[4/3] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          loading="lazy"
-        />
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-muted">
+        {imageUrl && !imageError ? (
+          <img 
+            src={imageUrl} 
+            alt={title} 
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed bg-muted/30">
+            <ImageOff className="w-8 h-8 opacity-50 mb-2" />
+            <span className="text-xs font-medium opacity-50">{t("no_image")}</span>
+          </div>
+        )}
+        
         <div className="absolute top-2 left-2 flex gap-1.5">
-          {listing_type && (() => {
-            const typeInfo = formatListingType(listing_type, t);
-            return typeInfo ? (
-              <Badge 
-                className={cn(
-                  "h-5 px-2 py-0.5 text-[10px] border-transparent uppercase tracking-wider shadow-sm backdrop-blur-sm rounded-sm font-bold",
-                  typeInfo.className
-                )}
-              >
-                {typeInfo.label}
-              </Badge>
-            ) : null;
-          })()}
-          {property_type && (
-            <Badge 
-              className="h-5 px-2 py-0.5 text-[10px] border-transparent bg-foreground/60 text-background uppercase tracking-wider shadow-sm backdrop-blur-sm hover:bg-foreground/70 rounded-sm font-bold"
-            >
-              {formatPropertyType(property_type, t)}
-            </Badge>
-          )}
         </div>
         <div className="absolute bottom-2 right-2">
           <Badge 
@@ -81,8 +90,83 @@ export const PropertyCard = ({
             {formatListingPrice({ price, listing_type, attributes }, t, i18n.language)}
           </Badge>
         </div>
+        
+        {secondaryActions.length > 0 && (
+          <div className={cn(
+            "absolute top-2 right-2 transition-opacity duration-200 z-10",
+            isDropdownOpen ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          )}>
+            <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 rounded-full bg-background/80 hover:bg-background text-foreground backdrop-blur-sm shadow-sm"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                {secondaryActions.map((action) => {
+                  const Icon = action.icon
+                  const item = (
+                    <DropdownMenuItem 
+                      key={action.id}
+                      className={cn("cursor-pointer", action.variant === "destructive" && "text-destructive focus:text-destructive focus:bg-destructive/10")}
+                      onSelect={(e) => {
+                        if (action.confirmTitle) {
+                          e.preventDefault()
+                        }
+                      }}
+                      onClick={(e) => {
+                        if (!action.confirmTitle) {
+                          action.onClick?.(e)
+                        }
+                      }}
+                    >
+                      {Icon && <Icon className="mr-2 h-4 w-4" />}
+                      {action.label}
+                    </DropdownMenuItem>
+                  )
+
+                  if (action.confirmTitle) {
+                    return (
+                      <ConfirmAction
+                        key={action.id}
+                        title={action.confirmTitle}
+                        description={action.confirmDescription}
+                        onConfirm={() => action.onClick?.({} as React.MouseEvent)}
+                        confirmVariant={action.variant === "destructive" ? "destructive" : "solid"}
+                      >
+                        {item}
+                      </ConfirmAction>
+                    )
+                  }
+
+                  return item
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-1.5 w-full flex-1">
+        <div className="flex items-center justify-between gap-1.5 text-[10px] uppercase font-bold text-muted-foreground tracking-wider mb-0.5">
+          <div className="flex items-center gap-1.5">
+            {listing_type && <span>{formatListingType(listing_type, t)?.label}</span>}
+            {listing_type && property_type && <span>•</span>}
+            {property_type && <span>{formatPropertyType(property_type, t)}</span>}
+          </div>
+          {status && formatListingStatus(status, t) && (
+            <ListingBadge 
+              listing={formatListingStatus(status, t)?.listing}
+              className="h-5 px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-md"
+            >
+              {formatListingStatus(status, t)?.label}
+            </ListingBadge>
+          )}
+        </div>
         <Tooltip content={title} side="top" align="start">
           <h4 className="font-semibold text-sm line-clamp-2 leading-snug">
             {title}
@@ -90,10 +174,16 @@ export const PropertyCard = ({
         </Tooltip>
         <div className="flex items-start gap-1 text-xs text-muted-foreground">
           <MapPin className="size-3.5 mt-0.5 shrink-0" />
-          <Tooltip content={address_text ?? ""} side="bottom" align="start">
-            <span className="line-clamp-1">{address_text}</span>
+          <Tooltip content={formatLocalizedAddress(address_text, i18n.language)} side="bottom" align="start">
+            <span className="line-clamp-1">{formatShortAddress(address_text)}</span>
           </Tooltip>
         </div>
+        {updated_at && (
+          <div className="flex items-center gap-1 text-[10px] text-muted-foreground/70 mt-0.5">
+            <Clock className="size-3 shrink-0" />
+            <span>{t("list.updated_at")}: {formatShortDateTime(updated_at)}</span>
+          </div>
+        )}
         {tags && tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-0.5">
             {tags.slice(0, 2).map((tag, idx) => (
@@ -111,27 +201,11 @@ export const PropertyCard = ({
           </div>
         )}
       </div>
-      {(bedrooms !== undefined || bathrooms !== undefined || area !== undefined) && (
+      {hasMetrics && (
         <>
           <div className="h-px w-full bg-border/60" />
-          <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium">
-            {bedrooms !== undefined && (
-              <Tooltip content={`${bedrooms} ${t("detail.bedrooms").toLowerCase()}`} side="bottom">
-                <div className="flex items-center gap-1.5">
-                  <BedDouble className="size-3.5" />
-                  <span>{bedrooms}</span>
-                </div>
-              </Tooltip>
-            )}
-            {bathrooms !== undefined && (
-              <Tooltip content={`${bathrooms} ${t("detail.bathrooms").toLowerCase()}`} side="bottom">
-                <div className="flex items-center gap-1.5">
-                  <Bath className="size-3.5" />
-                  <span>{bathrooms}</span>
-                </div>
-              </Tooltip>
-            )}
-            {area !== undefined && (
+          <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium flex-wrap">
+            {Boolean(area) && (
               <Tooltip content={`${t("detail.area")} ${area}m²`} side="bottom">
                 <div className="flex items-center gap-1.5">
                   <SquareDashed className="size-3.5" />
@@ -139,13 +213,27 @@ export const PropertyCard = ({
                 </div>
               </Tooltip>
             )}
+            
+            {validAttributes.map(([key, value]) => {
+              const config = ATTRIBUTE_CONFIG[key]
+              const Icon = config?.icon || Info
+              const label = config?.shortLabel || config?.label || key
+              return (
+                <Tooltip key={key} content={`${label}: ${String(value)}`} side="bottom">
+                  <div className="flex items-center gap-1.5">
+                    <Icon className="size-3.5" />
+                    <span className="truncate max-w-[60px]">{String(value)}</span>
+                  </div>
+                </Tooltip>
+              )
+            })}
           </div>
         </>
       )}
 
-      {actions && actions.length > 0 && (
+      {primaryActions.length > 0 && (
         <div className="pt-2 mt-auto flex gap-2 w-full">
-          {actions.map((action) => {
+          {primaryActions.map((action) => {
             const Icon = action.icon
             const buttonElement = (
               <Button
@@ -176,7 +264,9 @@ export const PropertyCard = ({
                   onConfirm={() => action.onClick?.({} as React.MouseEvent)}
                   confirmVariant={action.variant === "destructive" ? "destructive" : "solid"}
                 >
-                  {buttonElement}
+                  <div onClick={(e) => e.stopPropagation()} className="flex-1 flex">
+                    {buttonElement}
+                  </div>
                 </ConfirmAction>
               )
             }
@@ -195,14 +285,14 @@ export const PropertyCardSkeleton = ({ className, withActions = false }: { class
       <div className="relative aspect-[4/3] w-full rounded-md overflow-hidden">
         <Skeleton className="w-full h-full" />
         <div className="absolute top-2 left-2 flex gap-1.5">
-          <Skeleton className="h-5 w-16" />
-          <Skeleton className="h-5 w-20" />
+          <Skeleton className="h-5 w-24 rounded-sm" />
         </div>
         <div className="absolute bottom-2 right-2">
           <Skeleton className="h-6 w-24" />
         </div>
       </div>
       <div className="flex flex-col gap-1.5 mt-1 flex-1">
+        <Skeleton className="h-3 w-32 mb-0.5" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-4/5" />
         <div className="flex items-center gap-1 mt-1">

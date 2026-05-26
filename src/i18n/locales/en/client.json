@@ -1,4 +1,41 @@
 {
+  "list": {
+    "title": "Client Management",
+    "subtitle": "List of all clients in the system",
+    "add_new_btn": "Add Client",
+    "search_placeholder": "Search by name, phone, email...",
+    "columns": {
+      "name": "Client Name",
+      "contact": "Contact",
+      "type": "Type",
+      "budget": "Budget",
+      "status": "Status",
+      "updated_at": "Updated At",
+      "actions": "Actions"
+    },
+    "no_results": "No clients found",
+    "no_data": "No data available",
+    "action_view": "View Details",
+    "action_edit": "Update",
+    "action_delete": "Delete Client"
+  },
+  "form": {
+    "title_add": "Add New Client",
+    "title_edit": "Update Client",
+    "full_name": "Full Name",
+    "full_name_placeholder": "Enter full name...",
+    "phone": "Phone Number",
+    "phone_placeholder": "Ex: 0912345678",
+    "email": "Email",
+    "email_placeholder": "Ex: email@example.com",
+    "customer_type": "Customer Type",
+    "goal_type": "Goal",
+    "budget_min": "Min Budget",
+    "budget_max": "Max Budget",
+    "status": "Status",
+    "summary": "Summary / Notes",
+    "summary_placeholder": "Brief notes about this client..."
+  },
   "link": {
     "modal_title": "Send Property to Client",
     "modal_subtitle": "Select a client to link this property to",
@@ -11,10 +48,41 @@
     "message_label": "Message (Optional)",
     "message_placeholder": "Enter a message to attach..."
   },
+  "constants": {
+    "type_buyer": "Buyer",
+    "type_seller": "Seller",
+    "type_renter": "Renter",
+    "type_landlord": "Landlord",
+    "goal_buy": "Buy",
+    "goal_sell": "Sell",
+    "goal_rent": "Rent",
+    "goal_lease": "Lease",
+    "status_new": "New",
+    "status_contacted": "Contacted",
+    "status_qualified": "Qualified",
+    "status_closed": "Closed",
+    "status_archived": "Archived"
+  },
   "messages": {
+    "create_success": "Client added successfully",
+    "create_error": "Failed to add client",
+    "update_success": "Client updated successfully",
+    "update_error": "Failed to update client",
+    "delete_success": "Client deleted successfully",
+    "delete_error": "Failed to delete client",
+    "delete_confirm_title": "Confirm Deletion",
+    "delete_confirm_desc": "Are you sure you want to delete this client? This action cannot be undone",
+    "interaction_success": "Interaction added successfully",
+    "interaction_error": "Failed to add interaction",
     "link_success": "Property sent to client successfully",
     "link_error": "Failed to send property",
     "unlink_success": "Property unlinked successfully",
     "unlink_error": "Failed to unlink property"
+  },
+  "validation": {
+    "name_invalid": "Invalid client name",
+    "phone_invalid": "Invalid phone number",
+    "email_invalid": "Invalid email format",
+    "budget_invalid": "Maximum budget must be greater than or equal to minimum budget"
   }
 }

@@ -9,6 +9,7 @@ export const paths = {
     },
     clients: {
       root: "/clients",
+      detail: "/clients/:id",
     },
     chat: "/chat",
     users: "/users",

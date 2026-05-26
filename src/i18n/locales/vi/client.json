@@ -1,4 +1,41 @@
 {
+  "list": {
+    "title": "Quản lý Khách hàng",
+    "subtitle": "Danh sách tất cả khách hàng trong hệ thống",
+    "add_new_btn": "Thêm Khách Hàng",
+    "search_placeholder": "Tìm kiếm theo tên, SĐT, email...",
+    "columns": {
+      "name": "Tên khách hàng",
+      "contact": "Liên hệ",
+      "type": "Phân loại",
+      "budget": "Ngân sách",
+      "status": "Trạng thái",
+      "updated_at": "Ngày cập nhật",
+      "actions": "Hành động"
+    },
+    "no_results": "Không tìm thấy khách hàng nào",
+    "no_data": "Chưa có dữ liệu",
+    "action_view": "Xem chi tiết",
+    "action_edit": "Cập nhật",
+    "action_delete": "Xóa khách hàng"
+  },
+  "form": {
+    "title_add": "Thêm Khách Hàng Mới",
+    "title_edit": "Cập nhật Khách Hàng",
+    "full_name": "Họ và tên",
+    "full_name_placeholder": "Nhập họ và tên...",
+    "phone": "Số điện thoại",
+    "phone_placeholder": "Ví dụ: 0912345678",
+    "email": "Email",
+    "email_placeholder": "Ví dụ: email@example.com",
+    "customer_type": "Loại khách",
+    "goal_type": "Nhu cầu",
+    "budget_min": "Ngân sách tối thiểu",
+    "budget_max": "Ngân sách tối đa",
+    "status": "Trạng thái",
+    "summary": "Tóm tắt / Ghi chú",
+    "summary_placeholder": "Ghi chú ngắn về khách hàng này..."
+  },
   "link": {
     "modal_title": "Gửi BĐS cho Khách hàng",
     "modal_subtitle": "Chọn một khách hàng để liên kết với BĐS này",
@@ -11,10 +48,41 @@
     "message_label": "Lời nhắn (Tùy chọn)",
     "message_placeholder": "Nhập lời nhắn gửi kèm..."
   },
+  "constants": {
+    "type_buyer": "Người mua",
+    "type_seller": "Người bán",
+    "type_renter": "Người thuê",
+    "type_landlord": "Chủ nhà",
+    "goal_buy": "Mua",
+    "goal_sell": "Bán",
+    "goal_rent": "Thuê",
+    "goal_lease": "Cho thuê",
+    "status_new": "Mới",
+    "status_contacted": "Đã liên hệ",
+    "status_qualified": "Đạt yêu cầu",
+    "status_closed": "Chốt deal",
+    "status_archived": "Đã lưu trữ"
+  },
   "messages": {
+    "create_success": "Thêm khách hàng thành công",
+    "create_error": "Lỗi khi thêm khách hàng",
+    "update_success": "Cập nhật khách hàng thành công",
+    "update_error": "Lỗi khi cập nhật",
+    "delete_success": "Xóa khách hàng thành công",
+    "delete_error": "Lỗi khi xóa",
+    "delete_confirm_title": "Xác nhận Xóa",
+    "delete_confirm_desc": "Bạn có chắc chắn muốn xóa khách hàng này? Thao tác này không thể hoàn tác",
+    "interaction_success": "Đã thêm tương tác",
+    "interaction_error": "Lỗi khi thêm tương tác",
     "link_success": "Đã gửi BĐS cho khách hàng",
     "link_error": "Lỗi khi gửi BĐS",
     "unlink_success": "Đã hủy liên kết BĐS",
     "unlink_error": "Lỗi khi hủy liên kết"
+  },
+  "validation": {
+    "name_invalid": "Tên khách hàng không hợp lệ",
+    "phone_invalid": "Số điện thoại không hợp lệ",
+    "email_invalid": "Email không hợp lệ",
+    "budget_invalid": "Giá tối đa phải lớn hơn hoặc bằng giá tối thiểu"
   }
 }

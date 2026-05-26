@@ -2,14 +2,13 @@ import React, { useState } from "react"
 import { MapPin, SquareDashed, ImageOff, Info, MoreHorizontal, Clock } from "lucide-react"
 import { ATTRIBUTE_CONFIG, EXCLUDED_CARD_ATTRIBUTES } from "@/constants/listing"
 
-import { Skeleton, Badge } from "@/components/ui"
+import { Badge } from "@/components/ui"
 import { cn } from "@/lib/utils"
 import { formatListingType, formatPropertyType, formatListingPrice, formatListingStatus, formatShortAddress, formatLocalizedAddress } from "@/utils/listing-formatter"
 import { formatShortDateTime } from "@/utils/date-formatter"
 import { useTranslation } from "react-i18next"
 import { Button, Tag, Tooltip, ListingBadge } from "@/components/atoms"
-import { ConfirmAction } from "@/components/molecules"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
+import { ConfirmAction, ActionDropdown } from "@/components/molecules"
 import type { PropertyItemData, PropertyAction } from "@/types/ui/property"
 
 export type { PropertyAction }
@@ -96,8 +95,10 @@ export const PropertyCard = ({
             "absolute top-2 right-2 transition-opacity duration-200 z-10",
             isDropdownOpen ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           )}>
-            <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
-              <DropdownMenuTrigger asChild>
+            <ActionDropdown 
+              actions={secondaryActions}
+              onOpenChange={setIsDropdownOpen}
+              trigger={
                 <Button 
                   variant="ghost" 
                   size="icon" 
@@ -106,48 +107,8 @@ export const PropertyCard = ({
                 >
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                {secondaryActions.map((action) => {
-                  const Icon = action.icon
-                  const item = (
-                    <DropdownMenuItem 
-                      key={action.id}
-                      className={cn("cursor-pointer", action.variant === "destructive" && "text-destructive focus:text-destructive focus:bg-destructive/10")}
-                      onSelect={(e) => {
-                        if (action.confirmTitle) {
-                          e.preventDefault()
-                        }
-                      }}
-                      onClick={(e) => {
-                        if (!action.confirmTitle) {
-                          action.onClick?.(e)
-                        }
-                      }}
-                    >
-                      {Icon && <Icon className="mr-2 h-4 w-4" />}
-                      {action.label}
-                    </DropdownMenuItem>
-                  )
-
-                  if (action.confirmTitle) {
-                    return (
-                      <ConfirmAction
-                        key={action.id}
-                        title={action.confirmTitle}
-                        description={action.confirmDescription}
-                        onConfirm={() => action.onClick?.({} as React.MouseEvent)}
-                        confirmVariant={action.variant === "destructive" ? "destructive" : "solid"}
-                      >
-                        {item}
-                      </ConfirmAction>
-                    )
-                  }
-
-                  return item
-                })}
-              </DropdownMenuContent>
-            </DropdownMenu>
+              }
+            />
           </div>
         )}
       </div>
@@ -279,42 +240,15 @@ export const PropertyCard = ({
   )
 }
 
+import { CardSkeleton } from "./card"
+
 export const PropertyCardSkeleton = ({ className, withActions = false }: { className?: string, withActions?: boolean }) => {
   return (
-    <div className={cn("flex flex-col gap-3 rounded-xl border bg-card p-3 w-full h-full", className)}>
-      <div className="relative aspect-[4/3] w-full rounded-md overflow-hidden">
-        <Skeleton className="w-full h-full" />
-        <div className="absolute top-2 left-2 flex gap-1.5">
-          <Skeleton className="h-5 w-24 rounded-sm" />
-        </div>
-        <div className="absolute bottom-2 right-2">
-          <Skeleton className="h-6 w-24" />
-        </div>
-      </div>
-      <div className="flex flex-col gap-1.5 mt-1 flex-1">
-        <Skeleton className="h-3 w-32 mb-0.5" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-4/5" />
-        <div className="flex items-center gap-1 mt-1">
-          <Skeleton className="size-3.5 rounded-full" />
-          <Skeleton className="h-3 w-2/3" />
-        </div>
-        <div className="flex gap-1 mt-1">
-          <Skeleton className="h-4 w-16" />
-          <Skeleton className="h-4 w-14" />
-        </div>
-      </div>
-      <div className="h-px w-full bg-border/60 mt-1" />
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-1.5"><Skeleton className="size-3.5 rounded-full" /><Skeleton className="h-3 w-4" /></div>
-        <div className="flex items-center gap-1.5"><Skeleton className="size-3.5 rounded-full" /><Skeleton className="h-3 w-4" /></div>
-        <div className="flex items-center gap-1.5"><Skeleton className="size-3.5 rounded-full" /><Skeleton className="h-3 w-8" /></div>
-      </div>
-      {withActions && (
-        <div className="pt-2 mt-auto flex w-full">
-          <Skeleton className="h-9 w-full rounded-md" />
-        </div>
-      )}
-    </div>
+    <CardSkeleton 
+      className={className} 
+      hasImage={true} 
+      textLines={5} 
+      hasActions={withActions} 
+    />
   )
 }

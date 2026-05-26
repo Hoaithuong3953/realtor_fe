@@ -1,12 +1,10 @@
 import { type ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui"
 import { ImageOff } from "lucide-react"
-import { Button } from "@/components/atoms"
 import { DataTable } from "@/components/organisms/common/data-table"
-import { Dropdown } from "@/components/molecules/dropdown"
+import { ActionDropdown } from "@/components/molecules"
 import { ListingBadge } from "@/components/atoms"
 import { useTranslation } from "react-i18next"
-import { MoreHorizontal } from "lucide-react"
 import { formatListingType, formatPropertyType, formatListingPrice, formatListingStatus, formatShortAddress, formatLocalizedAddress } from "@/utils/listing-formatter"
 import { formatShortDateTime } from "@/utils/date-formatter"
 import type { PropertyItemData, PropertyAction } from "@/types/ui/property"
@@ -134,31 +132,9 @@ export const PropertiesTable = ({
       header: t("list.table_actions"),
       cell: ({ row }) => {
         const property = row.original
+        const rowActions = actions ? actions(property) : []
 
-        const rowActions = actions
-          ? actions(property).map((action) => ({
-              id: action.id,
-              label: action.label,
-              icon: action.icon,
-              onClick: action.onClick,
-              danger: action.variant === "destructive",
-
-              confirmTitle: action.confirmTitle,
-              confirmDescription: action.confirmDescription,
-            }))
-          : []
-
-        return (
-          <Dropdown
-            items={rowActions}
-            trigger={
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Mở menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            }
-          />
-        )
+        return <ActionDropdown actions={rowActions} />
       },
     }
   ]

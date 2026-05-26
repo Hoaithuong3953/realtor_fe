@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useTranslation } from "react-i18next"
 import { userService } from "@/services/user.service"
 import type { UserCreate, UserUpdate } from "@/types/api/user"
 
@@ -19,8 +20,12 @@ export const useUsersQuery = (params: { limit?: number; offset?: number } = {}) 
 
 export const useCreateUserMutation = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation("user")
   return useMutation({
     mutationFn: (payload: UserCreate) => userService.createUser(payload),
+    meta: {
+      customErrorMsg: t("messages.create_error")
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),
@@ -31,9 +36,13 @@ export const useCreateUserMutation = () => {
 
 export const useUpdateUserMutation = (id: number) => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation("user")
   return useMutation({
     mutationFn: (payload: UserUpdate) =>
       userService.updateUser(id, payload),
+    meta: {
+      customErrorMsg: t("messages.update_error")
+    },
     onSuccess: (updatedUser) => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),
@@ -48,8 +57,12 @@ export const useUpdateUserMutation = (id: number) => {
 
 export const useDeleteUserMutation = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation("user")
   return useMutation({
     mutationFn: (id: number) => userService.deleteUser(id),
+    meta: {
+      customErrorMsg: t("messages.delete_error")
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),

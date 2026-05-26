@@ -18,7 +18,7 @@ function getHttpStatus(error: unknown): number {
 /**
  * Parses raw Axios errors and normalizes them into a clean NormalizedError object for the UI
  */
-export function handleApiError(error: unknown, showToast = true): NormalizedError {
+export function handleApiError(error: unknown, showToast = true, customFallbackMsg?: string, overrideErrorMsg?: string): NormalizedError {
   const statusCode = getHttpStatus(error);
   let fieldErrors: Record<string, boolean> | undefined = undefined;
   let message = "Unknown error";
@@ -27,6 +27,11 @@ export function handleApiError(error: unknown, showToast = true): NormalizedErro
   // Check if it is a network error returned by Axios
   if (isAxiosError<unknown>(error)) {
     const errorData = error.response?.data as Record<string, unknown> | undefined;
+    
+    // Centralized logging for all API errors (for dev debugging)
+    const method = error.config?.method?.toUpperCase() || 'UNKNOWN';
+    const url = error.config?.url || 'UNKNOWN_URL';
+    logger.error(`[API Error] ${method} ${url} (HTTP ${statusCode}):`, errorData || error.message);
     
     // Extract message from BaseResponse
     if (errorData?.message && typeof errorData.message === "string") {
@@ -63,24 +68,35 @@ export function handleApiError(error: unknown, showToast = true): NormalizedErro
 
   // Security: Sanitize error messages for 5xx
   let displayMessage = message;
-  if (isServerError) {
-    // Log the real backend error to console for devs
-    logger.error(`[Sanitized] Real Backend Error (HTTP ${statusCode}):`, message);
-    
+  const isGenericMessage = message === "Unknown error" || message.startsWith("Request failed with status code");
+
+  if (overrideErrorMsg) {
+    // If the hook explicitly wants to force an error message (like in Auth to prevent enumeration)
+    displayMessage = overrideErrorMsg;
+  } else if (isServerError) {
     // Override user-facing message with safe text
-    displayMessage = i18n.t("errors.500");
+    displayMessage = customFallbackMsg || i18n.t("errors.500");
   } else {
-    // For 4xx errors, check a predefined translation for this status code
-    const i18nKey = `errors.${statusCode}`;
-    const translatedMsg = i18n.t(i18nKey);
-    // If translation exists and is not the key itself
-    if (translatedMsg && translatedMsg !== i18nKey) {
-      displayMessage = translatedMsg;
+    // Force generic translation for sensitive status codes (401/403) to prevent custom fallback masking
+    if (statusCode === 401 || statusCode === 403) {
+      const i18nKey = `errors.${statusCode}`;
+      const translatedMsg = i18n.t(i18nKey);
+      displayMessage = (translatedMsg && translatedMsg !== i18nKey) ? translatedMsg : message;
+    } else if (isGenericMessage) {
+      if (customFallbackMsg) {
+        displayMessage = customFallbackMsg;
+      } else {
+        const i18nKey = `errors.${statusCode}`;
+        const translatedMsg = i18n.t(i18nKey);
+        if (translatedMsg && translatedMsg !== i18nKey) {
+          displayMessage = translatedMsg;
+        }
+      }
     }
   }
 
   if (showToast) {
-    toast.error(displayMessage);
+    toast.error(displayMessage, { id: displayMessage });
   }
 
   return new NormalizedError(statusCode, displayMessage, fieldErrors, error instanceof NormalizedError ? error.raw : error);

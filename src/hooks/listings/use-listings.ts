@@ -2,8 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
 import { listingService, type GetListingsParams } from "@/services/listing.service"
-import { handleApiError } from "@/utils/error-handler"
-import { logger } from "@/utils/logger"
 import type { ListingStatus, ListingCreate, ListingUpdate } from "@/types/api"
 
 export const LISTING_QUERY_KEYS = {
@@ -48,16 +46,15 @@ export const useUpdateListingStatusMutation = () => {
   return useMutation({
     mutationFn: ({id, status}: {id: string | number; status: ListingStatus}) =>
       listingService.updateStatus(id, status),
+    meta: {
+      customErrorMsg: t("messages.status_update_error")
+    },
     onSuccess: (data, variables) => {
       // Optimistically update the detail view if cached
       queryClient.setQueryData(LISTING_QUERY_KEYS.detail(variables.id), data)
       void queryClient.invalidateQueries({queryKey: LISTING_QUERY_KEYS.lists()})
       toast.success(t("messages.status_update_success"))
     },
-    onError: (error) => {
-      logger.error("Update listing status failed", handleApiError(error, false))
-    },
-    meta: {errorMessage: false}
   })
 }
 
@@ -70,15 +67,13 @@ export const useDeleteListingMutation = () => {
 
   return useMutation({
     mutationFn: listingService.deleteListing,
+    meta: {
+      customErrorMsg: t("messages.delete_error")
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({queryKey: LISTING_QUERY_KEYS.lists()})
       toast.success(t("messages.delete_success"))
     },
-    onError: (error) => {
-      logger.error("Delete listing failed", handleApiError(error, false))
-      toast.error(t("messages.delete_error"))
-    },
-    meta: {errorMessage: false}
   })
 }
 
@@ -91,15 +86,13 @@ export const useCreateListingMutation = () => {
 
   return useMutation({
     mutationFn: (data: ListingCreate) => listingService.createListing(data),
+    meta: {
+      customErrorMsg: t("messages.create_error")
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
       toast.success(t("messages.create_success"))
     },
-    onError: (error) => {
-      logger.error("Create listing failed", handleApiError(error, false))
-      toast.error(t("messages.create_error"))
-    },
-    meta: { errorMessage: false }
   })
 }
 
@@ -113,16 +106,14 @@ export const useUpdateListingMutation = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: string | number; data: ListingUpdate }) =>
       listingService.updateListing(id, data),
+    meta: {
+      customErrorMsg: t("messages.update_error")
+    },
     onSuccess: (data, variables) => {
       // Optimistically update the detail view if cached
       queryClient.setQueryData(LISTING_QUERY_KEYS.detail(variables.id), data)
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
       toast.success(t("messages.update_success"))
     },
-    onError: (error) => {
-      logger.error("Update listing failed", handleApiError(error, false))
-      toast.error(t("messages.update_error"))
-    },
-    meta: { errorMessage: false }
   })
 }

@@ -40,12 +40,12 @@ export const useCreateClientMutation = () => {
 
   return useMutation({
     mutationFn: (data: ClientCreate) => clientService.createClient(data),
+    meta: {
+      customErrorMsg: t("messages.create_error")
+    },
     onSuccess: () => {
       toast.success(t("messages.create_success"))
       void queryClient.invalidateQueries({ queryKey: CLIENT_KEYS.lists() })
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || t("messages.create_error"))
     },
   })
 }
@@ -56,13 +56,13 @@ export const useUpdateClientMutation = (id: string | number) => {
 
   return useMutation({
     mutationFn: (data: ClientUpdate) => clientService.updateClient(id, data),
+    meta: {
+      customErrorMsg: t("messages.update_error")
+    },
     onSuccess: () => {
       toast.success(t("messages.update_success"))
       void queryClient.invalidateQueries({ queryKey: CLIENT_KEYS.detail(id) })
       void queryClient.invalidateQueries({ queryKey: CLIENT_KEYS.lists() })
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || t("messages.update_error"))
     },
   })
 }
@@ -73,12 +73,12 @@ export const useDeleteClientMutation = () => {
 
   return useMutation({
     mutationFn: (id: string | number) => clientService.deleteClient(id),
+    meta: {
+      customErrorMsg: t("messages.delete_error")
+    },
     onSuccess: () => {
       toast.success(t("messages.delete_success"))
       void queryClient.invalidateQueries({ queryKey: CLIENT_KEYS.lists() })
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || t("messages.delete_error"))
     },
   })
 }
@@ -97,12 +97,12 @@ export const useCreateInteractionMutation = (id: string | number) => {
 
   return useMutation({
     mutationFn: (data: ClientInteractionCreate) => clientService.createInteraction(id, data),
+    meta: {
+      customErrorMsg: t("messages.interaction_error")
+    },
     onSuccess: () => {
       toast.success(t("messages.interaction_success"))
       void queryClient.invalidateQueries({ queryKey: CLIENT_KEYS.timeline(id) })
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || t("messages.interaction_error"))
     },
   })
 }
@@ -130,12 +130,12 @@ export const useLinkListingMutation = (id: string | number) => {
   return useMutation({
     mutationFn: ({ listingId, message }: { listingId: string | number; message?: string }) => 
       clientService.linkListing(id, listingId, message),
+    meta: {
+      customErrorMsg: t("messages.link_error")
+    },
     onSuccess: () => {
       toast.success(t("messages.link_success"))
       void queryClient.invalidateQueries({ queryKey: CLIENT_KEYS.listing(id) })
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || t("messages.link_error"))
     },
   })
 }
@@ -146,12 +146,12 @@ export const useUnlinkListingMutation = (id: string | number) => {
 
   return useMutation({
     mutationFn: (listingId: string | number) => clientService.unlinkListing(id, listingId),
+    meta: {
+      customErrorMsg: t("messages.unlink_error")
+    },
     onSuccess: () => {
       toast.success(t("messages.unlink_success"))
       void queryClient.invalidateQueries({ queryKey: CLIENT_KEYS.listing(id) })
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || t("messages.unlink_error"))
     },
   })
 }

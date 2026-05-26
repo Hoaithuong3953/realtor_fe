@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { paths } from "@/routes/paths";
 import { authService } from "@/services/auth.service";
 import { useAuthStore } from "@/store/auth.store";
-import { handleApiError } from "@/utils/error-handler";
 import { logger } from "@/utils/logger";
 
 /** 
@@ -19,18 +18,14 @@ export const useLoginMutation = () => {
 
     return useMutation({
         mutationFn: authService.login,
+        meta: { overrideErrorMsg: t("login.error_msg") },
         onSuccess: (data) => {
             const {user, tokens} = data
             setLoginSuccess(user, tokens.access_token)
             logger.info("User logged in successfully", { email: user.email, userId: user.id });
             toast.success(t("login.success_msg"))
             void navigate(paths.home)
-        },
-        onError: (error) => {
-            logger.error("Login failed", handleApiError(error, false))
-            toast.error(t("login.error_msg"))
-        },
-        meta: { errorMessage: false }
+        }
     })
 }
 
@@ -47,19 +42,18 @@ export const useLogoutMutation = () => {
         mutationFn: async () => {
             await authService.logout()
         },
+        meta: { overrideErrorMsg: t("logout.error_msg") },
         onSuccess: () => {
             queryClient.clear()
             logout()
             toast.success(t("logout.success_msg"))
             void navigate(paths.auth.login)
         },
-        onError: (error) => {
+        onError: () => {
             queryClient.clear()
             logout()
-            logger.error("Logout failed, but user session cleared", handleApiError(error, false))
             void navigate(paths.auth.login)
-        },
-        meta: { errorMessage: false }
+        }
     })
 }
 
@@ -85,14 +79,10 @@ export const useForgotPasswordMutation = () => {
 
   return useMutation({
     mutationFn: authService.forgotPassword,
+    meta: { overrideErrorMsg: t("forgot_password.error_msg") },
     onSuccess: () => {
       toast.success(t("forgot_password.success_msg"));
-    },
-    onError: (error) => {
-      logger.error("Forgot password API failed", handleApiError(error, false));
-      toast.error(t("forgot_password.error_msg"));
-    },
-    meta: { errorMessage: false }
+    }
   });
 };
 
@@ -105,14 +95,10 @@ export const useResetPasswordMutation = () => {
 
   return useMutation({
     mutationFn: authService.resetPassword,
+    meta: { overrideErrorMsg: t("reset_password.error_msg") },
     onSuccess: () => {
       toast.success(t("reset_password.success_msg"));
       void navigate(paths.auth.login);
-    },
-    onError: (error) => {
-      logger.error("Reset password API failed", handleApiError(error, false));
-      toast.error(t("reset_password.error_msg"));
-    },
-    meta: { errorMessage: false }
+    }
   });
 };

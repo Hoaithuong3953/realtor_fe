@@ -1,3 +1,8 @@
+export const CLIENT_STATUSES = ["new", "qualified", "contacted", "closed", "archived"] as const;
+export const CLIENT_INTERACTION_TYPES = ["note", "call", "email", "message", "follow_up"] as const;
+export const CLIENT_TYPES = ["buyer", "seller", "renter", "landlord"] as const;
+export const CLIENT_GOAL_TYPES = ["buy", "sell", "rent", "lease"] as const;
+
 export interface ClientContextResponse {
   summary?: string | null;
   preference_json?: Record<string, unknown>;
@@ -9,24 +14,24 @@ export interface ClientCreate {
   full_name: string;
   phone?: string | null;
   email?: string | null;
-  customer_type?: string;
-  goal_type?: string;
+  customer_type?: ClientType;
+  goal_type?: ClientGoalType;
   budget_min?: number | null;
   budget_max?: number | null;
-  status?: "new" | "qualified" | "contacted" | "closed" | "archived";
+  status?: ClientStatus;
   summary?: string | null;
   preference_json?: Record<string, unknown>;
   interaction_json?: Record<string, unknown>;
 }
 
 export interface ClientInteractionCreate {
-  type: "note" | "call" | "email" | "message" | "follow_up";
+  type: ClientInteractionType;
   content: string;
   metadata?: Record<string, unknown>;
 }
 
 export interface ClientInteractionEvent {
-  type: "note" | "call" | "email" | "message" | "follow_up";
+  type: ClientInteractionType;
   content: string;
   actor_user_id: number;
   tenant_id: number;
@@ -51,11 +56,11 @@ export interface ClientResponse {
   full_name: string;
   phone?: string | null;
   email?: string | null;
-  customer_type?: string;
-  goal_type?: string;
+  customer_type?: ClientType;
+  goal_type?: ClientGoalType;
   budget_min?: number | null;
   budget_max?: number | null;
-  status?: "new" | "qualified" | "contacted" | "closed" | "archived";
+  status?: ClientStatus;
   summary?: string | null;
   preference_json?: Record<string, unknown>;
   interaction_json?: Record<string, unknown>;
@@ -87,12 +92,17 @@ export interface ClientUpdate {
   full_name?: string | null;
   phone?: string | null;
   email?: string | null;
-  customer_type?: string | null;
-  goal_type?: string | null;
+  customer_type?: ClientType | null;
+  goal_type?: ClientGoalType | null;
   budget_min?: number | null;
   budget_max?: number | null;
-  status?: "new" | "qualified" | "contacted" | "closed" | "archived" | null;
+  status?: ClientStatus | null;
   summary?: string | null;
   preference_json?: Record<string, unknown> | null;
   interaction_json?: Record<string, unknown> | null;
 }
+
+export type ClientStatus = typeof CLIENT_STATUSES[number]
+export type ClientInteractionType = typeof CLIENT_INTERACTION_TYPES[number]
+export type ClientType = typeof CLIENT_TYPES[number];
+export type ClientGoalType = typeof CLIENT_GOAL_TYPES[number];

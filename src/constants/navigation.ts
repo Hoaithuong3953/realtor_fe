@@ -31,31 +31,20 @@ export const navigationConfig: NavGroup[] = [
     items: [
       {
         title: "nav.properties",
-        url: paths.dashboard.properties,
+        url: paths.dashboard.properties.root,
         icon: Building2,
         items: [
-          { title: "nav.properties_list", url: paths.dashboard.properties },
+          { title: "nav.properties_list", url: paths.dashboard.properties.root },
           {
             title: "nav.properties_create",
-            url: `${paths.dashboard.properties}/create`,
-          },
-          {
-            title: "nav.properties_import",
-            url: `${paths.dashboard.properties}/import-jobs`,
+            url: paths.dashboard.properties.create,
           },
         ],
       },
       {
         title: "nav.clients",
-        url: paths.dashboard.clients,
+        url: paths.dashboard.clients.root,
         icon: Users,
-        items: [
-          { title: "nav.clients_list", url: paths.dashboard.clients },
-          {
-            title: "nav.clients_create",
-            url: `${paths.dashboard.clients}/create`,
-          },
-        ],
       },
     ],
   },

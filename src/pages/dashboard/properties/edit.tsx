@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useTranslation } from "react-i18next"
 import { useUpdateListingMutation, useListingDetailQuery } from "@/hooks/listings/use-listings"
 import { PropertyForm } from "@/components/organisms/listings"
 import { type ListingFormValues } from "@/schemas/listing.schema"
@@ -10,7 +9,6 @@ import { LoadingScreen } from "@/components/molecules"
 export default function PropertiesEditPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { t } = useTranslation(["listing"])
   
   const { data: listing, isLoading } = useListingDetailQuery(id as string)
   const { mutate, isPending } = useUpdateListingMutation()

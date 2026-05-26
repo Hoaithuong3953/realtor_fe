@@ -1,0 +1,20 @@
+{
+  "link": {
+    "modal_title": "Gửi BĐS cho Khách hàng",
+    "modal_subtitle": "Chọn một khách hàng để liên kết với BĐS này",
+    "client_label": "Khách hàng",
+    "search_placeholder": "Tìm khách hàng...",
+    "search_empty": "Không tìm thấy khách hàng",
+    "already_linked_warning": "Bất động sản này đã được gửi cho khách hàng này trước đó. Bạn có chắc muốn gửi lại?",
+    "link_btn": "Gửi BĐS",
+    "linking_btn": "Đang gửi...",
+    "message_label": "Lời nhắn (Tùy chọn)",
+    "message_placeholder": "Nhập lời nhắn gửi kèm..."
+  },
+  "messages": {
+    "link_success": "Đã gửi BĐS cho khách hàng",
+    "link_error": "Lỗi khi gửi BĐS",
+    "unlink_success": "Đã hủy liên kết BĐS",
+    "unlink_error": "Lỗi khi hủy liên kết"
+  }
+}

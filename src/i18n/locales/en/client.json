@@ -1,0 +1,20 @@
+{
+  "link": {
+    "modal_title": "Send Property to Client",
+    "modal_subtitle": "Select a client to link this property to",
+    "client_label": "Client",
+    "search_placeholder": "Search clients...",
+    "search_empty": "No clients found",
+    "already_linked_warning": "This property was already sent to this client. Are you sure you want to send again?",
+    "link_btn": "Send Property",
+    "linking_btn": "Sending...",
+    "message_label": "Message (Optional)",
+    "message_placeholder": "Enter a message to attach..."
+  },
+  "messages": {
+    "link_success": "Property sent to client successfully",
+    "link_error": "Failed to send property",
+    "unlink_success": "Property unlinked successfully",
+    "unlink_error": "Failed to unlink property"
+  }
+}

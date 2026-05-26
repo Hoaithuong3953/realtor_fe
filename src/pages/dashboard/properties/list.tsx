@@ -1,15 +1,17 @@
 import { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { Plus } from "lucide-react"
+import { Plus, Send} from "lucide-react"
 import { Link, useNavigate, generatePath } from "react-router-dom"
 import { paths } from "@/routes/paths"
 import { useAppStore } from "@/store/app.store"
 import { useListingsQuery, useDeleteListingMutation, useUpdateListingStatusMutation } from "@/hooks/listings/use-listings"
+import { useClientsQuery, useClientListingsQuery, useLinkListingMutation } from "@/hooks/use-clients"
 import { useQueryParams } from "@/hooks/use-query-params"
 
 import { Button } from "@/components/atoms"
 import { PropertyDetailModal, PropertiesFilterBar, PropertiesView } from "@/components/organisms/listings"
 import { type ListingResponse, LISTING_TYPES, PROPERTY_TYPES, LISTING_STATUSES } from "@/types/api"
+import { LinkClientModal } from "@/components/organisms/listings"
 
 
 export default function PropertiesPage() {
@@ -19,6 +21,32 @@ export default function PropertiesPage() {
   
   const { apiParams, search, setSearch, setPage, filters, setFilters } = useQueryParams({ defaultSort: "updated_at_desc" })
   const [selectedListing, setSelectedListing] = useState<ListingResponse | null>(null)
+  const [linkListingId, setLinkListingId] = useState<number | null>(null)
+  const [selectedClientId, setSelectedClientId] = useState<string>("")
+
+  const { data: clientsData, isLoading: isClientsLoading } = useClientsQuery({ limit: 100 }, !!linkListingId)
+  
+  const { data: clientListings, isLoading: isCheckingLink } = useClientListingsQuery(
+    selectedClientId ? Number(selectedClientId) : undefined,
+    !!selectedClientId && !!linkListingId
+  )
+
+  const isAlreadyLinked = useMemo(() => {
+    if (!clientListings || !linkListingId) return false;
+    return clientListings.some(item => item.listing_id === linkListingId);
+  }, [clientListings, linkListingId])
+
+  const { mutate: linkListing, isPending: isLinking } = useLinkListingMutation(Number(selectedClientId))
+
+  const handleLinkSubmit = (message: string) => {
+    if (!selectedClientId || !linkListingId) return
+    linkListing({ listingId: linkListingId, message }, {
+      onSuccess: () => {
+        setLinkListingId(null)
+        setSelectedClientId("")
+      }
+    })
+  }
 
   const handleClearFilters = () => {
     setSearch("")
@@ -123,7 +151,37 @@ export default function PropertiesPage() {
         open={!!selectedListing}
         onOpenChange={(open) => !open && setSelectedListing(null)}
         listing={selectedListing}
+        footerActions={
+          <Button
+            variant="solid"
+            onClick={() => setLinkListingId(selectedListing?.id || null)}
+          >
+            <Send className="w-4 h-4 mr-2" />
+            {t("list.action_send_to_client")}
+          </Button>
+        }
       />
+
+      {linkListingId && (
+        <LinkClientModal
+          open={!!linkListingId}
+          onOpenChange={(open) => {
+            if (!open) {
+              setLinkListingId(null)
+              setSelectedClientId("")
+            }
+          }}
+          listingId={linkListingId}
+          clients={clientsData?.items || []}
+          isClientsLoading={isClientsLoading}
+          selectedClientId={selectedClientId}
+          onClientSelect={setSelectedClientId}
+          isCheckingLink={isCheckingLink}
+          isAlreadyLinked={isAlreadyLinked}
+          isPending={isLinking}
+          onSubmit={handleLinkSubmit}
+        />
+      )}
     </div>
   )
 }

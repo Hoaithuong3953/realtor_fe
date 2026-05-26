@@ -21,4 +21,13 @@ export const API_ENDPOINTS = {
     DETAIL: (id: string | number) => `/listings/${id}`,
     STATUS: (id: string | number) => `/listings/${id}/status`,
   },
+  CLIENTS: {
+    ROOT: "/clients",
+    DETAIL: (id: string | number) => `/clients/${id}`,
+    TIMELINE: (id: string | number) => `/clients/${id}/timeline`,
+    INTERACTIONS: (id: string | number) => `/clients/${id}/interactions`,
+    LISTINGS: (id: string | number) => `/clients/${id}/listings`,
+    LINK_LISTING: (id: string | number, listingId: string | number) => `/clients/${id}/listings/${listingId}`,
+    CONTEXT: (id: string | number) => `/clients/${id}/context`,
+  },
 } as const;

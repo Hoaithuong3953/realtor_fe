@@ -1,0 +1,49 @@
+{
+  "list": {
+    "title": "Quản lý Người dùng",
+    "subtitle": "Quản lý tài khoản, phân quyền và trạng thái nhân sự trong hệ thống",
+    "add_new_btn": "Thêm người dùng",
+    "search_placeholder": "Tìm kiếm theo email, tên...",
+    "table_full_name": "Họ và tên",
+    "table_email": "Email",
+    "table_phone": "Số điện thoại",
+    "table_role": "Vai trò",
+    "table_status": "Trạng thái",
+    "table_actions": "Thao tác"
+  },
+  "form": {
+    "title_add": "Thêm người dùng mới",
+    "title_edit": "Chỉnh sửa người dùng",
+    "full_name": "Họ và tên",
+    "full_name_placeholder": "Nhập họ và tên...",
+    "email": "Email",
+    "email_placeholder": "example@domain.com",
+    "password": "Mật khẩu",
+    "password_placeholder": "Nhập mật khẩu...",
+    "phone": "Số điện thoại",
+    "phone_placeholder": "Nhập số điện thoại...",
+    "role": "Vai trò (Role)",
+    "role_placeholder": "Chọn vai trò",
+    "role_loading": "Đang tải...",
+    "status": "Trạng thái",
+    "empty_phone": "Trống"
+  },
+  "messages": {
+    "delete_confirm_title": "Xác nhận xóa",
+    "delete_confirm_desc": "Bạn có chắc chắn muốn xóa người dùng này? Thao tác này không thể hoàn tác"
+  },
+  "validation": {
+    "name_invalid": "Vui lòng nhập họ và tên",
+    "email_invalid": "Email không hợp lệ",
+    "password_min": "Mật khẩu phải có ít nhất 8 ký tự",
+    "phone_invalid": "Số điện thoại không hợp lệ"
+  },
+  "constants": {
+    "status_active": "Hoạt động",
+    "status_inactive": "Tạm khóa",
+    "status_locked": "Bị khóa",
+    "role_super_admin": "Quản trị viên cấp cao",
+    "role_tenant_admin": "Quản trị đại lý",
+    "role_broker": "Môi giới"
+  }
+}

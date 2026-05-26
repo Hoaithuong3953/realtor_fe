@@ -1,0 +1,28 @@
+{
+  "matrix": {
+    "title": "System Permission Matrix",
+    "description": "Detailed static permission table by Role level",
+    "resource": "Resource",
+    "actions": {
+      "read": "Read",
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "manage": "Manage"
+    },
+    "resources": {
+      "tenant": "System (Tenant)",
+      "user": "Personnel (User)",
+      "role": "Roles (Role)",
+      "listing": "Properties (Listing)",
+      "client": "Clients (Client)",
+      "search": "Search (Search)",
+      "chat": "Conversations (Chat)"
+    },
+    "roles": {
+      "SUPER_ADMIN": "Super Admin",
+      "TENANT_ADMIN": "Tenant Admin",
+      "BROKER": "Broker"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "matrix": {
+    "title": "Ma trận phân quyền hệ thống",
+    "description": "Bảng chi tiết quyền hạn tĩnh theo từng cấp độ Role",
+    "resource": "Tài nguyên",
+    "actions": {
+      "read": "Xem",
+      "create": "Thêm",
+      "update": "Sửa",
+      "delete": "Xóa",
+      "manage": "Quản lý"
+    },
+    "resources": {
+      "tenant": "Hệ thống (Tenant)",
+      "user": "Nhân sự (User)",
+      "role": "Phân quyền (Role)",
+      "listing": "Bất động sản (Listing)",
+      "client": "Khách hàng (Client)",
+      "search": "Tìm kiếm (Search)",
+      "chat": "Hội thoại (Chat)"
+    },
+    "roles": {
+      "SUPER_ADMIN": "Super Admin",
+      "TENANT_ADMIN": "Tenant Admin",
+      "BROKER": "Broker"
+    }
+  }
+}

@@ -8,6 +8,7 @@ export type PropertyAction = {
   onClick?: (e: React.MouseEvent) => void
   confirmTitle?: string
   confirmDescription?: string
+  isPrimary?: boolean
 }
 
 export type PropertyItemData = {
@@ -21,10 +22,19 @@ export type PropertyItemData = {
   area?: number
   media?: Array<{ url: string; [key: string]: unknown }>
   tags?: string[]
+  updated_at?: string
   attributes?: {
     rent_period?: string
     bedrooms?: number | string
     bathrooms?: number | string
     [key: string]: unknown
   }
+}
+
+export type AttributeConfigData = {
+  label: string;
+  shortLabel?: string;
+  icon?: React.ElementType;
+  type?: string;
+  placeholder?: string;
 }

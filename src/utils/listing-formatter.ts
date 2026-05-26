@@ -7,35 +7,26 @@ type PropertyType = NonNullable<ListingResponse["property_type"]>
 type ListingStatus = NonNullable<ListingResponse["status"]>
 type ListingType = NonNullable<ListingResponse["listing_type"]>
 
-const statusColorMap: Record<ListingStatus, string> = {
-  active: "bg-emerald-500/90",
-  draft: "bg-amber-500/90",
-  inactive: "bg-gray-500/90",
-};
+type BadgeVariant = "active" | "draft" | "inactive" | "sale" | "rent";
 
 export function formatPropertyType(type?: PropertyType, t?: TranslationFn): string {
   if (!type || !t) return "";
-  return t(`propertyType.${type}`);
+  return t(`constants.property_type_${type}`);
 }
 
-export function formatListingStatus(status?: ListingStatus, t?: TranslationFn): { label: string; className: string } | null {
+export function formatListingStatus(status?: ListingStatus, t?: TranslationFn): { label: string; listing: BadgeVariant } | null {
   if (!status || !t) return null;
   return { 
-    label: t(`status.${status}`), 
-    className: statusColorMap[status] || ""
+    label: t(`constants.status_${status}`), 
+    listing: status as BadgeVariant
   };
 }
 
-const listingTypeColorMap: Record<ListingType, string> = {
-  sale: "bg-success/90 text-success-foreground hover:bg-success",
-  rent: "bg-info/90 text-info-foreground hover:bg-info",
-};
-
-export function formatListingType(type?: ListingType, t?: TranslationFn): { label: string; className: string } | null {
+export function formatListingType(type?: ListingType, t?: TranslationFn): { label: string; listing: BadgeVariant } | null {
   if (!type || !t) return null;
   return {
-    label: t(`type.${type}`),
-    className: listingTypeColorMap[type] || ""
+    label: t(`constants.listing_type_${type}`),
+    listing: type as BadgeVariant
   };
 }
 
@@ -47,11 +38,61 @@ export function formatListingPrice(
   const basePrice = formatPrice(property.price, t, language);
   if (property.listing_type === "rent" && property.attributes?.rent_period) {
     if (property.attributes.rent_period === "month") {
-      return `${basePrice}${t("detail.units.per_month")}`;
+      return `${basePrice}${t("detail.per_month_unit")}`;
     }
     if (property.attributes.rent_period === "year") {
-      return `${basePrice}${t("detail.units.per_year")}`;
+      return `${basePrice}${t("detail.per_year_unit")}`;
     }
   }
   return basePrice;
+}
+
+export function formatShortAddress(address?: string | null): string {
+  if (!address) return "";
+  
+  const prefixes = [
+    "Số ", "số ",
+    "Thành phố ", "thành phố ", "TP.", "tp.", "TP ", "tp ",
+    "Tỉnh ", "tỉnh ",
+    "Quận ", "quận ", "Q.", "q.",
+    "Huyện ", "huyện ", "H.", "h.",
+    "Phường ", "phường ", "P.", "p.",
+    "Xã ", "xã ", "X.", "x."
+  ];
+
+  const parts = address.split(',').map(part => part.trim());
+  
+  const cleanParts = parts.map(part => {
+    let cleanPart = part;
+    for (const prefix of prefixes) {
+      if (cleanPart.toLowerCase().startsWith(prefix.toLowerCase())) {
+        cleanPart = cleanPart.substring(prefix.length).trim();
+      }
+    }
+    return cleanPart;
+  });
+
+  return cleanParts.filter(Boolean).join(', ');
+}
+
+export function formatLocalizedAddress(address?: string | null, language: string = "vi"): string {
+  if (!address) return "";
+  if (language === "vi") return address;
+
+  let result = address;
+  const replacements: Array<[RegExp, string]> = [
+    [/\b(Số|số)\s+/g, "No. "],
+    [/\b(Thành phố|thành phố|TP\.|tp\.|TP|tp)\s+([^,]+)/g, "$2 City"],
+    [/\b(Tỉnh|tỉnh)\s+([^,]+)/g, "$2 Province"],
+    [/\b(Quận|quận|Q\.|q\.)\s+([^,]+)/g, "$2 District"],
+    [/\b(Huyện|huyện|H\.|h\.)\s+([^,]+)/g, "$2 District"],
+    [/\b(Phường|phường|P\.|p\.)\s+([^,]+)/g, "$2 Ward"],
+    [/\b(Xã|xã|X\.|x\.)\s+([^,]+)/g, "$2 Ward"]
+  ];
+
+  replacements.forEach(([regex, replacement]) => {
+    result = result.replace(regex, replacement);
+  });
+
+  return result;
 }

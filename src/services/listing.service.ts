@@ -4,7 +4,9 @@ import type {
   ListingResponse, 
   ListingListResponse,
   ListingStatusUpdate,
-  ListingStatus
+  ListingStatus,
+  ListingCreate,
+  ListingUpdate
 } from "@/types/api"
 
 export type GetListingsParams = {
@@ -57,5 +59,23 @@ export const listingService = {
     const payload: ListingStatusUpdate = { status }
     const response = await apiClient.patch<ListingResponse>(API_ENDPOINTS.LISTINGS.STATUS(id), payload)
     return response.data
-  }
+  },
+
+  /**
+   * Create a new listing
+   * [POST] /listings
+   */
+  createListing: async (data: ListingCreate): Promise<ListingResponse> => {
+    const response = await apiClient.post<ListingResponse>(API_ENDPOINTS.LISTINGS.ROOT, data)
+    return response.data
+  },
+
+  /**
+   * Update an existing listing
+   * [PATCH] /listings/{id}
+   */
+  updateListing: async (id: number | string, data: ListingUpdate): Promise<ListingResponse> => {
+    const response = await apiClient.patch<ListingResponse>(API_ENDPOINTS.LISTINGS.DETAIL(id), data)
+    return response.data
+  },
 }

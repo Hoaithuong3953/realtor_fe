@@ -80,3 +80,34 @@ export function getDateGroupKey(dateString: string): "today" | "last7days" | "ol
     return "older"
   }
 }
+
+
+/**
+ * Formats date input into HH:mm DD/MM/YYYY
+ */
+export function formatShortDateTime(input?: string | number | Date | null): string {
+  if (!input) {
+    return "";
+  }
+  try {
+    const date = new Date(input);
+    if (isNaN(date.getTime())) {
+      return "";
+    }
+
+    const dateString = date.toLocaleDateString("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    const timeString = date.toLocaleTimeString("vi-VN", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return `${timeString} ${dateString}`;
+  } catch {
+    return "";
+  }
+}

@@ -30,4 +30,16 @@ export const API_ENDPOINTS = {
     LINK_LISTING: (id: string | number, listingId: string | number) => `/clients/${id}/listings/${listingId}`,
     CONTEXT: (id: string | number) => `/clients/${id}/context`,
   },
+  USERS: {
+    ROOT: "/users",
+    DETAIL: (id: string | number) => `/users/${id}`,
+    STATUS: (id: string | number) => `/users/${id}/status`,
+    ROLE: (id: string | number) => `/users/${id}/role`,
+  },
+  ROLES: {
+    ROOT: "/roles",
+    ME: "/roles/me",
+    USER: (id: string | number) => `/roles/users/${id}`,
+    DETAIL: (id: string | number) => `/roles/${id}`,
+  }
 } as const;

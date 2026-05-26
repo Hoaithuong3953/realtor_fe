@@ -12,7 +12,7 @@
     "delete": "Delete",
     "reset": "Reset",
     "search": "Search...",
-    "noResults": "No results found",
+    "no_results": "No results found",
     "previous": "Previous",
     "next": "Next",
     "save": "Save",
@@ -20,7 +20,16 @@
     "back": "Back",
     "go_back": "Go Back",
     "go_home": "Go Home",
-    "reload_page": "Reload Page"
+    "reload_page": "Reload Page",
+    "loading": "Loading...",
+    "no_data": "No data available"
+  },
+  "sort": {
+    "title": "Sort by",
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "name_asc": "Name (A-Z)",
+    "name_desc": "Name (Z-A)"
   },
   "errors": {
     "400": "Invalid request data. Please check and try again",

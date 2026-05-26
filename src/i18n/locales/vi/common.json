@@ -12,7 +12,7 @@
     "delete": "Xóa",
     "reset": "Làm mới",
     "search": "Tìm kiếm...",
-    "noResults": "Không có kết quả nào",
+    "no_results": "Không có kết quả nào",
     "previous": "Trước đó",
     "next": "Tiếp theo",
     "save": "Lưu",
@@ -20,7 +20,16 @@
     "back": "Quay lại",
     "go_back": "Quay lại trang trước",
     "go_home": "Về Trang chủ",
-    "reload_page": "Tải lại trang"
+    "reload_page": "Tải lại trang",
+    "loading": "Đang tải...",
+    "no_data": "Chưa có dữ liệu"
+  },
+  "sort": {
+    "title": "Sắp xếp theo",
+    "newest": "Mới nhất",
+    "oldest": "Cũ nhất",
+    "name_asc": "Tên (A-Z)",
+    "name_desc": "Tên (Z-A)"
   },
   "errors": {
     "400": "Dữ liệu yêu cầu không hợp lệ. Vui lòng kiểm tra lại",

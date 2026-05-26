@@ -35,26 +35,26 @@ export const Combobox = ({
 }: ComboboxProps) => {
   const { t } = useTranslation("common")
   const [inputValue, setInputValue] = React.useState("")
-  
+
   const finalPlaceholder = placeholder ?? t("actions.search")
-  const finalEmptyText = emptyText ?? t("actions.noResults")
+  const finalEmptyText = emptyText ?? t("actions.no_results")
 
   const filteredItems = React.useMemo(() => {
     if (!inputValue) return items
-    return items.filter(item => 
+    return items.filter(item =>
       item.label.toLowerCase().includes(inputValue.toLowerCase())
     )
   }, [items, inputValue])
 
   return (
-    <UICombobox 
-      value={value} 
-      onValueChange={onValueChange} 
+    <UICombobox
+      value={value}
+      onValueChange={onValueChange}
       disabled={disabled}
     >
-      <ComboboxInput 
-        placeholder={finalPlaceholder} 
-        className={className} 
+      <ComboboxInput
+        placeholder={finalPlaceholder}
+        className={className}
         disabled={disabled}
         value={inputValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}

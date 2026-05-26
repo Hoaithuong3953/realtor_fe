@@ -84,5 +84,41 @@
     "phone_invalid": "Invalid phone number",
     "email_invalid": "Invalid email format",
     "budget_invalid": "Maximum budget must be greater than or equal to minimum budget"
+  },
+  "detail": {
+    "title": "Client Details",
+    "tab_general": "General Info",
+    "tab_timeline": "Interaction Timeline",
+    "tab_listings": "Sent Listings",
+    "ai_assistant": "AI Assistant",
+    "contact_info": "Contact Info",
+    "requirements": "Requirements"
+  },
+  "timeline": {
+    "title": "Interaction Timeline",
+    "add_interaction": "Add new interaction",
+    "placeholder": "Enter interaction details...",
+    "empty_title": "No interactions yet",
+    "empty_desc": "Add notes or record calls/emails below to start tracking",
+    "loading": "Loading history...",
+    "btn_send": "Send",
+    "btn_sending": "Sending...",
+    "type_note": "Note",
+    "type_call": "Call",
+    "type_message": "Message",
+    "type_email": "Email",
+    "type_follow_up": "Follow-up"
+  },
+  "listings": {
+    "title": "Sent Listings",
+    "unlink_btn": "Unlink",
+    "unlink_confirm_title": "Confirm Unlink",
+    "unlink_confirm_desc": "Are you sure you want to remove this property from the client's sent list?",
+    "no_listings": "No properties have been sent to this client yet",
+    "no_listings_desc": "Switch to the Property Management section to find and send suitable listings for this client",
+    "property_id": "Property #{{id}}",
+    "status_sent": "Sent",
+    "sent_at": "Sent at: ",
+    "view_detail": "View Property Detail"
   }
 }

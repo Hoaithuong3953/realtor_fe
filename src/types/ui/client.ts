@@ -26,3 +26,9 @@ export type ClientAction = {
   confirmDescription?: string
   isPrimary?: boolean
 }
+
+export type ClientFieldConfig = {
+  key: keyof ClientFormData
+  label: string
+  format?: (value: unknown) => string | React.ReactNode
+}

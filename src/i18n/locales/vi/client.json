@@ -84,5 +84,41 @@
     "phone_invalid": "Số điện thoại không hợp lệ",
     "email_invalid": "Email không hợp lệ",
     "budget_invalid": "Giá tối đa phải lớn hơn hoặc bằng giá tối thiểu"
+  },
+  "detail": {
+    "title": "Chi tiết Khách hàng",
+    "tab_general": "Thông tin chung",
+    "tab_timeline": "Lịch sử tương tác",
+    "tab_listings": "BĐS đã gửi",
+    "ai_assistant": "Trợ lý AI",
+    "contact_info": "Thông tin liên hệ",
+    "requirements": "Nhu cầu BĐS"
+  },
+  "timeline": {
+    "title": "Lịch sử Tương tác",
+    "add_interaction": "Thêm tương tác mới",
+    "placeholder": "Nhập nội dung tương tác...",
+    "empty_title": "Chưa có tương tác nào",
+    "empty_desc": "Thêm ghi chú hoặc ghi lại cuộc gọi/email ở bên dưới để bắt đầu theo dõi",
+    "loading": "Đang tải lịch sử...",
+    "btn_send": "Gửi",
+    "btn_sending": "Đang gửi...",
+    "type_note": "Ghi chú",
+    "type_call": "Gọi điện",
+    "type_message": "Nhắn tin",
+    "type_email": "Gửi email",
+    "type_follow_up": "Nhắc nhở"
+  },
+  "listings": {
+    "title": "Bất động sản đã gửi",
+    "unlink_btn": "Hủy liên kết",
+    "unlink_confirm_title": "Xác nhận Hủy",
+    "unlink_confirm_desc": "Bạn có chắc muốn xóa Bất động sản này khỏi danh sách đã gửi của khách hàng không?",
+    "no_listings": "Chưa có Bất động sản nào được gửi cho khách hàng này",
+    "no_listings_desc": "Hãy chuyển sang phần Quản lý Bất động sản để tìm và gửi các danh sách phù hợp cho khách hàng này",
+    "property_id": "Bất động sản #{{id}}",
+    "status_sent": "Đã gửi",
+    "sent_at": "Gửi lúc: ",
+    "view_detail": "Xem chi tiết BĐS"
   }
 }

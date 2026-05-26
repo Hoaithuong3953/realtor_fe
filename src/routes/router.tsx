@@ -24,6 +24,7 @@ const PropertiesPage = React.lazy(() => import("@/pages/dashboard/properties/lis
 const PropertiesCreatePage = React.lazy(() => import("@/pages/dashboard/properties/create"))
 const PropertiesEditPage = React.lazy(() => import("@/pages/dashboard/properties/edit"))
 const ClientsPage = React.lazy(() => import("@/pages/dashboard/client/list"))
+const ClientDetailPage = React.lazy(() => import("@/pages/dashboard/client/detail"))
 const ChatPage = React.lazy(() => import("@/pages/dashboard/chat"))
 const UsersPage = React.lazy(() => import("@/pages/dashboard/users"))
 const RolesPage = React.lazy(() => import("@/pages/dashboard/roles"))
@@ -62,6 +63,10 @@ export const router = createBrowserRouter([
       {
         path: paths.dashboard.clients.root,
         element: lazyLoad(ClientsPage),
+      },
+      {
+        path: paths.dashboard.clients.detail,
+        element: lazyLoad(ClientDetailPage),
       },
 
       // Chat routes

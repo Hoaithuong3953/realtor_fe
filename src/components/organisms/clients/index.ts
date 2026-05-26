@@ -1,2 +1,5 @@
 export * from "./client-form-modal"
 export * from "./clients-table"
+export * from "./client-general-info"
+export * from "./client-sent-listings"
+export * from "./client-timeline"

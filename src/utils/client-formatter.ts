@@ -1,5 +1,6 @@
 import { type TFunction } from "i18next"
 import type { ClientFormData } from "@/types/ui"
+import { Phone, MessageSquare, Mail, StickyNote, CalendarClock, type LucideIcon } from "lucide-react"
 
 export type ClientStatus = NonNullable<ClientFormData["status"]>
 
@@ -42,4 +43,17 @@ export const formatClientStatus = (status: string, t: TFunction): ClientStatusFo
         label: status
       }
   }
+}
+
+export interface InteractionTypeFormat {
+  icon: LucideIcon
+  color: string
+}
+
+export const INTERACTION_FORMAT_MAP: Record<string, InteractionTypeFormat> = {
+  call: { icon: Phone, color: "text-blue-500" },
+  message: { icon: MessageSquare, color: "text-emerald-500" },
+  email: { icon: Mail, color: "text-orange-500" },
+  follow_up: { icon: CalendarClock, color: "text-purple-500" },
+  default: { icon: StickyNote, color: "text-muted-foreground" }
 }

@@ -1,9 +1,9 @@
 import * as React from "react"
-import { Home, MessageSquare, Plus, UserPlus, Edit2, Trash2 } from "lucide-react"
+import { Home, MessageSquare, Plus, UserPlus, Edit2, Trash2, Clock } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 
 import { Button, Input } from "@/components/atoms"
-import { TeamSwitcher, NavUser, ActionDropdown } from "@/components/molecules"
+import { TeamSwitcher, NavUser, ActionDropdown, Dropdown } from "@/components/molecules"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import {
   Sidebar,
@@ -17,7 +17,9 @@ import {
   SidebarMenuItem,
   SidebarFooter,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui"
+
 import { paths } from "@/routes/paths"
 import { useAuthStore } from "@/store/auth.store"
 import { useLogoutMutation } from "@/hooks/use-auth"
@@ -151,6 +153,8 @@ export const ChatSidebar = ({
   ...props
 }: ChatSidebarProps) => {
   const { t } = useTranslation("chat")
+  const { state } = useSidebar()
+  const navigate = useNavigate()
   const user = useAuthStore((state) => state.user)
   const avatarUrl = useAuthStore((state) => state.avatarUrl)
   const { mutate: logout } = useLogoutMutation()
@@ -181,22 +185,27 @@ export const ChatSidebar = ({
   }, {} as Record<string, ChatSidebarSession[]>)
 
   return (
-    <Sidebar {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher />
       </SidebarHeader>
       
       <SidebarContent>
-        <div className="p-4 pb-2">
-          <Button fullWidth onClick={onNewChat} leftIcon={<Plus className="size-4" />}>
-            {t("layout.sidebar_new_chat")}
-          </Button>
-        </div>
+        <SidebarGroup className="py-0">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton onClick={onNewChat} tooltip={t("layout.sidebar_new_chat")} className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-medium">
+                <Plus className="size-4" />
+                <span>{t("layout.sidebar_new_chat")}</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
 
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild tooltip={t("layout.sidebar_back_to_dashboard")}>
                 <Link to={paths.dashboard.root}>
                   <Home className="size-4" />
                   <span>{t("layout.sidebar_back_to_dashboard")}</span>
@@ -204,7 +213,7 @@ export const ChatSidebar = ({
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton onClick={() => setIsAddClientOpen(true)}>
+              <SidebarMenuButton onClick={() => setIsAddClientOpen(true)} tooltip={t("layout.sidebar_add_client")}>
                 <UserPlus className="size-4" />
                 <span>{t("layout.sidebar_add_client")}</span>
               </SidebarMenuButton>
@@ -213,22 +222,60 @@ export const ChatSidebar = ({
         </SidebarGroup>
 
         
-        {Object.entries(groupedSessions).map(([group, items]) => (
-          <SidebarGroup key={group}>
-            <SidebarGroupLabel>{t(`constants.time_${group}`)}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((session) => (
-                  <ChatSidebarSessionItem 
-                    key={session.id} 
-                    session={session} 
-                    isActive={session.id.toString() === activeSessionId} 
-                  />
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
+        {state === "collapsed" ? (
+          <SidebarGroup>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <Dropdown
+                  align="start"
+                  side="right"
+                  sideOffset={8}
+                  className="w-64"
+                  label={t("layout.sidebar_recent_chats", { defaultValue: "Lịch sử chat" })}
+                  trigger={
+                    <SidebarMenuButton tooltip={t("layout.sidebar_recent_chats", { defaultValue: "Lịch sử chat" })}>
+                      <Clock className="size-4" />
+                      <span>{t("layout.sidebar_recent_chats", { defaultValue: "Lịch sử chat" })}</span>
+                    </SidebarMenuButton>
+                  }
+                  items={
+                    sessions.length > 0
+                      ? sessions.slice(0, 10).map((session) => ({
+                          id: session.id.toString(),
+                          label: <span className="truncate">{session.title || t("layout.sidebar_new_chat")}</span>,
+                          onClick: () => void navigate(`${paths.dashboard.chat}/${session.id}`),
+                        }))
+                      : [
+                          {
+                            id: "empty",
+                            label: t("layout.sidebar_no_chats", { defaultValue: "Chưa có đoạn chat nào" }),
+                            disabled: true,
+                            className: "text-center justify-center italic text-muted-foreground",
+                          },
+                        ]
+                  }
+                />
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroup>
-        ))}
+        ) : (
+          Object.entries(groupedSessions).map(([group, items]) => (
+            <SidebarGroup key={group}>
+              <SidebarGroupLabel>{t(`constants.time_${group}`)}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {items.map((session) => (
+                    <ChatSidebarSessionItem 
+                      key={session.id} 
+                      session={session} 
+                      isActive={session.id.toString() === activeSessionId} 
+                    />
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={userData} onLogout={() => logout()} />

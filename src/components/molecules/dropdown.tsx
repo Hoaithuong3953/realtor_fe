@@ -24,6 +24,8 @@ export type DropdownProps = {
   label?: string
   items: DropdownItemType[]
   align?: "start" | "center" | "end"
+  side?: "top" | "right" | "bottom" | "left"
+  sideOffset?: number
   className?: string
   onOpenChange?: (open: boolean) => void
 }
@@ -33,6 +35,8 @@ export const Dropdown = ({
   label,
   items,
   align = "end",
+  side,
+  sideOffset,
   className,
   onOpenChange,
 }: DropdownProps) => {
@@ -41,7 +45,7 @@ export const Dropdown = ({
       <DropdownMenuTrigger asChild>
         {trigger}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align={align} className={cn("w-56", className)}>
+      <DropdownMenuContent align={align} side={side} sideOffset={sideOffset} className={cn("w-56", className)}>
         {label && (
           <>
             <DropdownMenuLabel>{label}</DropdownMenuLabel>

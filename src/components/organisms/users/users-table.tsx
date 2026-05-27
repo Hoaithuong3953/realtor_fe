@@ -59,16 +59,13 @@ export const UsersTable = ({ data, isLoading, actions }: UsersTableProps) => {
       },
       {
         id: "actions",
+        header: t("user:list.table_actions"),
         cell: ({ row }) => {
           if (!actions) return null
           const userActions = actions(row.original)
           if (!userActions?.length) return null
           
-          return (
-            <div className="flex justify-end" onClick={(e) => e.stopPropagation()}>
-              <ActionDropdown actions={userActions} />
-            </div>
-          )
+          return <ActionDropdown actions={userActions} />
         }
       }
     ],

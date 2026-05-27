@@ -1,6 +1,7 @@
 export const API_CONFIG = {
   DEFAULT_BASE_URL: "http://localhost:8000/api/v1",
   TIMEOUT: 15000,
+  AI_TIMEOUT: 120000, // Timeout for AI endpoints
 } as const;
 
 /**
@@ -41,5 +42,18 @@ export const API_ENDPOINTS = {
     ME: "/roles/me",
     USER: (id: string | number) => `/roles/users/${id}`,
     DETAIL: (id: string | number) => `/roles/${id}`,
+  },
+  CHAT: {
+    SESSIONS: "/chat/sessions",
+    SESSION_DETAIL: (id: string | number) => `/chat/sessions/${id}`,
+    SESSION_MESSAGES: (id: string | number) => `/chat/sessions/${id}/messages`,
+    SESSION_MEMORIES: (id: string | number) => `/chat/sessions/${id}/memories`,
+    SESSION_RESET_MEMORY: (id: string | number) => `/chat/sessions/${id}/reset-memory`,
+    MESSAGE_AI: "/chat/messages/ai",
+    MEMORY_DETAIL: (id: string | number) => `/chat/memories/${id}`,
+  },
+  SEARCH: {
+    ROOT: "/search",
+    FEEDBACK: "/search/feedback",
   }
 } as const;

@@ -30,5 +30,41 @@
   },
   "aria": {
     "open_user_menu": "Open user menu"
+  },
+  "welcome": {
+    "title": "Good morning, {{name}}!",
+    "subtitle": "Here is an overview of your work today"
+  },
+  "quick_actions": {
+    "add_property": "Add Property",
+    "add_client": "Add Client",
+    "ai_copilot": "AI Copilot"
+  },
+  "kpi": {
+    "total_properties": "Total Properties",
+    "total_clients": "Your Clients",
+    "total_ai_chats": "Total AI Chats"
+  },
+  "sections": {
+    "recent_properties": "Recent Properties",
+    "recent_clients": "New Clients"
+  },
+  "actions": {
+    "view_all": "View All",
+    "all": "All"
+  },
+  "empty": {
+    "no_properties": {
+      "title": "No properties found",
+      "description": "You haven't posted any properties yet.",
+      "action": "Add now"
+    },
+    "no_clients": {
+      "title": "No clients yet",
+      "description": "Add clients for easier management."
+    }
+  },
+  "client": {
+    "no_info": "Not updated"
   }
 }

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table"
 import type { RolePublic } from "@/types/api/user"
 import { ROLE_PERMISSIONS, PERMISSION_RESOURCES } from "@/types/api/user"
+import { LoadingScreen } from "@/components/molecules"
 
 export interface PermissionMatrixProps {
   roles: RolePublic[]
@@ -22,11 +23,7 @@ export const PermissionMatrix = ({ roles, isLoading }: PermissionMatrixProps) =>
   const { t } = useTranslation(["role", "common"])
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center p-8 text-muted-foreground">
-        {t("common:status.loading")}
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   if (!roles.length) {

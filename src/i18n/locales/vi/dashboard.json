@@ -30,5 +30,41 @@
   },
   "aria": {
     "open_user_menu": "Mở menu người dùng"
+  },
+  "welcome": {
+    "title": "Chào buổi sáng, {{name}}!",
+    "subtitle": "Dưới đây là tổng quan về công việc của bạn"
+  },
+  "quick_actions": {
+    "add_property": "Thêm BĐS",
+    "add_client": "Thêm Khách",
+    "ai_copilot": "AI Copilot"
+  },
+  "kpi": {
+    "total_properties": "Tổng Bất động sản",
+    "total_clients": "Khách hàng của bạn",
+    "total_ai_chats": "Tổng Phiên Chat AI"
+  },
+  "sections": {
+    "recent_properties": "Bất động sản mới nhất",
+    "recent_clients": "Khách hàng mới"
+  },
+  "actions": {
+    "view_all": "Xem tất cả",
+    "all": "Tất cả"
+  },
+  "empty": {
+    "no_properties": {
+      "title": "Chưa có Bất động sản",
+      "description": "Bạn chưa đăng bất kỳ tài sản nào",
+      "action": "Thêm ngay"
+    },
+    "no_clients": {
+      "title": "Chưa có khách hàng",
+      "description": "Thêm khách hàng để dễ dàng quản lý"
+    }
+  },
+  "client": {
+    "no_info": "Chưa cập nhật TT"
   }
 }

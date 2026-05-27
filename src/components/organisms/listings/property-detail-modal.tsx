@@ -36,10 +36,14 @@ export const PropertyDetailModal = ({
   
   const formattedListing = targetListing ? {
     ...targetListing,
-    media: targetListing.media?.map((m: Record<string, unknown>) => ({
-      ...m,
-      url: typeof m.url === "string" ? m.url : ""
-    }))
+    media: targetListing.media?.map((m: unknown) => {
+      if (typeof m === "string") return { url: m }
+      const mediaObj = m as Record<string, unknown>
+      return {
+        ...mediaObj,
+        url: typeof mediaObj.url === "string" ? mediaObj.url : ""
+      }
+    })
   } : null
 
   return (

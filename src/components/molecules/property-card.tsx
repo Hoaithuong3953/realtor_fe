@@ -37,7 +37,11 @@ export const PropertyCard = ({
 }: PropertyCardProps) => {
   const { t, i18n } = useTranslation("listing")
   const firstMedia = media?.[0];
-  const url = firstMedia && typeof firstMedia.url === "string" ? firstMedia.url : undefined;
+  const url = typeof firstMedia === "string" 
+    ? firstMedia 
+    : (firstMedia && typeof firstMedia === "object" && "url" in firstMedia && typeof (firstMedia as Record<string, unknown>).url === "string" 
+        ? ((firstMedia as Record<string, unknown>).url as string)
+        : undefined);
   const imageUrl = url;
   
   const [imageError, setImageError] = useState(false)

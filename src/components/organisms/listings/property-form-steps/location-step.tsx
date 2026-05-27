@@ -13,18 +13,21 @@ export const LocationStep = () => {
 
   const {
     provinces,
+    districts,
     wards,
     handleProvinceChange,
+    handleDistrictChange,
     handleWardChange,
     handleDetailChange
   } = useLocationData()
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Select
           label={t("form.province_label")}
           required
+          disabled
           options={provinces.map((p) => ({ value: String(p.code), label: p.name }))}
           value={(watch("location_json.province_code") as string) || ""}
           onChange={handleProvinceChange}
@@ -32,9 +35,19 @@ export const LocationStep = () => {
         />
 
         <Select
-          label={t("form.ward_label")}
+          label={t("form.district_label")}
           required
           disabled={!watch("location_json.province_code")}
+          options={districts.map((d) => ({ value: String(d.code), label: d.name }))}
+          value={(watch("location_json.district_code") as string) || ""}
+          onChange={handleDistrictChange}
+          placeholder={t("form.district_placeholder")}
+        />
+
+        <Select
+          label={t("form.ward_label")}
+          required
+          disabled={!watch("location_json.district_code")}
           options={wards.map((w) => ({ value: String(w.code), label: w.name }))}
           value={(watch("location_json.ward_code") as string) || ""}
           onChange={handleWardChange}

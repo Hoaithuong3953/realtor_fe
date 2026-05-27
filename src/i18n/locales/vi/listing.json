@@ -75,6 +75,8 @@
     "address_label": "Địa chỉ đầy đủ",
     "province_label": "Tỉnh/Thành phố",
     "province_placeholder": "Chọn Tỉnh/Thành phố",
+    "district_label": "Quận/Huyện",
+    "district_placeholder": "Chọn Quận/Huyện",
     "ward_label": "Phường/Xã",
     "ward_placeholder": "Chọn Phường/Xã",
     "detail_address_label": "Địa chỉ cụ thể (Số nhà, đường...)",

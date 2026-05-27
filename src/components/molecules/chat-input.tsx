@@ -40,7 +40,7 @@ export const ChatInput = ({ isTyping, onSend, className }: ChatInputProps) => {
       <Textarea
         ref={textareaRef}
         placeholder={t("components.input_placeholder")}
-        className="min-h-[44px] max-h-[200px] resize-none border-0 p-0 shadow-none focus-visible:ring-0 text-base bg-transparent dark:bg-transparent"
+        className="min-h-[44px] max-h-[200px] resize-none border-0 p-0 shadow-none focus-visible:ring-0 text-base !bg-transparent disabled:!bg-transparent dark:!bg-transparent dark:disabled:!bg-transparent"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}

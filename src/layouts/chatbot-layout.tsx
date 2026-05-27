@@ -26,7 +26,7 @@ export function ChatbotLayout() {
   const { t } = useTranslation("chat")
 
   const { data: sessionsData } = useChatSessionsQuery()
-  const { data: sessionDetail } = useChatSessionQuery(activeSessionId, !!activeSessionId)
+  const { data: sessionDetail, isLoading: isSessionLoading } = useChatSessionQuery(activeSessionId, !!activeSessionId)
   
   const { mutate: deleteMemory } = useDeleteMemoryMutation(activeSessionId)
   const { mutate: resetMemory } = useResetMemoryMutation(activeSessionId)
@@ -34,7 +34,8 @@ export function ChatbotLayout() {
   const urlClientId = searchParams.get("clientId")
   const effectiveClientId = sessionDetail?.client_id || (urlClientId ? Number(urlClientId) : undefined)
   const { data: clientDetail } = useClientQuery(effectiveClientId, !!effectiveClientId)
-  const { data: clientsData } = useClientsQuery({ limit: 100 })
+  const [clientSearchKeyword, setClientSearchKeyword] = React.useState("")
+  const { data: clientsData, isLoading: isClientsLoading } = useClientsQuery({ limit: 10, keyword: clientSearchKeyword || undefined })
 
   const {
     activeClient,
@@ -46,14 +47,14 @@ export function ChatbotLayout() {
   } = useChatStore()
 
   useEffect(() => {
-    // Keep activeClient in sync with effectiveClientId 
-    // This allows children (like ChatArea/onSend) to read the context from Zustand
+    if (isSessionLoading) return;
+
     if (clientDetail && activeClient?.id !== clientDetail.id) {
       setActiveClient(clientDetail)
     } else if (!effectiveClientId && activeClient) {
       setActiveClient(null)
     }
-  }, [clientDetail, effectiveClientId, activeClient, setActiveClient])
+  }, [clientDetail, effectiveClientId, activeClient, setActiveClient, isSessionLoading])
 
   useEffect(() => {
     if (sessionDetail && (sessionDetail.status === "deleted" || sessionDetail.status === "inactive")) {
@@ -66,12 +67,9 @@ export function ChatbotLayout() {
   }
 
   const handleSelectClient = (client: ChatHeaderClient) => {
-    // If currently in an existing session, open a fresh chat with the new clientId
-    // This ensures each consultation session stays isolated
     if (activeSessionId) {
       void navigate(`${paths.dashboard.chat}?clientId=${client.id.toString()}`)
     } else {
-      // On blank /chat page, just set the param
       const newParams = new URLSearchParams(searchParams)
       newParams.set("clientId", client.id.toString())
       setSearchParams(newParams)
@@ -150,6 +148,8 @@ export function ChatbotLayout() {
           onRemoveContext={handleRemoveContext}
           onOpenMemory={() => setIsMemoryOpen(true)}
           isChatEmpty={!activeSessionId}
+          onSearchClient={setClientSearchKeyword}
+          isSearchingClient={isClientsLoading}
         />
         <div className="flex-1 flex flex-row relative overflow-hidden">
           <Outlet />

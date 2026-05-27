@@ -22,6 +22,8 @@ export type ComboboxProps = {
   emptyText?: string
   className?: string
   disabled?: boolean
+  onSearchChange?: (value: string) => void
+  loading?: boolean
 }
 
 export const Combobox = ({
@@ -32,19 +34,31 @@ export const Combobox = ({
   emptyText,
   className,
   disabled = false,
+  onSearchChange,
+  loading = false,
 }: ComboboxProps) => {
   const { t } = useTranslation("common")
   const [inputValue, setInputValue] = React.useState("")
+
+  React.useEffect(() => {
+    if (onSearchChange) {
+      const timer = setTimeout(() => {
+        onSearchChange(inputValue)
+      }, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [inputValue, onSearchChange])
 
   const finalPlaceholder = placeholder ?? t("actions.search")
   const finalEmptyText = emptyText ?? t("actions.no_results")
 
   const filteredItems = React.useMemo(() => {
+    if (onSearchChange) return items
     if (!inputValue) return items
     return items.filter(item =>
       item.label.toLowerCase().includes(inputValue.toLowerCase())
     )
-  }, [items, inputValue])
+  }, [items, inputValue, onSearchChange])
 
   return (
     <UICombobox
@@ -71,9 +85,14 @@ export const Combobox = ({
             )
           })}
         </ComboboxList>
-        {filteredItems.length === 0 && (
+        {filteredItems.length === 0 && !loading && (
           <div className="w-full justify-center py-4 text-center text-sm text-muted-foreground">
             {finalEmptyText}
+          </div>
+        )}
+        {loading && (
+          <div className="w-full justify-center py-4 text-center text-sm text-muted-foreground">
+            {t("actions.loading", { defaultValue: "Đang tải..." })}
           </div>
         )}
       </ComboboxContent>

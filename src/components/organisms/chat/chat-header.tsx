@@ -18,6 +18,8 @@ type ChatHeaderProps = {
   onRemoveContext?: () => void
   onOpenMemory?: () => void
   isChatEmpty?: boolean
+  onSearchClient?: (keyword: string) => void
+  isSearchingClient?: boolean
 }
 
 export const ChatHeader = ({
@@ -27,6 +29,8 @@ export const ChatHeader = ({
   onRemoveContext,
   onOpenMemory,
   isChatEmpty = false,
+  onSearchClient,
+  isSearchingClient = false,
 }: ChatHeaderProps) => {
   const { t } = useTranslation("chat")
 
@@ -58,6 +62,8 @@ export const ChatHeader = ({
                 value: client.id.toString(),
                 label: client.description ? `${client.name} - ${client.description}` : client.name
               }))}
+              onSearchChange={onSearchClient}
+              loading={isSearchingClient}
             />
           </div>
         )}

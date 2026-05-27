@@ -2,6 +2,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 import { userService } from "@/services/user.service"
 import type { UserCreate, UserUpdate } from "@/types/api/user"
+import { useAuthStore } from "@/store/auth.store"
+import { toast } from "sonner"
 
 export const userKeys = {
   all: ["users"] as const,
@@ -67,6 +69,38 @@ export const useDeleteUserMutation = () => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),
       })
+    },
+  })
+}
+
+export const useProfileQuery = () => {
+  return useQuery({
+    queryKey: [...userKeys.all, "profile"],
+    queryFn: () => userService.getProfile(),
+  })
+}
+
+export const useUpdateProfileMutation = () => {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation("user")
+  const currentUser = useAuthStore(state => state.user)
+
+  return useMutation({
+    mutationFn: (payload: UserUpdate) => {
+      if (!currentUser?.id) throw new Error("User ID not found")
+      return userService.updateUser(currentUser.id, payload)
+    },
+    meta: {
+      customErrorMsg: t("messages.update_error")
+    },
+    onSuccess: (_, variables) => {
+      useAuthStore.getState().updateUser({
+        full_name: variables.full_name ?? undefined,
+      })
+      void queryClient.invalidateQueries({
+        queryKey: ['auth', 'currentUser'],
+      })
+      toast.success(t("messages.update_success"))
     },
   })
 }

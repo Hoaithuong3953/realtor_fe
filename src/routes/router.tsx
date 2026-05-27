@@ -29,7 +29,7 @@ const ClientDetailPage = React.lazy(() => import("@/pages/dashboard/client/detai
 const ChatPage = React.lazy(() => import("@/pages/dashboard/chat"))
 const UsersPage = React.lazy(() => import("@/pages/dashboard/users"))
 const RolesPage = React.lazy(() => import("@/pages/dashboard/roles"))
-const SettingsPage = React.lazy(() => import("@/pages/dashboard/settings"))
+const ProfilePage = React.lazy(() => import("@/pages/dashboard/profile"))
 
 // Helper function to render lazy-loaded components with Suspense
 const lazyLoad = (Component: React.ComponentType<object>, props = {}) => (
@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
       { path: paths.dashboard.roles, element: lazyLoad(RolesPage) },
 
       // Settings routes
-      { path: paths.dashboard.settings, element: lazyLoad(SettingsPage) },
+      { path: paths.dashboard.profile, element: lazyLoad(ProfilePage) },
     ],
   },
   // Chat routes — protected by AuthGuard but using ChatbotLayout

@@ -24,8 +24,9 @@
     "empty": "No results found."
   },
   "user_menu": {
-    "profile": "Profile",
+    "profile": "My Profile",
     "settings": "Settings",
+    "change_password": "Change Password",
     "logout": "Log out"
   },
   "aria": {

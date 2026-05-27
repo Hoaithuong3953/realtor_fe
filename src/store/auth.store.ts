@@ -11,6 +11,7 @@ interface AuthState {
   avatarUrl: string | null
   setLoginSuccess: (user: AuthUserOut, accessToken: string) => void
   setAvatar: (avatarUrl: string | null) => void
+  updateUser: (userUpdate: Partial<AuthUserOut>) => void
   logout: () => void
 }
 
@@ -26,6 +27,11 @@ export const useAuthStore = create<AuthState>()(
       },
       setAvatar: (avatarUrl) => {
         set({ avatarUrl })
+      },
+      updateUser: (userUpdate) => {
+        set((state) => ({
+          user: state.user ? { ...state.user, ...userUpdate } : null
+        }))
       },
       logout: () => {
         set({ user: null, accessToken: null, isAuthenticated: false, avatarUrl: null })

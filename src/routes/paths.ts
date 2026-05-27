@@ -14,7 +14,7 @@ export const paths = {
     chat: "/chat",
     users: "/users",
     roles: "/roles",
-    settings: "/settings",
+    profile: "/profile",
   },
   auth: {
     login: "/login",

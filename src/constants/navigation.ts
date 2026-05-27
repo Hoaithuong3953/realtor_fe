@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   LogOut,
   MessageSquare,
-  Settings,
   ShieldCheck,
   User,
   UserCog,
@@ -80,8 +79,7 @@ export const getUserMenuConfig = (
   onLogout?: () => void,
 ): UserMenuItemType[][] => [
   [
-    { title: "user_menu.profile", icon: User },
-    { title: "user_menu.settings", icon: Settings },
+    { title: "user_menu.profile", icon: User, url: paths.dashboard.profile },
   ],
   [
     {

@@ -42,5 +42,23 @@ export const userService = {
   deleteUser: async (id: number): Promise<UserPublic> => {
     const { data } = await apiClient.delete<UserPublic>(API_ENDPOINTS.USERS.DETAIL(id))
     return data
-  }
+  },
+
+  /**
+   * Get current user profile
+   * [GET] /users/me
+   */
+  getProfile: async (): Promise<UserPublic> => {
+    const { data } = await apiClient.get<UserPublic>(API_ENDPOINTS.USERS.ME as string)
+    return data
+  },
+
+  /**
+   * Update current user profile
+   * [PATCH] /users/me
+   */
+  updateProfile: async (payload: UserUpdate): Promise<UserPublic> => {
+    const { data } = await apiClient.patch<UserPublic>(API_ENDPOINTS.USERS.ME as string, payload)
+    return data
+  },
 }

@@ -33,7 +33,8 @@
     "delete_confirm_desc": "Are you sure you want to delete this user? This action cannot be undone.",
     "create_error": "Could not create user",
     "update_error": "Could not update user",
-    "delete_error": "Could not delete user"
+    "delete_error": "Could not delete user",
+    "update_success": "Updated successfully"
   },
   "validation": {
     "name_invalid": "Please enter a valid full name",
@@ -48,5 +49,15 @@
     "role_super_admin": "Super Admin",
     "role_tenant_admin": "Tenant Admin",
     "role_broker": "Broker"
+  },
+  "profile": {
+    "title": "Personal Profile",
+    "description": "Manage your personal information",
+    "full_name_label": "Full Name",
+    "full_name_placeholder": "Enter full name...",
+    "email_label": "Email",
+    "email_read_only": "Email cannot be changed",
+    "submit_btn": "Save Changes",
+    "submitting_btn": "Saving..."
   }
 }

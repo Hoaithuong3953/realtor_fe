@@ -33,7 +33,8 @@
     "delete_confirm_desc": "Bạn có chắc chắn muốn xóa người dùng này? Thao tác này không thể hoàn tác",
     "create_error": "Không thể tạo người dùng mới",
     "update_error": "Không thể cập nhật người dùng",
-    "delete_error": "Không thể xóa người dùng"
+    "delete_error": "Không thể xóa người dùng",
+    "update_success": "Cập nhật thành công"
   },
   "validation": {
     "name_invalid": "Vui lòng nhập họ và tên",
@@ -48,5 +49,15 @@
     "role_super_admin": "Quản trị viên cấp cao",
     "role_tenant_admin": "Quản trị đại lý",
     "role_broker": "Môi giới"
+  },
+  "profile": {
+    "title": "Hồ sơ cá nhân",
+    "description": "Quản lý thông tin cá nhân của bạn",
+    "full_name_label": "Họ và tên",
+    "full_name_placeholder": "Nhập họ và tên...",
+    "email_label": "Email",
+    "email_read_only": "Email không thể thay đổi",
+    "submit_btn": "Lưu thay đổi",
+    "submitting_btn": "Đang lưu..."
   }
 }

@@ -73,13 +73,8 @@ export function useAuthBootstrap() {
 
       try {
         logger.info("Verifying session credentials on startup...")
-        const response = await apiClient.get(API_ENDPOINTS.AUTH.ME)
+        await apiClient.get(API_ENDPOINTS.AUTH.ME)
         logger.info("Session verified successfully.")
-        
-        const userData = response.data as { broker_settings?: { avatar?: string } }
-        if (userData.broker_settings?.avatar) {
-          useAuthStore.getState().setAvatar(userData.broker_settings.avatar)
-        }
       } catch (error: unknown) {
         const { statusCode } = handleApiError(error)
 

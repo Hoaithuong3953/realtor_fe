@@ -26,6 +26,7 @@
   "user_menu": {
     "profile": "Hồ sơ cá nhân",
     "settings": "Cài đặt",
+    "change_password": "Đổi mật khẩu",
     "logout": "Đăng xuất"
   },
   "aria": {

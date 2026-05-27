@@ -16,6 +16,7 @@ export const API_ENDPOINTS = {
     ME: "/auth/me",
     FORGOT_PASSWORD: "/auth/forgot-password",
     RESET_PASSWORD: "/auth/reset-password",
+    CHANGE_PASSWORD: "/auth/me/change-password",
   },
   LISTINGS: {
     ROOT: "/listings",

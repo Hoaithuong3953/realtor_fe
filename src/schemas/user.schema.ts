@@ -12,3 +12,10 @@ export const userCreateSchema = userUpdateSchema.extend({
 })
 
 export const userSchema = userUpdateSchema
+
+export const profileUpdateSchema = z.object({
+  full_name: z.string().min(1, { message: "validation.name_invalid" }),
+})
+
+export type ProfileUpdateValues = z.infer<typeof profileUpdateSchema>
+

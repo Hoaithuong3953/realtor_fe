@@ -22,7 +22,9 @@
     "go_home": "Go Home",
     "reload_page": "Reload Page",
     "loading": "Loading...",
-    "no_data": "No data available"
+    "no_data": "No data available",
+    "rename": "Rename",
+    "sendToClient": "Send to Client"
   },
   "sort": {
     "title": "Sort by",

@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom"
 import { LoadingScreen } from "@/components/molecules"
 import { AuthLayout } from "@/layouts/auth-layout"
 import { DashboardLayout } from "@/layouts/dashboard-layout"
+import { ChatbotLayout } from "@/layouts/chatbot-layout"
 import { ErrorLayout } from "@/layouts/error-layout"
 import { AuthGuard } from "@/routes/guards/auth-guard"
 import { GuestGuard } from "@/routes/guards/guest-guard"
@@ -69,9 +70,6 @@ export const router = createBrowserRouter([
         element: lazyLoad(ClientDetailPage),
       },
 
-      // Chat routes
-      { path: paths.dashboard.chat, element: lazyLoad(ChatPage) },
-
       // Users routes
       { path: paths.dashboard.users, element: lazyLoad(UsersPage) },
 
@@ -80,6 +78,18 @@ export const router = createBrowserRouter([
 
       // Settings routes
       { path: paths.dashboard.settings, element: lazyLoad(SettingsPage) },
+    ],
+  },
+  // Chat routes — protected by AuthGuard but using ChatbotLayout
+  {
+    element: (
+      <AuthGuard>
+        <ChatbotLayout />
+      </AuthGuard>
+    ),
+    children: [
+      { path: paths.dashboard.chat, element: lazyLoad(ChatPage) },
+      { path: `${paths.dashboard.chat}/:id`, element: lazyLoad(ChatPage) },
     ],
   },
   // Auth routes — only accessible when NOT logged in

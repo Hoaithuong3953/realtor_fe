@@ -22,7 +22,9 @@
     "go_home": "Về Trang chủ",
     "reload_page": "Tải lại trang",
     "loading": "Đang tải...",
-    "no_data": "Chưa có dữ liệu"
+    "no_data": "Chưa có dữ liệu",
+    "rename": "Đổi tên",
+    "sendToClient": "Gửi cho khách hàng"
   },
   "sort": {
     "title": "Sắp xếp theo",

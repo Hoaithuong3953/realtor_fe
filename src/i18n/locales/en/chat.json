@@ -1,0 +1,58 @@
+{
+  "layout": {
+    "header_tag_placeholder": "Tag a client...",
+    "header_ai_memory": "AI Memory",
+    "header_ai_copilot": "AI Copilot",
+    "sidebar_new_chat": "New Chat",
+    "sidebar_back_to_dashboard": "Back to Dashboard",
+    "sidebar_client_list": "Client List",
+    "sidebar_add_client": "Add Client"
+  },
+  "components": {
+    "context_badge_consulting_for": "Consulting for: {{name}}",
+    "context_badge_confirm_title": "End consultation?",
+    "context_badge_confirm_desc": "Are you sure you want to end the consultation for {{name}}? Chat history and AI suggestions will be reset",
+    "context_badge_cancel": "Cancel",
+    "context_badge_confirm": "End Session",
+    "input_placeholder": "Ask AI Copilot anything...",
+    "input_ai_thinking": "AI is thinking...",
+    "empty_title": "How can I help you?",
+    "empty_desc": "Type a message below or choose a suggestion to start the conversation",
+    "memory_title": "AI Memories (Mem0)",
+    "memory_empty": "AI hasn't learned any information from this chat yet"
+  },
+  "constants": {
+    "time_today": "Today",
+    "time_last_7_days": "Previous 7 Days",
+    "time_older": "Older",
+    "source_broker": "Broker's note",
+    "source_ai": "AI auto-generated",
+    "source_zalo": "Extracted from Zalo",
+    "source_document": "Client's document",
+    "source_unknown": "Unknown source",
+    "source_custom": "Source: {{source}}",
+    "suggestion_find_apartment": "Find a 2-bedroom apartment in District 1 under 10 million",
+    "suggestion_find_rent": "Are there any townhouses for rent in Go Vap?",
+    "suggestion_match_client": "Find properties that match this client's requirements",
+    "suggestion_property_highlight": "What are the most highlighted properties right now?"
+  },
+  "messages": {
+    "create_session_error": "Could not create new chat session",
+    "delete_session_success": "Chat session deleted",
+    "delete_session_error": "Could not delete chat session",
+    "send_message_error": "Could not send message",
+    "found_properties": "I found some properties matching your criteria:",
+    "delete_session_confirm_title": "Delete this chat?",
+    "delete_session_confirm_desc": "This chat will be permanently deleted and cannot be recovered.",
+    "rename_session_title": "Rename Chat",
+    "rename_session_placeholder": "Enter new name...",
+    "memory_delete_confirm_title": "Delete this note?",
+    "memory_delete_confirm_desc": "Are you sure you want to delete this note? This action cannot be undone",
+    "memory_reset_confirm_title": "Reset all memory?",
+    "memory_reset_confirm_desc": "Are you sure you want to reset AI memory for this session? All automatically learned facts will be permanently deleted",
+    "memory_delete_success": "Fact deleted",
+    "memory_delete_error": "Could not delete fact",
+    "memory_reset_success": "AI memory reset",
+    "memory_reset_error": "Could not reset memory"
+  }
+}

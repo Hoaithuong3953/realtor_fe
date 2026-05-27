@@ -1,0 +1,58 @@
+{
+  "layout": {
+    "header_tag_placeholder": "Gắn thẻ khách hàng...",
+    "header_ai_memory": "Ký ức AI",
+    "header_ai_copilot": "AI Copilot",
+    "sidebar_new_chat": "Cuộc trò chuyện mới",
+    "sidebar_back_to_dashboard": "Quay về Dashboard",
+    "sidebar_client_list": "Danh sách khách hàng",
+    "sidebar_add_client": "Thêm khách hàng"
+  },
+  "components": {
+    "context_badge_consulting_for": "Đang tư vấn cho: {{name}}",
+    "context_badge_confirm_title": "Kết thúc tư vấn?",
+    "context_badge_confirm_desc": "Bạn có chắc chắn muốn kết thúc phiên tư vấn cho {{name}}? Lịch sử chat và gợi ý AI sẽ được làm mới",
+    "context_badge_cancel": "Hủy",
+    "context_badge_confirm": "Kết thúc",
+    "input_placeholder": "Hỏi AI Copilot bất cứ điều gì...",
+    "input_ai_thinking": "AI đang suy nghĩ...",
+    "empty_title": "Tôi có thể giúp gì cho bạn?",
+    "empty_desc": "Nhập nội dung bên dưới hoặc chọn một gợi ý để bắt đầu cuộc hội thoại",
+    "memory_title": "Ký ức AI (Mem0)",
+    "memory_empty": "AI chưa học được thông tin nào từ đoạn chat này"
+  },
+  "constants": {
+    "time_today": "Hôm nay",
+    "time_last_7_days": "7 ngày trước",
+    "time_older": "Cũ hơn",
+    "source_broker": "Ghi chú của Môi giới",
+    "source_ai": "AI tự động đúc kết",
+    "source_zalo": "Trích xuất từ Zalo Chat",
+    "source_document": "Tài liệu của Khách hàng",
+    "source_unknown": "Không rõ nguồn",
+    "source_custom": "Nguồn: {{source}}",
+    "suggestion_find_apartment": "Tìm căn hộ 2 phòng ngủ tại Quận 1, giá dưới 10 triệu",
+    "suggestion_find_rent": "Có nhà mặt phố nào đang cho thuê ở Gò Vấp không?",
+    "suggestion_match_client": "Tìm các bất động sản phù hợp với nhu cầu của vị khách này",
+    "suggestion_property_highlight": "Đâu là những bất động sản nổi bật nhất hiện tại?"
+  },
+  "messages": {
+    "create_session_error": "Không thể tạo phiên chat mới",
+    "delete_session_success": "Đã xóa phiên chat",
+    "delete_session_error": "Không thể xóa phiên chat",
+    "send_message_error": "Không thể gửi tin nhắn",
+    "found_properties": "Tôi đã tìm thấy một số bất động sản phù hợp với yêu cầu của bạn:",
+    "delete_session_confirm_title": "Xóa đoạn chat này?",
+    "delete_session_confirm_desc": "Đoạn chat này sẽ bị xóa vĩnh viễn và không thể khôi phục.",
+    "rename_session_title": "Đổi tên đoạn chat",
+    "rename_session_placeholder": "Nhập tên mới...",
+    "memory_delete_confirm_title": "Xóa ghi chú này?",
+    "memory_delete_confirm_desc": "Bạn có chắc chắn muốn xóa ghi chú này không? Dữ liệu này sẽ không thể khôi phục",
+    "memory_reset_confirm_title": "Làm mới toàn bộ ký ức?",
+    "memory_reset_confirm_desc": "Bạn có chắc chắn muốn làm mới bộ nhớ của AI trong phiên làm việc này không? Tất cả dữ kiện AI đã tự động học sẽ bị xóa hoàn toàn",
+    "memory_delete_success": "Đã xóa dữ kiện",
+    "memory_delete_error": "Không thể xóa dữ kiện",
+    "memory_reset_success": "Đã làm mới bộ nhớ AI",
+    "memory_reset_error": "Không thể làm mới bộ nhớ"
+  }
+}

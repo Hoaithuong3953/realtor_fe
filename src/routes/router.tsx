@@ -30,6 +30,7 @@ const ChatPage = React.lazy(() => import("@/pages/dashboard/chat"))
 const UsersPage = React.lazy(() => import("@/pages/dashboard/users"))
 const RolesPage = React.lazy(() => import("@/pages/dashboard/roles"))
 const ProfilePage = React.lazy(() => import("@/pages/dashboard/profile"))
+const ChangePasswordPage = React.lazy(() => import("@/pages/dashboard/change-password"))
 
 // Helper function to render lazy-loaded components with Suspense
 const lazyLoad = (Component: React.ComponentType<object>, props = {}) => (
@@ -78,6 +79,7 @@ export const router = createBrowserRouter([
 
       // Settings routes
       { path: paths.dashboard.profile, element: lazyLoad(ProfilePage) },
+      { path: paths.dashboard.changePassword, element: lazyLoad(ChangePasswordPage) },
     ],
   },
   // Chat routes — protected by AuthGuard but using ChatbotLayout

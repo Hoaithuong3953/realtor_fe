@@ -34,6 +34,8 @@ export const API_ENDPOINTS = {
   },
   USERS: {
     ROOT: "/users",
+    ME: "/users/me",
+    ME_BROKER_SETTINGS: "/users/me/broker-settings",
     DETAIL: (id: string | number) => `/users/${id}`,
     STATUS: (id: string | number) => `/users/${id}/status`,
     ROLE: (id: string | number) => `/users/${id}/role`,

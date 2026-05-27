@@ -102,3 +102,22 @@ export const useResetPasswordMutation = () => {
     }
   });
 };
+
+/**
+ * Hook for changing password
+ */
+export const useChangePasswordMutation = () => {
+  const { t } = useTranslation("auth")
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate()
+
+  return useMutation({
+    mutationFn: authService.changePassword,
+    meta: { overrideErrorMsg: t("change_password.error_msg") },
+    onSuccess: () => {
+      toast.success(t("change_password.success_msg"))
+      logout()
+      void navigate(paths.auth.login)
+    }
+  })
+}

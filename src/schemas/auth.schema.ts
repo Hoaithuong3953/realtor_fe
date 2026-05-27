@@ -33,3 +33,15 @@ export const resetPasswordSchema = z.object({
 export type LoginFormValues = z.infer<typeof loginSchema>
 export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>
 export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>
+
+// Schema for change password form
+export const changePasswordSchema = z.object({
+    current_password: z.string().min(1, { message: "login.validation.password_required" }),
+    new_password: passwordSchema,
+    confirm_new_password: z.string().min(1, { message: "login.validation.password_required" })
+}).refine((data) => data.new_password === data.confirm_new_password, {
+    message: "change_password.validation.passwords_must_match",
+    path: ["confirm_new_password"],
+})
+
+export type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>

@@ -8,6 +8,8 @@ import type {
     LoginResponse,
     ResetPasswordRequest,
     ResetPasswordResponse,
+    ChangePasswordRequest,
+    ChangePasswordResponse,
 } from "@/types/api";
 
 export const authService = {
@@ -61,6 +63,18 @@ export const authService = {
     resetPassword: async (payload: ResetPasswordRequest): Promise<ResetPasswordResponse> => {
         const response = await apiClient.post<ResetPasswordResponse>(
             API_ENDPOINTS.AUTH.RESET_PASSWORD,
+            payload,
+        )
+        return response.data
+    },
+
+    /**
+     * Service function for changing password
+     * [POST] /auth/me/change-password
+     */
+    changePassword: async (payload: ChangePasswordRequest): Promise<ChangePasswordResponse> => {
+        const response = await apiClient.post<ChangePasswordResponse>(
+            API_ENDPOINTS.AUTH.CHANGE_PASSWORD,
             payload,
         )
         return response.data

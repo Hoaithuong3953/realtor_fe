@@ -15,6 +15,7 @@ export const paths = {
     users: "/users",
     roles: "/roles",
     profile: "/profile",
+    changePassword: "/change-password",
   },
   auth: {
     login: "/login",

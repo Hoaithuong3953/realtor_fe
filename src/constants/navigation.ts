@@ -80,6 +80,7 @@ export const getUserMenuConfig = (
 ): UserMenuItemType[][] => [
   [
     { title: "user_menu.profile", icon: User, url: paths.dashboard.profile },
+    { title: "user_menu.change_password", icon: ShieldCheck, url: paths.dashboard.changePassword },
   ],
   [
     {

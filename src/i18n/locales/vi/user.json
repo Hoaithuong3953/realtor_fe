@@ -34,7 +34,9 @@
     "create_error": "Không thể tạo người dùng mới",
     "update_error": "Không thể cập nhật người dùng",
     "delete_error": "Không thể xóa người dùng",
-    "update_success": "Cập nhật thành công"
+    "update_success": "Cập nhật thành công",
+    "import_success": "Import người dùng thành công",
+    "import_error": "Import người dùng thất bại"
   },
   "validation": {
     "name_invalid": "Vui lòng nhập họ và tên",
@@ -59,5 +61,9 @@
     "email_read_only": "Email không thể thay đổi",
     "submit_btn": "Lưu thay đổi",
     "submitting_btn": "Đang lưu..."
+  },
+  "import_modal": {
+    "title": "Import Người dùng",
+    "description": "Kéo thả file Excel chứa danh sách người dùng để import hàng loạt"
   }
 }

@@ -34,7 +34,9 @@
     "create_error": "Could not create user",
     "update_error": "Could not update user",
     "delete_error": "Could not delete user",
-    "update_success": "Updated successfully"
+    "update_success": "Updated successfully",
+    "import_success": "Users imported successfully",
+    "import_error": "Failed to import users"
   },
   "validation": {
     "name_invalid": "Please enter a valid full name",
@@ -59,5 +61,9 @@
     "email_read_only": "Email cannot be changed",
     "submit_btn": "Save Changes",
     "submitting_btn": "Saving..."
+  },
+  "import_modal": {
+    "title": "Import Users",
+    "description": "Drag and drop an Excel file containing a list of users for bulk import"
   }
 }

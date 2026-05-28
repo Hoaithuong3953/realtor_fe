@@ -1,15 +1,17 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Plus, Pencil, Trash2 } from "lucide-react"
+import { Plus, Pencil, Trash2, FileUp } from "lucide-react"
 
 import { Button } from "@/components/atoms"
 import { Pagination, SearchFilter } from "@/components/molecules"
 import { UsersTable, UserFormModal } from "@/components/organisms/users"
-import { useUsersQuery, useCreateUserMutation, useUpdateUserMutation, useDeleteUserMutation } from "@/hooks/use-users"
+import { useUsersQuery, useCreateUserMutation, useUpdateUserMutation, useDeleteUserMutation, useImportUsersExcelMutation } from "@/hooks/use-users"
 import { useRolesQuery } from "@/hooks/use-roles"
 import { useQueryParams } from "@/hooks/use-query-params"
 import type { UserFormData, UserUiModel } from "@/types/ui/user"
-import { type UserCreate, type UserUpdate, USER_STATUSES } from "@/types/api/user"
+import { type UserCreate, type UserUpdate, USER_STATUSES, type UserImportResponse } from "@/types/api/user"
+import { ImportFileModal, ImportResultModal } from "@/components/organisms/common"
+import { getImportRowDisplay } from "@/utils/import-formatter"
 
 export default function UsersPage() {
   const { t } = useTranslation(["common", "user"])
@@ -25,6 +27,20 @@ export default function UsersPage() {
   const createMutation = useCreateUserMutation()
   const updateMutation = useUpdateUserMutation(editingUser?.id || 0)
   const { mutate: deleteUser } = useDeleteUserMutation()
+  const { mutate: importUsers, isPending: isImporting } = useImportUsersExcelMutation()
+
+
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false)
+  const [importResult, setImportResult] = useState<UserImportResponse | null>(null)
+
+  const handleImportSubmit = (file: File) => {
+    importUsers(file, {
+      onSuccess: (data) => {
+        setIsImportModalOpen(false)
+        setImportResult(data)
+      }
+    })
+  }
 
   const handleCreateSubmit = (formData: UserFormData) => {
     if (editingUser) {
@@ -78,6 +94,13 @@ export default function UsersPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <Button variant="outline" onClick={() => {
+              setImportResult(null)
+              setIsImportModalOpen(true)
+            }} className="gap-2">
+              <FileUp className="w-4 h-4" />
+              {t("user:import_modal.title")}
+            </Button>
           <Button onClick={() => {
             setEditingUser(null)
             setIsFormModalOpen(true)
@@ -145,6 +168,40 @@ export default function UsersPage() {
         statusOptions={USER_STATUSES.map(s => ({ label: t(`user:constants.status_${s}`), value: s }))}
         roleOptions={(rolesData || []).map(r => ({ label: r.name, value: String(r.id) }))}
         isLoadingRoles={isLoadingRoles}
+      />
+
+      <ImportFileModal
+        isOpen={isImportModalOpen}
+        onOpenChange={setIsImportModalOpen}
+        title={t("user:import_modal.title")}
+        description={t("user:import_modal.description")}
+        templateUrl="/templates/User_Import_Template.xlsx"
+        isLoading={isImporting}
+        onImport={handleImportSubmit}
+      />
+
+      <ImportResultModal
+        isOpen={!!importResult}
+        onOpenChange={(open) => {
+          if (!open) setImportResult(null)
+        }}
+        data={importResult ? {
+          total_rows: importResult.total_rows,
+          success_rows: importResult.success_rows,
+          failed_rows: importResult.failed_rows,
+          results: importResult.results.map(r => {
+            const display = getImportRowDisplay(r.status, t)
+            
+            return {
+              index: r.index,
+              statusLabel: display.label,
+              statusColor: display.color,
+              statusIcon: display.icon,
+              identifier: r.email ?? "N/A",
+              message: r.message
+            }
+          })
+        } : null}
       />
     </div>
   )

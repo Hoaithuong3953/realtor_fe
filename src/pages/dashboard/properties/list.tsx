@@ -1,18 +1,19 @@
 import { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { Plus, Send} from "lucide-react"
+import { Plus, Send, FileUp, History } from "lucide-react"
 import { Link, useNavigate, generatePath } from "react-router-dom"
 import { paths } from "@/routes/paths"
 import { useAppStore } from "@/store/app.store"
-import { useListingsQuery, useDeleteListingMutation, useUpdateListingStatusMutation } from "@/hooks/listings/use-listings"
+import { useListingsQuery, useDeleteListingMutation, useUpdateListingStatusMutation, useImportListingsExcelMutation } from "@/hooks/listings/use-listings"
 import { useClientsQuery, useClientListingsQuery, useLinkListingMutation } from "@/hooks/use-clients"
 import { useQueryParams } from "@/hooks/use-query-params"
 
 import { Button } from "@/components/atoms"
 import { PropertyDetailModal, PropertiesFilterBar, PropertiesView } from "@/components/organisms/listings"
-import { type ListingResponse, LISTING_TYPES, PROPERTY_TYPES, LISTING_STATUSES } from "@/types/api"
+import { type ListingResponse, type ListingImportResponse, LISTING_TYPES, PROPERTY_TYPES, LISTING_STATUSES } from "@/types/api"
+import { ImportFileModal, ImportResultModal } from "@/components/organisms/common"
 import { LinkClientModal } from "@/components/organisms/listings"
-
+import { getImportRowDisplay } from "@/utils/import-formatter"
 
 export default function PropertiesPage() {
   const { t } = useTranslation("listing")
@@ -23,6 +24,8 @@ export default function PropertiesPage() {
   const [selectedListing, setSelectedListing] = useState<ListingResponse | null>(null)
   const [linkListingId, setLinkListingId] = useState<number | null>(null)
   const [selectedClientId, setSelectedClientId] = useState<string>("")
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false)
+  const [importResult, setImportResult] = useState<ListingImportResponse | null>(null)
 
   const { data: clientsData, isLoading: isClientsLoading } = useClientsQuery({ limit: 100 }, !!linkListingId)
   
@@ -90,6 +93,16 @@ export default function PropertiesPage() {
 
   const { mutate: deleteListing } = useDeleteListingMutation()
   const { mutate: updateStatus } = useUpdateListingStatusMutation()
+  const { mutate: importExcel, isPending: isImporting } = useImportListingsExcelMutation()
+
+  const handleImportSubmit = (file: File) => {
+    importExcel({ file }, {
+      onSuccess: (data) => {
+        setIsImportModalOpen(false)
+        setImportResult(data)
+      }
+    })
+  }
 
   const handleDelete = (id: string | number) => {
     deleteListing(id)
@@ -115,12 +128,24 @@ export default function PropertiesPage() {
           </div>
           <p className="text-muted-foreground text-sm mt-1">{t("list.subtitle")}</p>
         </div>
-        <Button variant="solid" className="flex items-center gap-2" asChild>
-          <Link to={paths.dashboard.properties.create}>
-            <Plus className="w-4 h-4" />
-            {t("list.add_new_btn")}
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" className="flex items-center gap-2" asChild>
+            <Link to={paths.dashboard.properties.importHistory}>
+              <History className="w-4 h-4" />
+              {t("list.import_history_btn")}
+            </Link>
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2" onClick={() => setIsImportModalOpen(true)}>
+            <FileUp className="w-4 h-4" />
+            {t("list.import_excel_btn")}
+          </Button>
+          <Button variant="solid" className="flex items-center gap-2" asChild>
+            <Link to={paths.dashboard.properties.create}>
+              <Plus className="w-4 h-4" />
+              {t("list.add_new_btn")}
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <PropertiesFilterBar
@@ -182,6 +207,40 @@ export default function PropertiesPage() {
           onSubmit={handleLinkSubmit}
         />
       )}
+
+      <ImportFileModal
+        isOpen={isImportModalOpen}
+        onOpenChange={setIsImportModalOpen}
+        title={t("listing:import_modal.title")}
+        description={t("listing:import_modal.description")}
+        templateUrl="/templates/Property_Import_Template.xlsx"
+        isLoading={isImporting}
+        onImport={handleImportSubmit}
+      />
+
+      <ImportResultModal
+        isOpen={!!importResult}
+        onOpenChange={(open) => {
+          if (!open) setImportResult(null)
+        }}
+        data={importResult ? {
+          total_rows: importResult.total_rows,
+          success_rows: importResult.success_rows,
+          failed_rows: importResult.failed_rows,
+          results: importResult.results.map(r => {
+            const display = getImportRowDisplay(r.status, t)
+            
+            return {
+              index: r.index,
+              statusLabel: display.label,
+              statusColor: display.color,
+              statusIcon: display.icon,
+              identifier: r.title ?? (r.source_ref !== null ? String(r.source_ref) : "N/A"),
+              message: r.message
+            }
+          })
+        } : null}
+      />
     </div>
   )
 }

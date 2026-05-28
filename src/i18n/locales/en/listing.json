@@ -2,6 +2,8 @@
   "list": {
     "title": "Properties Management",
     "subtitle": "List of all properties in the system",
+    "import_history_btn": "Import History",
+    "import_excel_btn": "Import Excel",
     "add_new_btn": "Add New",
     "no_results": "No results found",
     "adjust_filters": "Try adjusting your search filters or add a new property",
@@ -143,7 +145,9 @@
     "create_success": "Property created successfully",
     "create_error": "Error creating property",
     "update_success": "Property updated successfully",
-    "update_error": "Failed to update property"
+    "update_error": "Failed to update property",
+    "import_success": "Properties imported successfully",
+    "import_error": "Failed to import properties"
   },
   "validation": {
     "title_required": "Please enter your title",
@@ -155,6 +159,26 @@
     "listing_type_invalid": "Invalid listing type",
     "property_type_invalid": "Invalid property type",
     "status_invalid": "Invalid status"
+  },
+  "import_modal": {
+    "title": "Import Properties",
+    "description": "Drag and drop an Excel file containing the list of properties for bulk import"
+  },
+  "import_history": {
+    "title": "Import History",
+    "description": "Track the progress and results of property imports",
+    "table_title": "Job List",
+    "refresh": "Refresh",
+    "table_job_id": "Job ID",
+    "table_time": "Time",
+    "table_status": "Status",
+    "table_progress": "Progress",
+    "table_result": "Result",
+    "processed": "Processed",
+    "total": "Total",
+    "success": "Success",
+    "failed": "Failed",
+    "empty": "No import history yet"
   },
   "no_image": "No image"
 }

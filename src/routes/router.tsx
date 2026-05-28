@@ -24,6 +24,7 @@ const DashboardHomePage = React.lazy(() => import("@/pages/dashboard/dashboard")
 const PropertiesPage = React.lazy(() => import("@/pages/dashboard/properties/list"))
 const PropertiesCreatePage = React.lazy(() => import("@/pages/dashboard/properties/create"))
 const PropertiesEditPage = React.lazy(() => import("@/pages/dashboard/properties/edit"))
+const PropertiesImportHistoryPage = React.lazy(() => import("@/pages/dashboard/properties/import-history"))
 const ClientsPage = React.lazy(() => import("@/pages/dashboard/client/list"))
 const ClientDetailPage = React.lazy(() => import("@/pages/dashboard/client/detail"))
 const ChatPage = React.lazy(() => import("@/pages/dashboard/chat"))
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: paths.dashboard.properties.edit,
         element: lazyLoad(PropertiesEditPage),
+      },
+      {
+        path: paths.dashboard.properties.importHistory,
+        element: lazyLoad(PropertiesImportHistoryPage),
       },
 
       // Clients routes

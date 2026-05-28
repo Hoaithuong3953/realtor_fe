@@ -2,6 +2,8 @@
   "list": {
     "title": "Quản lý Bất động sản",
     "subtitle": "Danh sách tất cả các bất động sản trong hệ thống",
+    "import_history_btn": "Lịch sử Import",
+    "import_excel_btn": "Import Excel",
     "add_new_btn": "Thêm mới",
     "no_results": "Không tìm thấy kết quả",
     "adjust_filters": "Thử điều chỉnh lại bộ lọc tìm kiếm hoặc thêm mới bất động sản",
@@ -143,7 +145,9 @@
     "create_success": "Tạo bất động sản thành công",
     "create_error": "Lỗi khi tạo bất động sản",
     "update_success": "Cập nhật bất động sản thành công",
-    "update_error": "Lỗi khi cập nhật bất động sản"
+    "update_error": "Lỗi khi cập nhật bất động sản",
+    "import_success": "Import bất động sản thành công",
+    "import_error": "Import bất động sản thất bại"
   },
   "validation": {
     "title_required": "Vui lòng nhập tiêu đề",
@@ -155,6 +159,26 @@
     "listing_type_invalid": "Loại hình giao dịch không hợp lệ",
     "property_type_invalid": "Loại hình bất động sản không hợp lệ",
     "status_invalid": "Trạng thái không hợp lệ"
+  },
+  "import_modal": {
+    "title": "Import Bất động sản",
+    "description": "Kéo thả file Excel chứa danh sách bất động sản để import hàng loạt"
+  },
+  "import_history": {
+    "title": "Lịch sử Import",
+    "description": "Theo dõi tiến trình và kết quả import bất động sản",
+    "table_title": "Danh sách tiến trình",
+    "refresh": "Làm mới",
+    "table_job_id": "Mã Job",
+    "table_time": "Thời gian",
+    "table_status": "Trạng thái",
+    "table_progress": "Tiến độ",
+    "table_result": "Kết quả",
+    "processed": "Đã xử lý",
+    "total": "Tổng",
+    "success": "Thành công",
+    "failed": "Thất bại",
+    "empty": "Chưa có lịch sử import nào"
   },
   "no_image": "Chưa có ảnh"
 }

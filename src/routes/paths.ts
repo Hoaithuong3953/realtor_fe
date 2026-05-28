@@ -6,6 +6,7 @@ export const paths = {
       root: "/properties",
       create: "/properties/create",
       edit: "/properties/:id/edit",
+      importHistory: "/properties/import-history",
     },
     clients: {
       root: "/clients",

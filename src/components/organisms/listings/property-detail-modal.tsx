@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/atoms"
 import { EmptyState } from "@/components/molecules"
 import { PropertyDetailView, type PropertyDetailData } from "@/components/organisms/listings"
+import { normalizeMedia } from "@/utils/listing-formatter"
 import { useListingDetailQuery } from "@/hooks/listings/use-listings"
 import { type ListingResponse } from "@/types/api"
 
@@ -36,14 +37,7 @@ export const PropertyDetailModal = ({
   
   const formattedListing = targetListing ? {
     ...targetListing,
-    media: targetListing.media?.map((m: unknown) => {
-      if (typeof m === "string") return { url: m }
-      const mediaObj = m as Record<string, unknown>
-      return {
-        ...mediaObj,
-        url: typeof mediaObj.url === "string" ? mediaObj.url : ""
-      }
-    })
+    media: normalizeMedia(targetListing.media)
   } : null
 
   return (

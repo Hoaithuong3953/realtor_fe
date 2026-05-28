@@ -4,7 +4,7 @@ import { ATTRIBUTE_CONFIG, EXCLUDED_CARD_ATTRIBUTES } from "@/constants/listing"
 
 import { Badge } from "@/components/ui"
 import { cn } from "@/lib/utils"
-import { formatListingType, formatPropertyType, formatListingPrice, formatListingStatus, formatShortAddress, formatLocalizedAddress } from "@/utils/listing-formatter"
+import { formatListingType, formatPropertyType, formatListingPrice, formatListingStatus, formatShortAddress, formatLocalizedAddress, getMediaUrl } from "@/utils/listing-formatter"
 import { formatShortDateTime } from "@/utils/date-formatter"
 import { useTranslation } from "react-i18next"
 import { Button, Tag, Tooltip, ListingBadge } from "@/components/atoms"
@@ -37,12 +37,7 @@ export const PropertyCard = ({
 }: PropertyCardProps) => {
   const { t, i18n } = useTranslation("listing")
   const firstMedia = media?.[0];
-  const url = typeof firstMedia === "string" 
-    ? firstMedia 
-    : (firstMedia && typeof firstMedia === "object" && "url" in firstMedia && typeof (firstMedia as Record<string, unknown>).url === "string" 
-        ? ((firstMedia as Record<string, unknown>).url as string)
-        : undefined);
-  const imageUrl = url;
+  const imageUrl = getMediaUrl(firstMedia) || undefined;
   
   const [imageError, setImageError] = useState(false)
 

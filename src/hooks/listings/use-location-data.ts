@@ -11,8 +11,11 @@ export interface LocationUnit {
 
 const HCMC_CODE = "79"
 
-const fetchProvinces = (): Promise<LocationUnit[]> => {
-  return Promise.resolve([{ code: HCMC_CODE, name: "Thành phố Hồ Chí Minh" }])
+const fetchProvinces = async (): Promise<LocationUnit[]> => {
+  const res = await fetch(`https://provinces.open-api.vn/api/p/`)
+  if (!res.ok) throw new Error("Failed to fetch provinces")
+  const data = await res.json() as LocationUnit[]
+  return data || []
 }
 
 const fetchDistricts = async (provinceCode: string): Promise<LocationUnit[]> => {
@@ -43,13 +46,13 @@ export function useLocationData() {
 
   useEffect(() => {
     if (!provinceCode && provinces.length > 0) {
-      const p = provinces[0]
-      setValue("location_json.province_code", String(p.code))
-      setValue("location_json.province_name", p.name)
-      // also update address text
-      const loc = (getValues("location_json") || {}) as Record<string, string | undefined>
-      const parts = [loc.detail, loc.ward_name, loc.district_name, p.name].filter(Boolean)
-      setValue("address_text", parts.join(", "), { shouldValidate: true })
+      const p = provinces.find(x => String(x.code) === HCMC_CODE) || provinces[0]
+      if (p) {
+        setValue("location_json.province_code", String(p.code))
+        const loc = (getValues("location_json") || {}) as Record<string, string | undefined>
+        const parts = [loc.detail, p.name].filter(Boolean)
+        setValue("address_text", parts.join(", "), { shouldValidate: true })
+      }
     }
   }, [provinceCode, provinces, setValue, getValues])
   
@@ -69,9 +72,9 @@ export function useLocationData() {
 
   const updateAddressText = (pName?: string, dName?: string, wName?: string, detail?: string) => {
     const loc = (getValues("location_json") || {}) as Record<string, string | undefined>
-    const finalP = pName !== undefined ? pName : loc.province_name
-    const finalD = dName !== undefined ? dName : loc.district_name
-    const finalW = wName !== undefined ? wName : loc.ward_name
+    const finalP = pName !== undefined ? pName : (provinces.find(p => p.code.toString() === loc.province_code)?.name || "")
+    const finalD = dName !== undefined ? dName : (districts.find(d => d.code.toString() === loc.district_code)?.name || "")
+    const finalW = wName !== undefined ? wName : (wards.find(w => w.code.toString() === loc.ward_code)?.name || "")
     const finalDetail = detail !== undefined ? detail : loc.detail
     const parts = [finalDetail, finalW, finalD, finalP].filter(Boolean)
     setValue("address_text", parts.join(", "), { shouldValidate: true })
@@ -80,27 +83,21 @@ export function useLocationData() {
   const handleProvinceChange = (val: string) => {
     const p = provinces.find(x => x.code.toString() === val)
     setValue("location_json.province_code", val)
-    setValue("location_json.province_name", p?.name)
     setValue("location_json.district_code", "")
-    setValue("location_json.district_name", "")
     setValue("location_json.ward_code", "")
-    setValue("location_json.ward_name", "")
     updateAddressText(p?.name, "", "", undefined)
   }
 
   const handleDistrictChange = (val: string) => {
     const d = districts.find(x => x.code.toString() === val)
     setValue("location_json.district_code", val)
-    setValue("location_json.district_name", d?.name)
     setValue("location_json.ward_code", "")
-    setValue("location_json.ward_name", "")
     updateAddressText(undefined, d?.name, "", undefined)
   }
 
   const handleWardChange = (val: string) => {
     const w = wards.find(x => x.code.toString() === val)
     setValue("location_json.ward_code", val)
-    setValue("location_json.ward_name", w?.name)
     updateAddressText(undefined, undefined, w?.name, undefined)
   }
 

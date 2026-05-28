@@ -96,3 +96,59 @@ export function formatLocalizedAddress(address?: string | null, language: string
 
   return result;
 }
+
+export function getImportJobStatusDisplay(status: string, t?: TranslationFn): { label: string, color: string } {
+  switch (status.toLowerCase()) {
+    case "success":
+    case "completed":
+      return {
+        label: t ? (t("import:importResult.job_status_completed") || "Hoàn thành") : "Hoàn thành",
+        color: "bg-green-500/10 text-green-700 hover:bg-green-500/20"
+      }
+    case "partial_success":
+      return {
+        label: t ? (t("import:importResult.job_status_partial") || "Hoàn thành (có lỗi)") : "Hoàn thành (có lỗi)",
+        color: "bg-yellow-500/10 text-yellow-700 hover:bg-yellow-500/20"
+      }
+    case "failed":
+      return {
+        label: t ? (t("import:importResult.job_status_failed") || "Lỗi") : "Lỗi",
+        color: "bg-red-500/10 text-red-700 hover:bg-red-500/20"
+      }
+    case "running":
+    case "processing":
+      return {
+        label: t ? (t("import:importResult.job_status_running") || "Đang xử lý") : "Đang xử lý",
+        color: "bg-blue-500/10 text-blue-700 hover:bg-blue-500/20"
+      }
+    case "pending":
+    default:
+      return {
+        label: t ? (t("import:importResult.job_status_pending") || "Chờ xử lý") : "Chờ xử lý",
+        color: "bg-gray-500/10 text-gray-700 hover:bg-gray-500/20"
+      }
+  }
+}
+
+export function getMediaUrl(mediaItem: unknown): string {
+  if (typeof mediaItem === "string") return mediaItem;
+  if (mediaItem && typeof mediaItem === "object") {
+    const obj = mediaItem as Record<string, unknown>;
+    if (typeof obj.url === "string") return obj.url;
+    if (typeof obj.image === "string") return obj.image;
+  }
+  return "";
+}
+
+export function normalizeMedia(mediaArray: unknown[] | null | undefined): Array<{ url: string; [key: string]: unknown }> {
+  if (!mediaArray || !Array.isArray(mediaArray)) return [];
+  return mediaArray.map(m => {
+    if (typeof m === "string") return { url: m };
+    const obj = m as Record<string, unknown>;
+    return {
+      ...obj,
+      url: getMediaUrl(m)
+    };
+  });
+}
+

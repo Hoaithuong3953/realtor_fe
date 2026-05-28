@@ -1,7 +1,7 @@
 import { type ColumnDef } from "@tanstack/react-table"
 import { useTranslation } from "react-i18next"
 
-import { DataTable } from "@/components/organisms/common/data-table"
+import { DataTable } from "@/components/organisms/common"
 import { ActionDropdown } from "@/components/molecules"
 import { Tag } from "@/components/atoms"
 import { formatPrice } from "@/utils/currency-formatter"

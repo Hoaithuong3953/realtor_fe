@@ -1,5 +1,5 @@
 import * as React from "react"
-import { MapPin, SquareDashed, Building2, Banknote, Tag as TagIcon } from "lucide-react"
+import { MapPin, SquareDashed, Building2, Banknote, Tag as TagIcon, ImageOff } from "lucide-react"
 import {
   Carousel,
   CarouselContent,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/carousel"
 import { cn } from "@/lib/utils"
 
-import { formatListingType, formatPropertyType, formatListingStatus, formatListingPrice, formatLocalizedAddress } from "@/utils/listing-formatter"
+import { formatListingType, formatPropertyType, formatListingStatus, formatListingPrice, formatLocalizedAddress, normalizeMedia } from "@/utils/listing-formatter"
 import { formatPrice } from "@/utils/currency-formatter"
 import { formatShortDateTime } from "@/utils/date-formatter"
 import { useTranslation } from "react-i18next"
@@ -49,10 +49,7 @@ export const PropertyDetailView = ({ property, footerActions, className }: Prope
   const { t, i18n } = useTranslation("listing")
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
-
-  const media = property.media && property.media.length > 0
-    ? property.media
-    : [{ url: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" }]
+  const media = normalizeMedia(property.media)
 
   React.useEffect(() => {
     if (!api) return
@@ -64,50 +61,59 @@ export const PropertyDetailView = ({ property, footerActions, className }: Prope
     <div className={cn("flex flex-col", className)}>
       {/* 1. Media Gallery - Carousel */}
       <div className="w-full relative bg-muted group">
-        <Carousel className="w-full" opts={{ loop: true }} setApi={setApi}>
-          <CarouselContent>
-            {media.map((img, idx) => (
-              <CarouselItem key={idx}>
-                <div className="aspect-[16/9] w-full">
-                  <img
-                    src={img.url}
-                    alt={`${property.title} - ${t("detail.image")} ${idx + 1}`}
-                    className="w-full h-full object-cover"
+        {media.length > 0 ? (
+          <>
+            <Carousel className="w-full" opts={{ loop: true }} setApi={setApi}>
+              <CarouselContent>
+                {media.map((img, idx) => (
+                  <CarouselItem key={idx}>
+                    <div className="aspect-[16/9] w-full">
+                      <img
+                        src={img.url}
+                        alt={`${property.title} - ${t("detail.image")} ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              {media.length > 1 && (
+                <>
+                  <CarouselPrevious
+                    className="left-3 bg-black/40 hover:bg-black/60 text-white border-0 shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                    onMouseDown={(e) => e.preventDefault()}
                   />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          {media.length > 1 && (
-            <>
-              <CarouselPrevious
-                className="left-3 bg-black/40 hover:bg-black/60 text-white border-0 shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                onMouseDown={(e) => e.preventDefault()}
-              />
-              <CarouselNext
-                className="right-3 bg-black/40 hover:bg-black/60 text-white border-0 shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                onMouseDown={(e) => e.preventDefault()}
-              />
-            </>
-          )}
-        </Carousel>
+                  <CarouselNext
+                    className="right-3 bg-black/40 hover:bg-black/60 text-white border-0 shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                    onMouseDown={(e) => e.preventDefault()}
+                  />
+                </>
+              )}
+            </Carousel>
 
-        {/* Dot indicators */}
-        {media.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5 px-2 py-1 bg-black/30 rounded-full backdrop-blur-sm">
-            {media.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => api?.scrollTo(idx)}
-                onMouseDown={(e) => e.preventDefault()}
-                className={cn(
-                  "rounded-full transition-all duration-300",
-                  idx === current
-                    ? "w-5 h-1.5 bg-white"
-                    : "w-1.5 h-1.5 bg-white/50 hover:bg-white/80"
-                )}
-              />
-            ))}
+            {/* Dot indicators */}
+            {media.length > 1 && (
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5 px-2 py-1 bg-black/30 rounded-full backdrop-blur-sm">
+                {media.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => api?.scrollTo(idx)}
+                    onMouseDown={(e) => e.preventDefault()}
+                    className={cn(
+                      "rounded-full transition-all duration-300",
+                      idx === current
+                        ? "w-5 h-1.5 bg-white"
+                        : "w-1.5 h-1.5 bg-white/50 hover:bg-white/80"
+                    )}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="aspect-[16/9] w-full flex flex-col items-center justify-center text-muted-foreground border-b border-dashed bg-muted/30">
+            <ImageOff className="w-12 h-12 opacity-50 mb-3" />
+            <span className="text-sm font-medium opacity-50">{t("no_image") || "No image"}</span>
           </div>
         )}
 

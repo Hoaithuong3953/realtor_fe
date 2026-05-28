@@ -5,6 +5,7 @@ import { type ListingFormValues } from "@/schemas/listing.schema"
 import { paths } from "@/routes/paths"
 import { LISTING_TYPES, PROPERTY_TYPES } from "@/types/api"
 import { LoadingScreen } from "@/components/molecules"
+import { normalizeMedia } from "@/utils/listing-formatter"
 
 export default function PropertiesEditPage() {
   const { id } = useParams<{ id: string }>()
@@ -44,7 +45,7 @@ export default function PropertiesEditPage() {
     geo: listing.geo || {},
     tags: listing.tags || [],
     attributes: listing.attributes || {},
-    media: listing.media || []
+    media: normalizeMedia(listing.media)
   }
 
   return (

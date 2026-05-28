@@ -1,11 +1,11 @@
 import { type ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui"
 import { ImageOff } from "lucide-react"
-import { DataTable } from "@/components/organisms/common/data-table"
+import { DataTable } from "@/components/organisms/common"
 import { ActionDropdown } from "@/components/molecules"
 import { ListingBadge } from "@/components/atoms"
 import { useTranslation } from "react-i18next"
-import { formatListingType, formatPropertyType, formatListingPrice, formatListingStatus, formatShortAddress, formatLocalizedAddress } from "@/utils/listing-formatter"
+import { formatListingType, formatPropertyType, formatListingPrice, formatListingStatus, formatShortAddress, formatLocalizedAddress, getMediaUrl } from "@/utils/listing-formatter"
 import { formatShortDateTime } from "@/utils/date-formatter"
 import type { PropertyItemData, PropertyAction } from "@/types/ui/property"
 
@@ -32,9 +32,7 @@ export const PropertiesTable = ({
       cell: ({ row }) => {
         const property = row.original
         const firstMedia = property.media?.[0]
-        const imageUrl = firstMedia && typeof firstMedia.url === "string" 
-          ? firstMedia.url 
-          : undefined
+        const imageUrl = getMediaUrl(firstMedia)
         
         return (
           <div className="flex items-center gap-3 max-w-sm">

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import type { ColumnDef } from "@tanstack/react-table"
 
 import { ActionDropdown } from "@/components/molecules"
-import { DataTable } from "@/components/organisms/common/data-table"
+import { DataTable } from "@/components/organisms/common"
 import { Tag } from "@/components/atoms"
 import type { UserAction, UserUiModel } from "@/types/ui/user"
 import { formatUserStatus, formatUserRole } from "@/utils/user-formatter"

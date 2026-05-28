@@ -66,7 +66,12 @@ export function formatShortAddress(address?: string | null): string {
     let cleanPart = part;
     for (const prefix of prefixes) {
       if (cleanPart.toLowerCase().startsWith(prefix.toLowerCase())) {
-        cleanPart = cleanPart.substring(prefix.length).trim();
+        const stripped = cleanPart.substring(prefix.length).trim();
+        // If the remaining part is just a number (e.g. "3", "12"), keep the prefix
+        if (/^\d+$/.test(stripped)) {
+          continue;
+        }
+        cleanPart = stripped;
       }
     }
     return cleanPart;

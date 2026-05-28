@@ -37,4 +37,5 @@ export type AttributeConfigData = {
   icon?: React.ElementType;
   type?: string;
   placeholder?: string;
+  options?: { value: string; label: string }[];
 }

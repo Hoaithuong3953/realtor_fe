@@ -7,9 +7,10 @@ import { type ListingFormValues } from "@/schemas/listing.schema"
 import { ATTRIBUTE_CONFIG } from "@/constants/listing"
 
 interface DetailsStepProps {
-  customFields: { key: string; value: string }[]
+  customFields: { key: string; customKey?: string; value: string }[]
   addCustomField: () => void
   updateCustomFieldKey: (index: number, key: string) => void
+  updateCustomFieldCustomKey: (index: number, key: string) => void
   updateCustomFieldValue: (index: number, value: string) => void
   removeCustomField: (index: number) => void
 }
@@ -18,6 +19,7 @@ export const DetailsStep = ({
   customFields, 
   addCustomField, 
   updateCustomFieldKey, 
+  updateCustomFieldCustomKey,
   updateCustomFieldValue, 
   removeCustomField 
 }: DetailsStepProps) => {
@@ -53,28 +55,52 @@ export const DetailsStep = ({
         </div>
 
         {customFields.map((field, index) => {
+          const isCustom = field.key === "_custom";
+          
           const options = Object.entries(ATTRIBUTE_CONFIG)
             .filter(([k]) => !customFields.some((f, i) => i !== index && f.key === k))
             .map(([k, conf]) => ({ value: k, label: t(conf.label) }));
+            
+          options.push({ value: "_custom", label: t("form.custom_attributes_other", { defaultValue: "Thuộc tính khác..." }) });
 
           return (
             <div key={index} className="flex items-center gap-4">
               <div className="w-1/3">
-                <Select
-                  className="w-full"
-                  options={options}
-                  value={field.key}
-                  onChange={(val) => updateCustomFieldKey(index, val)}
-                  placeholder={t("form.custom_attributes_select_placeholder")}
-                />
+                {isCustom ? (
+                  <Input
+                    placeholder={t("form.custom_attributes_name_placeholder", { defaultValue: "Tên thuộc tính" })}
+                    value={field.customKey || ""}
+                    onChange={(e) => updateCustomFieldCustomKey(index, e.target.value)}
+                    autoFocus
+                  />
+                ) : (
+                  <Select
+                    className="w-full"
+                    options={options}
+                    value={field.key}
+                    onChange={(val) => updateCustomFieldKey(index, val)}
+                    placeholder={t("form.custom_attributes_select_placeholder")}
+                  />
+                )}
               </div>
               <div className="flex-1">
-                <Input
-                  type={ATTRIBUTE_CONFIG[field.key]?.type || "text"}
-                  value={field.value}
-                  onChange={(e) => updateCustomFieldValue(index, e.target.value)}
-                  placeholder={ATTRIBUTE_CONFIG[field.key]?.placeholder ? t(ATTRIBUTE_CONFIG[field.key].placeholder!) : t("form.custom_attributes_value_placeholder")}
-                />
+                {ATTRIBUTE_CONFIG[field.key]?.options ? (
+                  <Select
+                    className="w-full"
+                    options={ATTRIBUTE_CONFIG[field.key].options}
+                    value={field.value}
+                    onChange={(val) => updateCustomFieldValue(index, val)}
+                    placeholder={ATTRIBUTE_CONFIG[field.key]?.placeholder ? t(ATTRIBUTE_CONFIG[field.key].placeholder!) : t("form.custom_attributes_value_placeholder")}
+                  />
+                ) : (
+                  <Input
+                    className="w-full"
+                    type={ATTRIBUTE_CONFIG[field.key]?.type || "text"}
+                    value={field.value}
+                    onChange={(e) => updateCustomFieldValue(index, e.target.value)}
+                    placeholder={ATTRIBUTE_CONFIG[field.key]?.placeholder ? t(ATTRIBUTE_CONFIG[field.key].placeholder!) : t("form.custom_attributes_value_placeholder")}
+                  />
+                )}
               </div>
               <Button 
                 type="button" 

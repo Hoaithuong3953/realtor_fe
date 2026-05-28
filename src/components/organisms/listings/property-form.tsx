@@ -42,6 +42,7 @@ export const PropertyForm = ({
     customFields,
     addCustomField,
     updateCustomFieldKey,
+    updateCustomFieldCustomKey,
     updateCustomFieldValue,
     removeCustomField,
     mergeCustomFields
@@ -170,6 +171,7 @@ export const PropertyForm = ({
                 customFields={customFields} 
                 addCustomField={addCustomField}
                 updateCustomFieldKey={updateCustomFieldKey}
+                updateCustomFieldCustomKey={updateCustomFieldCustomKey}
                 updateCustomFieldValue={updateCustomFieldValue}
                 removeCustomField={removeCustomField}
               />

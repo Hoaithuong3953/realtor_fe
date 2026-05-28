@@ -1,5 +1,5 @@
 import * as React from "react"
-import { MapPin, SquareDashed, Building2, Banknote, Tag as TagIcon, ImageOff } from "lucide-react"
+import { MapPin, SquareDashed, Building2, Banknote, Tag as TagIcon, ImageOff, Star, Info } from "lucide-react"
 import {
   Carousel,
   CarouselContent,
@@ -205,32 +205,42 @@ export const PropertyDetailView = ({ property, footerActions, className }: Prope
           </div>
         </div>
 
-        {/* 5. Attributes Grid */}
-        {Object.entries(property.attributes || {}).filter(([key, value]) => key !== "deposit" && key !== "rent_period" && value !== undefined && value !== null && value !== "").length > 0 && (
+        {Object.entries(property.attributes || {}).filter(([key, value]) => key !== "deposit" && key !== "rent_period" && key !== "extra_features" && value !== undefined && value !== null && value !== "").length > 0 || (Array.isArray(property.attributes?.extra_features) && property.attributes?.extra_features.length > 0) ? (
           <div className="flex flex-col gap-2.5">
             <h3 className="font-bold text-base border-l-4 border-primary pl-3">{t("form.step_details") || "Đặc điểm"}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {Object.entries(property.attributes || {})
-                .filter(([key, value]) => key !== "deposit" && key !== "rent_period" && value !== undefined && value !== null && value !== "")
+                .filter(([key, value]) => key !== "deposit" && key !== "rent_period" && key !== "extra_features" && value !== undefined && value !== null && value !== "")
                 .map(([key, value]) => {
                   const config = ATTRIBUTE_CONFIG[key]
-                  if (!config) return null
-                  const Icon = config.icon
+                  const Icon = config?.icon || Info
                   return (
                     <div key={key} className="flex flex-col gap-2 p-3.5 rounded-xl bg-muted/40 border border-border/40">
                       <Icon className="size-5 text-primary" />
                       <div>
-                        <p className="text-[11px] text-muted-foreground uppercase font-medium tracking-wider">{t(config.label)}</p>
+                        <p className="text-[11px] text-muted-foreground uppercase font-medium tracking-wider">{config ? t(config.label) : key}</p>
                         <p className="font-semibold text-foreground text-sm mt-0.5">
-                          {value as React.ReactNode} {key === "bedrooms" ? t("detail.beds_unit") : key === "bathrooms" ? t("detail.baths_unit") : ""}
+                          {value as React.ReactNode} {key === "room" ? t("detail.beds_unit") : key === "toilet" ? t("detail.baths_unit") : ""}
                         </p>
                       </div>
                     </div>
                   )
                 })}
+              
+              {Array.isArray(property.attributes?.extra_features) && property.attributes.extra_features.map((feature, idx) => (
+                    <div key={`extra-${idx}`} className="flex flex-col gap-2 p-3.5 rounded-xl bg-muted/40 border border-border/40">
+                      <Star className="size-5 text-primary" />
+                      <div>
+                        <p className="text-[11px] text-muted-foreground uppercase font-medium tracking-wider">Khác</p>
+                        <p className="font-semibold text-foreground text-sm mt-0.5">
+                          {feature as React.ReactNode}
+                        </p>
+                      </div>
+                    </div>
+              ))}
             </div>
           </div>
-        )}
+        ) : null}
 
         {/* 5. Description */}
         {property.description && (

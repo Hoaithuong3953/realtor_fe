@@ -39,7 +39,7 @@ export const LocationStep = () => {
           required
           disabled={!watch("location_json.province_code")}
           options={districts.map((d) => ({ value: String(d.code), label: d.name }))}
-          value={watch("location_json.district_code") ? String(watch("location_json.district_code")) : ""}
+          value={watch("location_json.district_code") ? String(watch("location_json.district_code")) : undefined}
           onChange={handleDistrictChange}
           placeholder={t("form.district_placeholder")}
         />
@@ -49,7 +49,7 @@ export const LocationStep = () => {
           required
           disabled={!watch("location_json.district_code")}
           options={wards.map((w) => ({ value: String(w.code), label: w.name }))}
-          value={watch("location_json.ward_code") ? String(watch("location_json.ward_code")) : ""}
+          value={watch("location_json.ward_code") ? String(watch("location_json.ward_code")) : undefined}
           onChange={handleWardChange}
           placeholder={t("form.ward_placeholder")}
         />

@@ -26,9 +26,11 @@ const fetchDistricts = async (provinceCode: string): Promise<LocationUnit[]> => 
 }
 
 const fetchWards = async (districtCode: string): Promise<LocationUnit[]> => {
+  console.log("fetching wards for:", districtCode);
   const res = await fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
   if (!res.ok) throw new Error("Failed to fetch wards")
   const data = await res.json() as { wards?: LocationUnit[] }
+  console.log("wards data fetched:", data);
   return data.wards || []
 }
 

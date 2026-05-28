@@ -29,7 +29,7 @@ export default function ChatPage() {
   const { t } = useTranslation(["chat", "common", "client"])
 
   // Local & Zustand state
-  const { isTyping, setIsTyping, activeClient, setMemories } = useChatStore()
+  const { isTyping, setIsTyping, activeClient, setAggregatedMemory } = useChatStore()
   const [pendingListingId, setPendingListingId] = React.useState<number | null>(null)
   const [selectedDynamicClientId, setSelectedDynamicClientId] = React.useState<string>("")
   const [viewListingId, setViewListingId] = React.useState<number | null>(null)
@@ -172,16 +172,18 @@ export default function ChatPage() {
   // Sync memories to Zustand for ChatbotLayout to use
   React.useEffect(() => {
     if (memoriesData) {
-      setMemories(memoriesData.map(m => ({ id: m.id.toString(), content: m.content })))
+      setAggregatedMemory(memoriesData)
+    } else {
+      setAggregatedMemory(null)
     }
-  }, [memoriesData, setMemories])
+  }, [memoriesData, setAggregatedMemory])
 
   const finalMessages = [...mappedMessages]
   if (optimisticMessage) {
     finalMessages.push({
       role: "user",
       content: optimisticMessage,
-      children: undefined
+      children: null
     })
   }
 

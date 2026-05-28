@@ -41,7 +41,8 @@ export interface ChatSessionResponse {
   client_id?: number | null;
   title?: string | null;
   status: string;
-  summary_text?: string | null;
+  summary_text?: Record<string, unknown> | null;
+  aggregated_memory?: AggregatedMemoryResponse | null;
   context_json?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
@@ -52,8 +53,17 @@ export interface ChatSessionUpdate {
   client_id?: number | null;
 }
 
-export type MemoryItem = {
-  id: string
-  content: string
-  source?: string
+export interface AggregatedMemoryResponse {
+  client_info?: {
+    name?: string;
+    phone?: string;
+    email?: string;
+  };
+  consolidated_requirements?: {
+    budget_range?: string;
+    locations?: string[];
+    property_details?: string;
+    special_notes?: string;
+  };
+  summary_status?: string;
 }

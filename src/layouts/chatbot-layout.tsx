@@ -2,17 +2,12 @@ import { Outlet, useNavigate, useParams, useSearchParams } from "react-router-do
 import React, { useEffect } from "react"
 import { paths } from "@/routes/paths"
 import { useTranslation } from "react-i18next"
-
 import { ChatSidebar, ChatHeader, ChatMemory, type ChatHeaderClient } from "@/components/organisms/chat"
-import type { MemoryGroupUI } from "@/types/ui/chat"
-import { MEMORY_SOURCE_MAP } from "@/constants/memory"
-import { Database } from "lucide-react"
-
 import { useChatStore } from "@/store/chat.store"
 import { 
   useChatSessionsQuery, 
   useChatSessionQuery,
-  useDeleteMemoryMutation,
+  useInitializeMemoryMutation,
   useResetMemoryMutation
 } from "@/hooks/use-chat"
 import { useClientsQuery, useClientQuery } from "@/hooks/use-clients"
@@ -26,9 +21,9 @@ export function ChatbotLayout() {
   const { t } = useTranslation("chat")
 
   const { data: sessionsData } = useChatSessionsQuery()
-  const { data: sessionDetail, isLoading: isSessionLoading } = useChatSessionQuery(activeSessionId, !!activeSessionId)
+  const { data: sessionDetail } = useChatSessionQuery(activeSessionId, !!activeSessionId)
   
-  const { mutate: deleteMemory } = useDeleteMemoryMutation(activeSessionId)
+  const { mutate: initializeMemory, isPending: isInitializing } = useInitializeMemoryMutation(activeSessionId)
   const { mutate: resetMemory } = useResetMemoryMutation(activeSessionId)
 
   const urlClientId = searchParams.get("clientId")
@@ -39,22 +34,24 @@ export function ChatbotLayout() {
 
   const {
     activeClient,
-    memories,
+    aggregatedMemory,
     isMemoryOpen,
     setActiveClient,
-    setMemories,
+    setAggregatedMemory,
     setIsMemoryOpen
   } = useChatStore()
 
   useEffect(() => {
-    if (isSessionLoading) return;
+    if (activeSessionId && !sessionDetail) return;
 
     if (clientDetail && activeClient?.id !== clientDetail.id) {
       setActiveClient(clientDetail)
-    } else if (!effectiveClientId && activeClient) {
+    } else if (activeSessionId && sessionDetail && !sessionDetail.client_id && activeClient) {
+      setActiveClient(null)
+    } else if (!activeSessionId && !urlClientId && activeClient) {
       setActiveClient(null)
     }
-  }, [clientDetail, effectiveClientId, activeClient, setActiveClient, isSessionLoading])
+  }, [clientDetail, sessionDetail, activeSessionId, urlClientId, activeClient, setActiveClient])
 
   useEffect(() => {
     if (sessionDetail && (sessionDetail.status === "deleted" || sessionDetail.status === "inactive")) {
@@ -77,51 +74,23 @@ export function ChatbotLayout() {
   }
 
   const handleRemoveContext = () => {
-    // Always navigate to a fresh /chat (clears session + client context)
     setActiveClient(null)
-    setMemories([])
+    setAggregatedMemory(null)
     void navigate(paths.dashboard.chat)
   }
 
-  const handleDeleteMemory = (memId: string) => {
-    deleteMemory(memId, {
-      onSuccess: () => {
-        setMemories(memories.filter(m => m.id !== memId))
-      }
-    })
+  const handleInitializeMemory = () => {
+    initializeMemory()
   }
 
   const handleResetMemory = () => {
     resetMemory(undefined, {
       onSuccess: () => {
-        setMemories([])
+        setAggregatedMemory(null)
       }
     })
   }
 
-  const memoryGroups = React.useMemo(() => {
-    const groupsMap = new Map<string, MemoryGroupUI>()
-    
-    memories.forEach(mem => {
-      const source = mem.source || "ai"
-      if (!groupsMap.has(source)) {
-         const config = MEMORY_SOURCE_MAP[source] || { icon: Database, tooltipKey: `constants.source_custom` }
-         const label = config.tooltipKey === "constants.source_custom" 
-           ? t("constants.source_custom", { source })
-           : t(config.tooltipKey)
-           
-         groupsMap.set(source, {
-           id: source,
-           label,
-           icon: config.icon,
-           items: []
-         })
-      }
-      groupsMap.get(source)!.items.push(mem)
-    })
-    
-    return Array.from(groupsMap.values())
-  }, [memories, t])
 
   return (
     <SidebarProvider>
@@ -156,9 +125,11 @@ export function ChatbotLayout() {
           <ChatMemory 
             isOpen={isMemoryOpen}
             onOpenChange={setIsMemoryOpen}
-            groups={memoryGroups} 
-            onDelete={handleDeleteMemory}
+            activeClient={activeClient}
+            aggregatedMemory={aggregatedMemory}
+            onInitialize={handleInitializeMemory}
             onReset={handleResetMemory}
+            isInitializing={isInitializing}
           />
         </div>
       </SidebarInset>

@@ -8,7 +8,7 @@ import type {
   ChatSessionListResponse,
   ChatSessionResponse,
   ChatSessionUpdate,
-  MemoryItem,
+  AggregatedMemoryResponse,
 } from "@/types/api/chat"
 
 export const chatService = {
@@ -73,23 +73,23 @@ export const chatService = {
   },
 
   /**
-   * Get session memories
+   * Get session aggregated memory
    * [GET] /chat/sessions/{id}/memories
    */
-  getSessionMemories: async (sessionId: string | number): Promise<MemoryItem[]> => {
-    const response = await apiClient.get<MemoryItem[]>(
+  getSessionMemories: async (sessionId: string | number): Promise<AggregatedMemoryResponse | null> => {
+    const response = await apiClient.get<AggregatedMemoryResponse | null>(
       API_ENDPOINTS.CHAT.SESSION_MEMORIES(sessionId)
     )
     return response.data
   },
 
   /**
-   * Delete a memory
-   * [DELETE] /chat/memories/{id}
+   * Initialize / Compile aggregated memory
+   * [POST] /chat/sessions/{id}/initialize-memory
    */
-  deleteMemory: async (memoryId: string | number): Promise<boolean> => {
-    const response = await apiClient.delete<boolean>(
-      API_ENDPOINTS.CHAT.MEMORY_DETAIL(memoryId)
+  initializeMemory: async (sessionId: string | number): Promise<ChatSessionResponse> => {
+    const response = await apiClient.post<ChatSessionResponse>(
+      `/chat/sessions/${sessionId}/initialize-memory`
     )
     return response.data
   },

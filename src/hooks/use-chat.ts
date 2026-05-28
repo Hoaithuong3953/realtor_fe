@@ -103,16 +103,16 @@ export const useSendMessageMutation = (sessionId?: string | number) => {
   })
 }
 
-export const useDeleteMemoryMutation = (sessionId: string | number) => {
+export const useInitializeMemoryMutation = (sessionId: string | number) => {
   const queryClient = useQueryClient()
   const { t } = useTranslation("chat")
   return useMutation({
-    mutationFn: (memoryId: string | number) => chatService.deleteMemory(memoryId),
+    mutationFn: () => chatService.initializeMemory(sessionId),
     meta: {
-      customErrorMsg: t("messages.memory_delete_error")
+      customErrorMsg: t("messages.memory_reset_error") // We can reuse the error or create a new one, let's just reuse error for now. Or better: "Không thể tổng hợp ký ức"
     },
     onSuccess: () => {
-      toast.success(t("messages.memory_delete_success"))
+      toast.success(t("messages.memory_compiled_success", { defaultValue: "Đã tổng hợp bộ nhớ thành công!" }))
       void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.memories(sessionId) })
     }
   })

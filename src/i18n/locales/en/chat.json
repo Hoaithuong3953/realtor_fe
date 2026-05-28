@@ -1,7 +1,7 @@
 {
   "layout": {
     "header_tag_placeholder": "Tag a client...",
-    "header_ai_memory": "AI Memory",
+    "header_ai_memory": "Profile & Memory",
     "header_ai_copilot": "AI Copilot",
     "sidebar_new_chat": "New Chat",
     "sidebar_back_to_dashboard": "Back to Dashboard",
@@ -19,7 +19,26 @@
     "empty_title": "How can I help you?",
     "empty_desc": "Type a message below or choose a suggestion to start the conversation",
     "memory_title": "AI Memories (Mem0)",
-    "memory_empty": "AI hasn't learned any information from this chat yet"
+    "memory_empty": "AI hasn't learned any information from this chat yet",
+    "memory_tab_client": "Client (CRM)",
+    "memory_tab_ai": "AI Memory",
+    "memory_empty_client": "No client selected",
+    "memory_client_general_info": "General Info",
+    "memory_empty_ai_title": "No aggregated data yet",
+    "memory_empty_ai_desc": "Click \"Refresh\" for AI to summarize!",
+    "memory_ai_requirements": "Aggregated Requirements",
+    "memory_ai_budget": "Budget",
+    "memory_ai_location": "Locations",
+    "memory_ai_property_details": "Property Details",
+    "memory_ai_special_notes": "Special Notes",
+    "memory_ai_status": "Consulting Status",
+    "memory_ai_no_data": "N/A",
+    "memory_ai_empty_notes": "Empty",
+    "memory_ai_empty_status": "No status yet.",
+    "memory_btn_reset": "Reset Memory",
+    "memory_btn_refresh": "Refresh",
+    "memory_reset_title": "Reset consulting memory?",
+    "memory_reset_desc": "All AI summaries and memories for this chat session will be cleared. The original client information in CRM will not be affected"
   },
   "constants": {
     "time_today": "Today",

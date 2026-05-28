@@ -1,7 +1,7 @@
 {
   "layout": {
     "header_tag_placeholder": "Gắn thẻ khách hàng...",
-    "header_ai_memory": "Ký ức AI",
+    "header_ai_memory": "Hồ sơ & Ký ức",
     "header_ai_copilot": "AI Copilot",
     "sidebar_new_chat": "Cuộc trò chuyện mới",
     "sidebar_back_to_dashboard": "Quay về Dashboard",
@@ -19,7 +19,26 @@
     "empty_title": "Tôi có thể giúp gì cho bạn?",
     "empty_desc": "Nhập nội dung bên dưới hoặc chọn một gợi ý để bắt đầu cuộc hội thoại",
     "memory_title": "Ký ức AI (Mem0)",
-    "memory_empty": "AI chưa học được thông tin nào từ đoạn chat này"
+    "memory_empty": "AI chưa học được thông tin nào từ đoạn chat này",
+    "memory_tab_client": "Khách hàng (CRM)",
+    "memory_tab_ai": "Ký ức AI",
+    "memory_empty_client": "Chưa chọn khách hàng",
+    "memory_client_general_info": "Thông tin chung",
+    "memory_empty_ai_title": "Chưa có dữ liệu tổng hợp",
+    "memory_empty_ai_desc": "Hãy bấm \"Làm mới\" để AI đúc kết!",
+    "memory_ai_requirements": "Nhu cầu tổng hợp (Từ hội thoại)",
+    "memory_ai_budget": "Ngân sách",
+    "memory_ai_location": "Vị trí quan tâm",
+    "memory_ai_property_details": "Đặc điểm BĐS",
+    "memory_ai_special_notes": "Ghi chú đặc biệt",
+    "memory_ai_status": "Trạng thái tư vấn",
+    "memory_ai_no_data": "N/A",
+    "memory_ai_empty_notes": "Trống",
+    "memory_ai_empty_status": "Chưa có đánh giá.",
+    "memory_btn_reset": "Xoá bộ nhớ",
+    "memory_btn_refresh": "Làm mới",
+    "memory_reset_title": "Xoá bộ nhớ tư vấn?",
+    "memory_reset_desc": "Toàn bộ tóm tắt và ký ức AI về phiên chat này sẽ bị xoá sạch. Thông tin gốc của khách hàng trong CRM sẽ không bị ảnh hưởng"
   },
   "constants": {
     "time_today": "Hôm nay",

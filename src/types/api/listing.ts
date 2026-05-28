@@ -74,6 +74,7 @@ export interface ListingImportResponse {
 export interface ListingImportRowResult {
   index: number;
   source_ref?: string | number | null;
+  title?: string | null;
   status: "created" | "updated" | "skipped" | "failed";
   listing_id?: number | null;
   message?: string | null;

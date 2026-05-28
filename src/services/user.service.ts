@@ -1,10 +1,11 @@
 import { apiClient } from "@/lib/api-client"
-import { API_ENDPOINTS } from "@/constants/api"
+import { API_ENDPOINTS, API_CONFIG } from "@/constants/api"
 import type {
   UserListResponse,
   UserPublic,
   UserCreate,
-  UserUpdate
+  UserUpdate,
+  UserImportResponse
 } from "@/types/api/user"
 
 export const userService = {
@@ -49,7 +50,7 @@ export const userService = {
    * [GET] /users/me
    */
   getProfile: async (): Promise<UserPublic> => {
-    const { data } = await apiClient.get<UserPublic>(API_ENDPOINTS.USERS.ME as string)
+    const { data } = await apiClient.get<UserPublic>(API_ENDPOINTS.USERS.ME)
     return data
   },
 
@@ -58,7 +59,27 @@ export const userService = {
    * [PATCH] /users/me
    */
   updateProfile: async (payload: UserUpdate): Promise<UserPublic> => {
-    const { data } = await apiClient.patch<UserPublic>(API_ENDPOINTS.USERS.ME as string, payload)
+    const { data } = await apiClient.patch<UserPublic>(API_ENDPOINTS.USERS.ME, payload)
+    return data
+  },
+
+  /**
+   * Import users from Excel file
+   * [POST] /users/import-excel
+   */
+  importUsersExcel: async (file: File): Promise<UserImportResponse> => {
+    const formData = new FormData()
+    formData.append("file", file)
+    const { data } = await apiClient.post<UserImportResponse>(
+      API_ENDPOINTS.USERS.IMPORT_EXCEL,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: API_CONFIG.AI_TIMEOUT,
+      }
+    )
     return data
   },
 }

@@ -22,6 +22,10 @@ export const API_ENDPOINTS = {
     ROOT: "/listings",
     DETAIL: (id: string | number) => `/listings/${id}`,
     STATUS: (id: string | number) => `/listings/${id}/status`,
+    IMPORT_JSON: "/listings/import-json",
+    IMPORT_EXCEL: "/listings/import-excel",
+    IMPORT_JOBS: "/listings/import-jobs",
+    IMPORT_JOB_DETAIL: (id: string | number) => `/listings/import-jobs/${id}`,
   },
   CLIENTS: {
     ROOT: "/clients",
@@ -39,6 +43,7 @@ export const API_ENDPOINTS = {
     DETAIL: (id: string | number) => `/users/${id}`,
     STATUS: (id: string | number) => `/users/${id}/status`,
     ROLE: (id: string | number) => `/users/${id}/role`,
+    IMPORT_EXCEL: "/users/import-excel",
   },
   ROLES: {
     ROOT: "/roles",

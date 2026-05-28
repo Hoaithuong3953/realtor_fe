@@ -104,3 +104,20 @@ export const useUpdateProfileMutation = () => {
     },
   })
 }
+
+export const useImportUsersExcelMutation = () => {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation("user")
+  return useMutation({
+    mutationFn: (file: File) => userService.importUsersExcel(file),
+    meta: {
+      customErrorMsg: t("messages.import_error")
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: userKeys.lists(),
+      })
+      toast.success(t("messages.import_success"))
+    },
+  })
+}

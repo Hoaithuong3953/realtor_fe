@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from "@/constants/api"
+import { API_ENDPOINTS, API_CONFIG } from "@/constants/api"
 import { apiClient } from "@/lib/api-client"
 import type { 
   ListingResponse, 
@@ -6,7 +6,10 @@ import type {
   ListingStatusUpdate,
   ListingStatus,
   ListingCreate,
-  ListingUpdate
+  ListingUpdate,
+  ListingImportRequest,
+  ListingImportResponse,
+  ImportJobResponse
 } from "@/types/api"
 
 export type GetListingsParams = {
@@ -76,6 +79,55 @@ export const listingService = {
    */
   updateListing: async (id: number | string, data: ListingUpdate): Promise<ListingResponse> => {
     const response = await apiClient.patch<ListingResponse>(API_ENDPOINTS.LISTINGS.DETAIL(id), data)
+    return response.data
+  },
+
+  /**
+   * Import listings from JSON
+   * [POST] /listings/import-json
+   */
+  importListingsJson: async (data: ListingImportRequest): Promise<ListingImportResponse> => {
+    const response = await apiClient.post<ListingImportResponse>(API_ENDPOINTS.LISTINGS.IMPORT_JSON, data)
+    return response.data
+  },
+
+  /**
+   * Import listings from Excel file
+   * [POST] /listings/import-excel
+   */
+  importListingsExcel: async (file: File, params?: { replace_existing?: boolean; sheet_name?: string }): Promise<ListingImportResponse> => {
+    const formData = new FormData()
+    formData.append("file", file)
+    
+    const response = await apiClient.post<ListingImportResponse>(
+      API_ENDPOINTS.LISTINGS.IMPORT_EXCEL,
+      formData,
+      {
+        params,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: API_CONFIG.AI_TIMEOUT,
+      }
+    )
+    return response.data
+  },
+
+  /**
+   * Get list of import jobs
+   * [GET] /listings/import-jobs
+   */
+  getImportJobs: async (params?: { limit?: number; offset?: number }): Promise<ImportJobResponse[]> => {
+    const response = await apiClient.get<ImportJobResponse[]>(API_ENDPOINTS.LISTINGS.IMPORT_JOBS, { params })
+    return response.data
+  },
+
+  /**
+   * Get import job detail
+   * [GET] /listings/import-jobs/{id}
+   */
+  getImportJobDetail: async (id: string | number): Promise<ImportJobResponse> => {
+    const response = await apiClient.get<ImportJobResponse>(API_ENDPOINTS.LISTINGS.IMPORT_JOB_DETAIL(id))
     return response.data
   },
 }

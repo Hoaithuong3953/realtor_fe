@@ -18,6 +18,7 @@ import { ClientGeneralInfo, ClientTimeline, ClientSentListings, ClientFormModal 
 import { LoadingScreen } from "@/components/molecules/loading-screen"
 import type { ClientFormData, ClientFieldConfig } from "@/types/ui/client"
 import { type ClientInteractionCreate, CLIENT_INTERACTION_TYPES, CLIENT_TYPES, CLIENT_GOAL_TYPES, CLIENT_STATUSES } from "@/types/api"
+import type { SentListingItemData } from "@/components/molecules/sent-listing-card"
 
 export default function ClientDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -108,7 +109,7 @@ export default function ClientDetailPage() {
                     content: (
                       <div className="p-4 sm:p-6">
                         <ClientSentListings 
-                          listings={listings || []}
+                          listings={(listings as unknown as SentListingItemData[]) || []}
                           isLoading={isListingsLoading}
                           onUnlink={(id) => unlinkListing(id)}
                         />

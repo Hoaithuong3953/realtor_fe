@@ -52,7 +52,7 @@ export const UsersTable = ({ data, isLoading, actions }: UsersTableProps) => {
         accessorKey: "status",
         header: t("user:list.table_status"),
         cell: ({ row }) => {
-          const status = row.original.status
+          const status = row.original.status || ""
           const formatted = formatUserStatus(status, t)
           return <Tag variant={formatted.variant}>{formatted.label}</Tag>
         }

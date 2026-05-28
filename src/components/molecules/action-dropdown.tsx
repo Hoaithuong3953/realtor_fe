@@ -9,7 +9,7 @@ export type ActionItem = {
   label: string
   icon?: React.ElementType
   variant?: "solid" | "secondary" | "outline" | "ghost" | "destructive" | "link"
-  onClick?: (e?: React.MouseEvent) => void
+  onClick?: (e: React.MouseEvent) => void
   danger?: boolean
   confirmTitle?: string
   confirmDescription?: string

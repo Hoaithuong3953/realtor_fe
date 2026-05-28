@@ -35,7 +35,7 @@ export function formatListingPrice(
   t: TranslationFn, 
   language: string
 ): string {
-  const basePrice = formatPrice(property.price, t, language);
+  const basePrice = formatPrice(property.price ?? undefined, t, language);
   if (property.listing_type === "rent" && property.attributes?.rent_period) {
     if (property.attributes.rent_period === "month") {
       return `${basePrice}${t("detail.per_month_unit")}`;

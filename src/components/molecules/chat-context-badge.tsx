@@ -7,7 +7,7 @@ import { ConfirmDialog } from "@/components/molecules"
 
 type ChatContextBadgeProps = {
   clientName: string
-  onRemove: () => void
+  onRemove?: () => void
   requireConfirm?: boolean
 }
 
@@ -23,7 +23,7 @@ export const ChatContextBadge = ({
     if (requireConfirm) {
       setOpen(true)
     } else {
-      onRemove()
+      onRemove?.()
     }
   }
 
@@ -45,7 +45,7 @@ export const ChatContextBadge = ({
         description={t("components.context_badge_confirm_desc", { name: clientName })}
         cancelText={t("components.context_badge_cancel")}
         confirmText={t("components.context_badge_confirm")}
-        onConfirm={onRemove}
+        onConfirm={() => onRemove?.()}
         confirmVariant="destructive"
       />
     </>

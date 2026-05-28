@@ -87,7 +87,7 @@ export const DetailsStep = ({
                 {ATTRIBUTE_CONFIG[field.key]?.options ? (
                   <Select
                     className="w-full"
-                    options={ATTRIBUTE_CONFIG[field.key].options}
+                    options={ATTRIBUTE_CONFIG[field.key].options || []}
                     value={field.value}
                     onChange={(val) => updateCustomFieldValue(index, val)}
                     placeholder={ATTRIBUTE_CONFIG[field.key]?.placeholder ? t(ATTRIBUTE_CONFIG[field.key].placeholder!) : t("form.custom_attributes_value_placeholder")}

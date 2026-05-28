@@ -28,7 +28,6 @@ export const ActionDropdown = ({ actions, trigger, className, align = "end", onO
 
   const handleActionClick = (action: ActionItem, e: React.MouseEvent) => {
     if (action.confirmTitle) {
-      e.preventDefault()
       e.stopPropagation()
       setActionToConfirm(action)
     } else {

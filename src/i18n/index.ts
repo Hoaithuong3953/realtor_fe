@@ -18,6 +18,8 @@ import viUser from "./locales/vi/user.json"
 import viRole from "./locales/vi/role.json"
 import viChat from "./locales/vi/chat.json"
 import enChat from "./locales/en/chat.json"
+import viImport from "./locales/vi/import.json"
+import enImport from "./locales/en/import.json"
 
 const resources = {
   vi: {
@@ -29,6 +31,7 @@ const resources = {
     user: viUser,
     role: viRole,
     chat: viChat,
+    import: viImport,
   },
   en: {
     common: enCommon,
@@ -39,6 +42,7 @@ const resources = {
     user: enUser,
     role: enRole,
     chat: enChat,
+    import: enImport,
   },
 } as const
 
@@ -48,7 +52,7 @@ void i18n
   .init({
     resources,
     fallbackLng: "vi",
-    ns: ["common", "auth", "dashboard", "listing", "client", "user", "role", "chat"],
+    ns: ["common", "auth", "dashboard", "listing", "client", "user", "role", "chat", "import"],
     defaultNS: "common",
     interpolation: {
       escapeValue: false,

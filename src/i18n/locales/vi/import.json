@@ -1,0 +1,38 @@
+{
+  "importFile": {
+    "defaultDescription": "Kéo thả file vào đây hoặc nhấn để chọn file",
+    "clickOrDrag": "Nhấn để chọn file hoặc kéo thả",
+    "supportedFormats": "Hỗ trợ:",
+    "noTemplate": "Chưa có file mẫu?",
+    "downloadTemplate": "Tải template tại đây",
+    "processing": "Đang xử lý...",
+    "importBtn": "Import",
+    "resultTitle": "Kết quả Import",
+    "resultDescription": "Chi tiết các dòng được xử lý trong lần tải lên này"
+  },
+  "importResult": {
+    "total_rows": "Tổng số dòng",
+    "success": "Thành công",
+    "failed": "Thất bại",
+    "details": "Chi tiết kết quả",
+    "row": "Dòng",
+    "identifier": "Định danh",
+    "status": "Trạng thái",
+    "error_details": "Chi tiết lỗi",
+    "status_created": "Thêm mới",
+    "status_updated": "Cập nhật",
+    "status_skipped": "Bỏ qua",
+    "status_failed": "Lỗi",
+    "job_status_completed": "Hoàn thành",
+    "job_status_partial": "Hoàn thành (có lỗi)",
+    "job_status_failed": "Lỗi",
+    "job_status_running": "Đang xử lý",
+    "job_status_pending": "Chờ xử lý"
+  },
+  "dropzone": {
+    "click_to_select": "Nhấn để chọn file",
+    "or_drag_here": "hoặc kéo thả vào đây",
+    "supported_formats": "Chỉ hỗ trợ:",
+    "clear_file": "Xóa file"
+  }
+}

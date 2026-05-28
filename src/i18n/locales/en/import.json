@@ -1,0 +1,38 @@
+{
+  "importFile": {
+    "defaultDescription": "Drag and drop a file here or click to select",
+    "clickOrDrag": "Click to select or drag and drop a file",
+    "supportedFormats": "Supported:",
+    "noTemplate": "Need a template?",
+    "downloadTemplate": "Download template here",
+    "processing": "Processing...",
+    "importBtn": "Import",
+    "resultTitle": "Import Result",
+    "resultDescription": "Details of the rows processed in this upload"
+  },
+  "importResult": {
+    "total_rows": "Total Rows",
+    "success": "Success",
+    "failed": "Failed",
+    "details": "Result Details",
+    "row": "Row",
+    "identifier": "Identifier",
+    "status": "Status",
+    "error_details": "Error Details",
+    "status_created": "Created",
+    "status_updated": "Updated",
+    "status_skipped": "Skipped",
+    "status_failed": "Failed",
+    "job_status_completed": "Completed",
+    "job_status_partial": "Completed (with errors)",
+    "job_status_failed": "Failed",
+    "job_status_running": "Processing",
+    "job_status_pending": "Pending"
+  },
+  "dropzone": {
+    "click_to_select": "Click to select file",
+    "or_drag_here": "or drag and drop here",
+    "supported_formats": "Supported formats:",
+    "clear_file": "Clear file"
+  }
+}

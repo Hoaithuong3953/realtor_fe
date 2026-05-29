@@ -23,13 +23,9 @@ export const queryClient = new QueryClient({
   mutationCache: new MutationCache({
     onError: (error, _variables, _context, mutation) => {
       if (mutation.meta?.errorMessage !== false) {
-        const customFallbackMessage = typeof mutation.meta?.customErrorMsg === 'string' 
-          ? mutation.meta.customErrorMsg 
-          : undefined;
-        const overrideErrorMsg = typeof mutation.meta?.overrideErrorMsg === 'string' 
-          ? mutation.meta.overrideErrorMsg 
-          : undefined;
-        handleApiError(error, true, customFallbackMessage, overrideErrorMsg);
+        const errorMsg = typeof mutation.meta?.errorMsg === 'string' ? mutation.meta.errorMsg : undefined;
+        const isLoginRequest = mutation.meta?.isLoginRequest === true;
+        handleApiError(error, true, errorMsg, isLoginRequest);
       }
     },
   }),

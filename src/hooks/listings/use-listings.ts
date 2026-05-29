@@ -53,15 +53,13 @@ export const useUpdateListingStatusMutation = () => {
   return useMutation({
     mutationFn: ({id, status}: {id: string | number; status: ListingStatus}) =>
       listingService.updateStatus(id, status),
-    meta: {
-      customErrorMsg: t("messages.status_update_error")
-    },
+    meta: { errorMsg: t("messages.status_update_error") },
     onSuccess: (data, variables) => {
       // Optimistically update the detail view if cached
       queryClient.setQueryData(LISTING_QUERY_KEYS.detail(variables.id), data)
       void queryClient.invalidateQueries({queryKey: LISTING_QUERY_KEYS.lists()})
       toast.success(t("messages.status_update_success"))
-    },
+    }
   })
 }
 
@@ -74,13 +72,11 @@ export const useDeleteListingMutation = () => {
 
   return useMutation({
     mutationFn: listingService.deleteListing,
-    meta: {
-      customErrorMsg: t("messages.delete_error")
-    },
+    meta: { errorMsg: t("messages.delete_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({queryKey: LISTING_QUERY_KEYS.lists()})
       toast.success(t("messages.delete_success"))
-    },
+    }
   })
 }
 
@@ -93,13 +89,11 @@ export const useCreateListingMutation = () => {
 
   return useMutation({
     mutationFn: (data: ListingCreate) => listingService.createListing(data),
-    meta: {
-      customErrorMsg: t("messages.create_error")
-    },
+    meta: { errorMsg: t("messages.create_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
       toast.success(t("messages.create_success"))
-    },
+    }
   })
 }
 
@@ -113,15 +107,13 @@ export const useUpdateListingMutation = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: string | number; data: ListingUpdate }) =>
       listingService.updateListing(id, data),
-    meta: {
-      customErrorMsg: t("messages.update_error")
-    },
+    meta: { errorMsg: t("messages.update_error") },
     onSuccess: (data, variables) => {
       // Optimistically update the detail view if cached
       queryClient.setQueryData(LISTING_QUERY_KEYS.detail(variables.id), data)
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
       toast.success(t("messages.update_success"))
-    },
+    }
   })
 }
 
@@ -134,13 +126,11 @@ export const useImportListingsJsonMutation = () => {
 
   return useMutation({
     mutationFn: (data: ListingImportRequest) => listingService.importListingsJson(data),
-    meta: {
-      customErrorMsg: t("messages.import_error")
-    },
+    meta: { errorMsg: t("messages.import_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
       toast.success(t("messages.import_success"))
-    },
+    }
   })
 }
 
@@ -154,13 +144,11 @@ export const useImportListingsExcelMutation = () => {
   return useMutation({
     mutationFn: ({ file, params }: { file: File, params?: { replace_existing?: boolean; sheet_name?: string } }) => 
       listingService.importListingsExcel(file, params),
-    meta: {
-      customErrorMsg: t("messages.import_error")
-    },
+    meta: { errorMsg: t("messages.import_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
       toast.success(t("messages.import_success"))
-    },
+    }
   })
 }
 

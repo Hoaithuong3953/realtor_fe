@@ -50,9 +50,7 @@ export const useCreateChatSessionMutation = () => {
   const { t } = useTranslation("chat")
   return useMutation({
     mutationFn: (data: ChatSessionCreate) => chatService.createSession(data),
-    meta: {
-      customErrorMsg: t("messages.create_session_error")
-    },
+    meta: { errorMsg: t("messages.create_session_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.sessions() })
     }
@@ -75,9 +73,7 @@ export const useDeleteChatSessionMutation = () => {
   const { t } = useTranslation("chat")
   return useMutation({
     mutationFn: (id: string | number) => chatService.deleteSession(id),
-    meta: {
-      customErrorMsg: t("messages.delete_session_error")
-    },
+    meta: { errorMsg: t("messages.delete_session_error") },
     onSuccess: () => {
       toast.success(t("messages.delete_session_success"))
       void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.sessions() })
@@ -91,9 +87,7 @@ export const useSendMessageMutation = (sessionId?: string | number) => {
   return useMutation({
     mutationFn: (data: Omit<ChatMessageCreate, "session_id"> & { session_id?: number }) => 
       chatService.sendMessageAI({ ...data, session_id: data.session_id || Number(sessionId) }),
-    meta: {
-      customErrorMsg: t("messages.send_message_error")
-    },
+    meta: { errorMsg: t("messages.send_message_error") },
     onSuccess: (_, variables) => {
       const targetSessionId = variables.session_id || sessionId
       if (targetSessionId) {
@@ -109,9 +103,7 @@ export const useInitializeMemoryMutation = (sessionId: string | number) => {
   const { t } = useTranslation("chat")
   return useMutation({
     mutationFn: () => chatService.initializeMemory(sessionId),
-    meta: {
-      customErrorMsg: t("messages.memory_reset_error") // We can reuse the error or create a new one, let's just reuse error for now. Or better: "Không thể tổng hợp ký ức"
-    },
+    meta: { errorMsg: t("messages.memory_reset_error") },
     onSuccess: () => {
       toast.success(t("messages.memory_compiled_success", { defaultValue: "Đã tổng hợp bộ nhớ thành công!" }))
       void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.memories(sessionId) })
@@ -124,9 +116,7 @@ export const useResetMemoryMutation = (sessionId: string | number) => {
   const { t } = useTranslation("chat")
   return useMutation({
     mutationFn: () => chatService.resetSessionMemory(sessionId),
-    meta: {
-      customErrorMsg: t("messages.memory_reset_error")
-    },
+    meta: { errorMsg: t("messages.memory_reset_error") },
     onSuccess: () => {
       toast.success(t("messages.memory_reset_success"))
       void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.memories(sessionId) })

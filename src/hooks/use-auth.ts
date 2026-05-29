@@ -18,7 +18,10 @@ export const useLoginMutation = () => {
 
     return useMutation({
         mutationFn: authService.login,
-        meta: { overrideErrorMsg: t("login.error_msg") },
+        meta: { 
+            errorMsg: t("login.error_msg"),
+            isLoginRequest: true
+        },
         onSuccess: (data) => {
             const {user, tokens} = data
             setLoginSuccess(user, tokens.access_token)
@@ -42,16 +45,11 @@ export const useLogoutMutation = () => {
         mutationFn: async () => {
             await authService.logout()
         },
-        meta: { overrideErrorMsg: t("logout.error_msg") },
+        meta: { errorMsg: t("logout.error_msg") },
         onSuccess: () => {
             queryClient.clear()
             logout()
             toast.success(t("logout.success_msg"))
-            void navigate(paths.auth.login)
-        },
-        onError: () => {
-            queryClient.clear()
-            logout()
             void navigate(paths.auth.login)
         }
     })
@@ -79,7 +77,7 @@ export const useForgotPasswordMutation = () => {
 
   return useMutation({
     mutationFn: authService.forgotPassword,
-    meta: { overrideErrorMsg: t("forgot_password.error_msg") },
+    meta: { errorMsg: t("forgot_password.error_msg") },
     onSuccess: () => {
       toast.success(t("forgot_password.success_msg"));
     }
@@ -95,7 +93,7 @@ export const useResetPasswordMutation = () => {
 
   return useMutation({
     mutationFn: authService.resetPassword,
-    meta: { overrideErrorMsg: t("reset_password.error_msg") },
+    meta: { errorMsg: t("reset_password.error_msg") },
     onSuccess: () => {
       toast.success(t("reset_password.success_msg"));
       void navigate(paths.auth.login);
@@ -113,7 +111,7 @@ export const useChangePasswordMutation = () => {
 
   return useMutation({
     mutationFn: authService.changePassword,
-    meta: { overrideErrorMsg: t("change_password.error_msg") },
+    meta: { errorMsg: t("change_password.error_msg") },
     onSuccess: () => {
       toast.success(t("change_password.success_msg"))
       logout()

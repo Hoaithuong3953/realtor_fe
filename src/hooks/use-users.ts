@@ -25,14 +25,12 @@ export const useCreateUserMutation = () => {
   const { t } = useTranslation("user")
   return useMutation({
     mutationFn: (payload: UserCreate) => userService.createUser(payload),
-    meta: {
-      customErrorMsg: t("messages.create_error")
-    },
+    meta: { errorMsg: t("messages.create_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),
       })
-    },
+    }
   })
 }
 
@@ -42,9 +40,7 @@ export const useUpdateUserMutation = (id: number) => {
   return useMutation({
     mutationFn: (payload: UserUpdate) =>
       userService.updateUser(id, payload),
-    meta: {
-      customErrorMsg: t("messages.update_error")
-    },
+    meta: { errorMsg: t("messages.update_error") },
     onSuccess: (updatedUser) => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),
@@ -53,7 +49,7 @@ export const useUpdateUserMutation = (id: number) => {
         userKeys.detail(id),
         updatedUser,
       )
-    },
+    }
   })
 }
 
@@ -62,14 +58,12 @@ export const useDeleteUserMutation = () => {
   const { t } = useTranslation("user")
   return useMutation({
     mutationFn: (id: number) => userService.deleteUser(id),
-    meta: {
-      customErrorMsg: t("messages.delete_error")
-    },
+    meta: { errorMsg: t("messages.delete_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),
       })
-    },
+    }
   })
 }
 
@@ -90,9 +84,7 @@ export const useUpdateProfileMutation = () => {
       if (!currentUser?.id) throw new Error("User ID not found")
       return userService.updateUser(currentUser.id, payload)
     },
-    meta: {
-      customErrorMsg: t("messages.update_error")
-    },
+    meta: { errorMsg: t("messages.update_error") },
     onSuccess: (_, variables) => {
       useAuthStore.getState().updateUser({
         full_name: variables.full_name ?? undefined,
@@ -101,7 +93,7 @@ export const useUpdateProfileMutation = () => {
         queryKey: ['auth', 'currentUser'],
       })
       toast.success(t("messages.update_success"))
-    },
+    }
   })
 }
 
@@ -110,14 +102,12 @@ export const useImportUsersExcelMutation = () => {
   const { t } = useTranslation("user")
   return useMutation({
     mutationFn: (file: File) => userService.importUsersExcel(file),
-    meta: {
-      customErrorMsg: t("messages.import_error")
-    },
+    meta: { errorMsg: t("messages.import_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: userKeys.lists(),
       })
       toast.success(t("messages.import_success"))
-    },
+    }
   })
 }

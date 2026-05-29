@@ -18,7 +18,7 @@ function getHttpStatus(error: unknown): number {
 /**
  * Parses raw Axios errors and normalizes them into a clean NormalizedError object for the UI
  */
-export function handleApiError(error: unknown, showToast = true, customFallbackMsg?: string, overrideErrorMsg?: string): NormalizedError {
+export function handleApiError(error: unknown, showToast = true, customErrorMsg?: string, isLoginRequest = false): NormalizedError {
   // Ignore CanceledError entirely to prevent ghost toasts when React Query cancels a request
   if (axios.isCancel(error)) {
     return new NormalizedError(499, "Request canceled", undefined, error);
@@ -27,7 +27,6 @@ export function handleApiError(error: unknown, showToast = true, customFallbackM
   const statusCode = getHttpStatus(error);
   let fieldErrors: Record<string, boolean> | undefined = undefined;
   let message = "Unknown error";
-  const isServerError = statusCode >= 500;
 
   // Check if it is a network error returned by Axios
   if (isAxiosError<unknown>(error)) {
@@ -66,38 +65,22 @@ export function handleApiError(error: unknown, showToast = true, customFallbackM
     message = error.message;
   }
 
-  // 401 is handled by Auth Interceptor, don't spam toast
-  if (statusCode === 401) {
+  // Bỏ spam toast cho 401 khi hết session (Trừ lúc đang login)
+  if (statusCode === 401 && !isLoginRequest) {
     showToast = false;
   }
 
-  // Security: Sanitize error messages for 5xx
   let displayMessage = message;
-  const isGenericMessage = message === "Unknown error" || message.startsWith("Request failed with status code");
 
-  if (overrideErrorMsg) {
-    // If the hook explicitly wants to force an error message (like in Auth to prevent enumeration)
-    displayMessage = overrideErrorMsg;
-  } else if (isServerError) {
-    // Override user-facing message with safe text
-    displayMessage = customFallbackMsg || i18n.t("errors.500");
-  } else {
-    // Force generic translation for sensitive status codes (401/403) to prevent custom fallback masking
-    if (statusCode === 401 || statusCode === 403) {
-      const i18nKey = `errors.${statusCode}`;
-      const translatedMsg = i18n.t(i18nKey);
-      displayMessage = (translatedMsg && translatedMsg !== i18nKey) ? translatedMsg : message;
-    } else if (isGenericMessage) {
-      if (customFallbackMsg) {
-        displayMessage = customFallbackMsg;
-      } else {
-        const i18nKey = `errors.${statusCode}`;
-        const translatedMsg = i18n.t(i18nKey);
-        if (translatedMsg && translatedMsg !== i18nKey) {
-          displayMessage = translatedMsg;
-        }
-      }
-    }
+  const i18nKey = `errors.${statusCode}`;
+  const translatedMsg = i18n.t(i18nKey);
+  
+  if ([401, 403, 404, 500].includes(statusCode) && !isLoginRequest) {
+    displayMessage = translatedMsg;
+  } else if (customErrorMsg) {
+    displayMessage = customErrorMsg;
+  } else if (translatedMsg && translatedMsg !== i18nKey) {
+    displayMessage = translatedMsg;
   }
 
   if (showToast) {

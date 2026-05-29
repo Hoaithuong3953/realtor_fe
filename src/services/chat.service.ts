@@ -1,5 +1,7 @@
 import { API_ENDPOINTS, API_CONFIG } from "@/constants/api"
+import { CHAT_STREAM_EVENTS } from "@/constants/chat"
 import { apiClient } from "@/lib/api-client"
+import { sseClient } from "@/lib/sse-client"
 import type {
   ChatMessageCreate,
   ChatMessageListResponse,
@@ -9,6 +11,7 @@ import type {
   ChatSessionResponse,
   ChatSessionUpdate,
   AggregatedMemoryResponse,
+  ChatStreamCallbacks,
 } from "@/types/api/chat"
 
 export const chatService = {
@@ -126,5 +129,52 @@ export const chatService = {
       API_ENDPOINTS.CHAT.SESSION_DETAIL(sessionId)
     )
     return response.data
+  },
+  
+  /**
+   * Send a message to AI using Server-Sent Events (SSE) streaming
+   * [POST] /chat/messages/ai
+   */
+  sendMessageAIStream: async (
+    payload: ChatMessageCreate,
+    callbacks: ChatStreamCallbacks,
+    signal?: AbortSignal
+  ): Promise<void> => {
+    try {
+      await sseClient.stream(API_ENDPOINTS.CHAT.MESSAGE_AI, {
+        method: "POST",
+        body: { ...payload, stream: true },
+        signal,
+        onMessage(ev) {
+          if (ev.event === CHAT_STREAM_EVENTS.TOKEN) {
+            const parsed = JSON.parse(ev.data) as { text?: string }
+            callbacks.onToken?.(parsed.text || "")
+          } else if (ev.event === CHAT_STREAM_EVENTS.INTENT) {
+            const parsed = JSON.parse(ev.data) as { intent: string; confidence: number }
+            callbacks.onIntent?.(parsed)
+          } else if (ev.event === CHAT_STREAM_EVENTS.MESSAGE) {
+            const parsed = JSON.parse(ev.data) as ChatMessageResponse
+            callbacks.onMessage?.(parsed)
+          } else if (ev.event === CHAT_STREAM_EVENTS.ERROR) {
+            const parsed = JSON.parse(ev.data) as { detail?: string }
+            callbacks.onError?.(new Error(parsed.detail || "Unknown AI error"))
+          }
+        },
+        onError(err) {
+          if (callbacks.onError) {
+            callbacks.onError(err instanceof Error ? err : new Error(String(err)))
+          }
+        },
+        onClose() {
+          if (callbacks.onClose) callbacks.onClose()
+        }
+      })
+    } catch (err) {
+      if (err instanceof Error && err.name !== "AbortError") {
+        callbacks.onError?.(err)
+      } else if (!(err instanceof Error)) {
+        callbacks.onError?.(new Error(String(err)))
+      }
+    }
   },
 }

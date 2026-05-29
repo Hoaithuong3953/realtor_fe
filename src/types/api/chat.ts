@@ -67,3 +67,11 @@ export interface AggregatedMemoryResponse {
   };
   summary_status?: string;
 }
+
+export interface ChatStreamCallbacks {
+  onToken?: (text: string) => void;
+  onIntent?: (data: { intent: string; confidence: number }) => void;
+  onMessage?: (data: ChatMessageResponse) => void;
+  onError?: (error: Error) => void;
+  onClose?: () => void;
+}

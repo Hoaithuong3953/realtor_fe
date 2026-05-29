@@ -1,3 +1,4 @@
+import { useState, useCallback } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { chatService } from "@/services/chat.service"
@@ -131,4 +132,53 @@ export const useResetMemoryMutation = (sessionId: string | number) => {
       void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.memories(sessionId) })
     }
   })
+}
+
+export const useChatStream = (sessionId?: string | number) => {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation("chat")
+  const [streamingMessage, setStreamingMessage] = useState<string>("")
+  const [isStreaming, setIsStreaming] = useState(false)
+
+  const sendStream = useCallback(
+    (text: string, callbacks?: { onSuccess?: () => void; onError?: () => void; onClose?: () => void }) => {
+      if (!sessionId) return
+      
+      setStreamingMessage("")
+      setIsStreaming(true)
+
+      void chatService.sendMessageAIStream(
+        { content: text, message_type: "text", session_id: Number(sessionId) },
+        {
+          onToken: (token) => {
+            setStreamingMessage((prev) => prev + token)
+          },
+          onMessage: () => {
+            setStreamingMessage("")
+            setIsStreaming(false)
+            void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.messages(sessionId) })
+            void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.memories(sessionId) })
+            callbacks?.onSuccess?.()
+          },
+          onError: () => {
+            setStreamingMessage("")
+            setIsStreaming(false)
+            toast.error(t("messages.send_message_error"))
+            callbacks?.onError?.()
+          },
+          onClose: () => {
+            setIsStreaming(false)
+            callbacks?.onClose?.()
+          }
+        }
+      )
+    },
+    [sessionId, queryClient, t]
+  )
+
+  return {
+    sendStream,
+    streamingMessage,
+    isStreaming
+  }
 }

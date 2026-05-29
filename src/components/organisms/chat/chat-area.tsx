@@ -8,6 +8,7 @@ type ChatAreaProps = {
   messages?: ChatMessageProps[]
   clientName?: string
   isTyping?: boolean
+  isStreaming?: boolean
   onSend?: (text: string) => void
   onRemoveContext?: () => void
   onSuggestionClick?: (text: string) => void
@@ -17,6 +18,7 @@ type ChatAreaProps = {
 export const ChatArea = ({
   messages = [],
   isTyping,
+  isStreaming,
   onSend,
   onSuggestionClick,
   suggestions = [],
@@ -72,7 +74,7 @@ export const ChatArea = ({
               {messages.map((msg, idx) => (
                 <ChatMessage key={idx} {...msg} />
               ))}
-              {isTyping && (
+              {isTyping && !isStreaming && (
                 <ChatMessage role="ai" content="">
                   <div className="flex items-center gap-2 text-muted-foreground text-sm">
                     <Loader2 className="size-4 animate-spin" />

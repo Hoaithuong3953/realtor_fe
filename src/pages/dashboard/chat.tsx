@@ -8,7 +8,7 @@ import {
   useChatMessagesQuery,
   useChatMemoriesQuery,
   useCreateChatSessionMutation,
-  useSendMessageMutation,
+  useChatStream,
 } from "@/hooks/use-chat"
 import { useCreateSearchFeedbackMutation } from "@/hooks/use-search"
 import { paths } from "@/routes/paths"
@@ -59,8 +59,8 @@ export default function ChatPage() {
   }, [messagesData])
 
   // Mutations
+  const { sendStream, streamingMessage } = useChatStream(id)
   const { mutate: createSession } = useCreateChatSessionMutation()
-  const { mutate: sendMessage } = useSendMessageMutation(id || "")
   const { mutate: logFeedback } = useCreateSearchFeedbackMutation()
   
   // Link listing mutation for active client
@@ -90,14 +90,20 @@ export default function ChatPage() {
       return
     }
 
-    // Existing session, just send
-    sendMessage(
-      { content: text, message_type: "text" },
-      {
-        onSettled: () => setIsTyping(false),
-        onError: () => setOptimisticMessage(null)
+    // Existing session, just send via stream
+    sendStream(text, {
+      onSuccess: () => {
+        setIsTyping(false)
+        setOptimisticMessage(null)
+      },
+      onError: () => {
+        setIsTyping(false)
+        setOptimisticMessage(null)
+      },
+      onClose: () => {
+        setIsTyping(false)
       }
-    )
+    })
   }
 
   // Handle pending message from session creation
@@ -186,12 +192,20 @@ export default function ChatPage() {
       children: null
     })
   }
+  if (streamingMessage) {
+    finalMessages.push({
+      role: "ai",
+      content: streamingMessage,
+      children: null
+    })
+  }
 
   return (
     <>
       <ChatArea 
         messages={finalMessages}
         isTyping={isTyping}
+        isStreaming={!!streamingMessage}
         onSend={handleSendMessage}
         suggestions={CHAT_SUGGESTIONS.map(s => t(s))}
         onSuggestionClick={handleSendMessage}

@@ -23,6 +23,8 @@ export type GetListingsParams = {
   listing_type?: string
   limit?: number
   offset?: number
+  sort_by?: string
+  sort_order?: "asc" | "desc"
 }
 
 export const listingService = {

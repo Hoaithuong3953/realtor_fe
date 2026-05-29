@@ -31,7 +31,11 @@
     "newest": "Newest",
     "oldest": "Oldest",
     "name_asc": "Name (A-Z)",
-    "name_desc": "Name (Z-A)"
+    "name_desc": "Name (Z-A)",
+    "price_asc": "Price: Low to High",
+    "price_desc": "Price: High to Low",
+    "area_asc": "Area: Small to Large",
+    "area_desc": "Area: Large to Small"
   },
   "status": {
     "active": "Active",

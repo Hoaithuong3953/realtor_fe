@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { Plus, Send, FileUp, History } from "lucide-react"
 import { Link, useNavigate, generatePath } from "react-router-dom"
@@ -14,13 +14,14 @@ import { type ListingResponse, type ListingImportResponse, LISTING_TYPES, PROPER
 import { ImportFileModal, ImportResultModal } from "@/components/organisms/common"
 import { LinkClientModal } from "@/components/organisms/listings"
 import { getImportRowDisplay } from "@/utils/import-formatter"
+import { LISTING_SORT_OPTIONS } from "@/constants/listing"
 
 export default function PropertiesPage() {
   const { t } = useTranslation("listing")
   const navigate = useNavigate()
   const { viewMode, setViewMode } = useAppStore()
   
-  const { apiParams, search, setSearch, setPage, filters, setFilters } = useQueryParams({ defaultSort: "updated_at_desc" })
+  const { apiParams, search, setSearch, setPage, filters, setFilters, sortValue, setSortValue } = useQueryParams({ defaultSort: "updated_at_desc" })
   const [selectedListing, setSelectedListing] = useState<ListingResponse | null>(null)
   const [linkListingId, setLinkListingId] = useState<number | null>(null)
   const [selectedClientId, setSelectedClientId] = useState<string>("")
@@ -54,9 +55,26 @@ export default function PropertiesPage() {
   const handleClearFilters = () => {
     setSearch("")
     setFilters({})
+    if (sortValue.includes("price")) {
+      setSortValue("updated_at_desc")
+    }
   }
 
-  // Handle parse numbers for min/max
+  const isPriceSortAllowed = Boolean(filters?.listingType && filters.listingType !== "all")
+  
+  const dynamicSortOptions = useMemo(() => {
+    return LISTING_SORT_OPTIONS.filter(opt => {
+      if (!isPriceSortAllowed && opt.value.includes("price")) return false
+      return true
+    }).map(opt => ({ ...opt, label: t(`common:${opt.label}`) }))
+  }, [isPriceSortAllowed, t])
+
+  useEffect(() => {
+    if (!isPriceSortAllowed && sortValue.includes("price")) {
+      setSortValue("updated_at_desc")
+    }
+  }, [isPriceSortAllowed, sortValue, setSortValue])
+
   const parsedFilters = useMemo(() => ({
     ...filters,
     min_price: filters.minPrice ? Number(filters.minPrice) : undefined,
@@ -70,6 +88,7 @@ export default function PropertiesPage() {
 
   const { data, isLoading } = useListingsQuery({
     ...apiParams,
+    sort_order: apiParams.sort_order as "asc" | "desc" | undefined,
     ...parsedFilters,
   })
 
@@ -159,6 +178,9 @@ export default function PropertiesPage() {
         listingTypeOptions={listingTypeOptions}
         propertyTypeOptions={propertyTypeOptions}
         onClearFilters={handleClearFilters}
+        sortValue={sortValue}
+        onSortChange={setSortValue}
+        sortOptions={dynamicSortOptions}
       />
 
       <PropertiesView 

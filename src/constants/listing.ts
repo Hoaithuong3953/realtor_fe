@@ -46,3 +46,14 @@ export const ATTRIBUTE_CONFIG: Record<string, AttributeConfigData> = {
 }
 
 export const EXCLUDED_CARD_ATTRIBUTES = ["deposit", "rent_period"]
+
+export const LISTING_SORT_OPTIONS = [
+  { label: "sort.newest", value: "updated_at_desc" },
+  { label: "sort.oldest", value: "updated_at_asc" },
+  { label: "sort.price_asc", value: "price_asc" },
+  { label: "sort.price_desc", value: "price_desc" },
+  { label: "sort.area_asc", value: "area_asc" },
+  { label: "sort.area_desc", value: "area_desc" },
+  { label: "sort.name_asc", value: "title_asc" },
+  { label: "sort.name_desc", value: "title_desc" }
+]

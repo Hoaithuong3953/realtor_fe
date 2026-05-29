@@ -31,7 +31,11 @@
     "newest": "Mới nhất",
     "oldest": "Cũ nhất",
     "name_asc": "Tên (A-Z)",
-    "name_desc": "Tên (Z-A)"
+    "name_desc": "Tên (Z-A)",
+    "price_asc": "Giá: Thấp đến cao",
+    "price_desc": "Giá: Cao đến thấp",
+    "area_asc": "Diện tích: Nhỏ đến lớn",
+    "area_desc": "Diện tích: Lớn đến nhỏ"
   },
   "status": {
     "active": "Hoạt động",

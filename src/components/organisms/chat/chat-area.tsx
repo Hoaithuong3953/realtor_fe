@@ -69,7 +69,7 @@ export const ChatArea = ({
       ) : (
         // ACTIVE CHAT STATE
         <>
-          <div ref={scrollRef} className="flex-1 overflow-y-auto pb-4 pt-16">
+          <div ref={scrollRef} className="flex-1 overflow-y-auto py-4 no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <div className="flex flex-col gap-2">
               {messages.map((msg, idx) => (
                 <ChatMessage key={idx} {...msg} />

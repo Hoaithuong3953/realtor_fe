@@ -84,9 +84,6 @@ export const LocationStep = () => {
         </p>
       )}
 
-      <div className="p-4 bg-muted rounded-md text-sm text-muted-foreground">
-        {t("form.address_hint")}
-      </div>
     </div>
   )
 }

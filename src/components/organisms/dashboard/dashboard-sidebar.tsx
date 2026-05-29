@@ -6,7 +6,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { navigationConfig } from "@/constants/navigation"
+import { getNavigationConfig } from "@/constants/navigation"
 import { useLogoutMutation } from "@/hooks/use-auth"
 import { useAuthStore } from "@/store/auth.store"
 
@@ -30,7 +30,7 @@ export const DashboardSidebar = (
         <TeamSwitcher />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain groups={navigationConfig} />
+        <NavMain groups={getNavigationConfig()} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={userData} onLogout={() => logout()} />

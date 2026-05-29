@@ -41,15 +41,15 @@ export const ImportResultView = ({ data }: ImportResultViewProps) => {
           <div className="text-sm font-medium text-muted-foreground mt-2">{t("importResult.total_rows")}</div>
           <div className="text-3xl font-bold mt-1">{data.total_rows}</div>
         </div>
-        <div className="bg-green-50/50 p-4 rounded-lg border border-green-100 shadow-sm flex flex-col items-center justify-center">
-          <CheckCircle2 className="w-8 h-8 text-green-500" />
-          <div className="text-sm font-medium text-green-700 mt-2">{t("importResult.success")}</div>
-          <div className="text-3xl font-bold text-green-600 mt-1">{data.success_rows}</div>
+        <div className="bg-muted/30 p-4 rounded-lg border shadow-sm flex flex-col items-center justify-center">
+          <CheckCircle2 className="w-8 h-8 text-success" />
+          <div className="text-sm font-medium text-success mt-2">{t("importResult.success")}</div>
+          <div className="text-3xl font-bold text-success mt-1">{data.success_rows}</div>
         </div>
-        <div className="bg-red-50/50 p-4 rounded-lg border border-red-100 shadow-sm flex flex-col items-center justify-center">
-          <XCircle className="w-8 h-8 text-red-500" />
-          <div className="text-sm font-medium text-red-700 mt-2">{t("importResult.failed")}</div>
-          <div className="text-3xl font-bold text-red-600 mt-1">{data.failed_rows}</div>
+        <div className="bg-muted/30 p-4 rounded-lg border shadow-sm flex flex-col items-center justify-center">
+          <XCircle className="w-8 h-8 text-destructive" />
+          <div className="text-sm font-medium text-destructive mt-2">{t("importResult.failed")}</div>
+          <div className="text-3xl font-bold text-destructive mt-1">{data.failed_rows}</div>
         </div>
       </div>
 

@@ -84,7 +84,6 @@
     "detail_address_label": "Địa chỉ cụ thể (Số nhà, đường...)",
     "detail_address_placeholder": "VD: Số 12, Ngõ 34, Phố X...",
     "address_placeholder": "VD: 123 Đường ABC, Quận XYZ...",
-    "address_hint": "Tính năng bản đồ đang được phát triển",
     "tags_label": "Tags (phân cách bằng dấu phẩy)",
     "tags_placeholder": "VD: gần chợ, mặt tiền, sổ đỏ",
     "custom_attributes_title": "Thuộc tính bổ sung",

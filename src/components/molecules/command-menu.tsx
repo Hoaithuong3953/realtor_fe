@@ -13,7 +13,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
-import { navigationConfig } from "@/constants/navigation"
+import { getNavigationConfig } from "@/constants/navigation"
 
 export const CommandMenu = () => {
   const [open, setOpen] = React.useState(false)
@@ -58,7 +58,7 @@ export const CommandMenu = () => {
         <CommandList>
           <CommandEmpty>{t("command.empty")}</CommandEmpty>
 
-          {navigationConfig.map((group, groupIdx) => (
+          {getNavigationConfig().map((group, groupIdx) => (
             <React.Fragment key={group.label}>
               <CommandGroup heading={t(group.label)}>
                 {group.items.map((item) => {
@@ -74,7 +74,7 @@ export const CommandMenu = () => {
                   )
                 })}
               </CommandGroup>
-              {groupIdx < navigationConfig.length - 1 && <CommandSeparator />}
+              {groupIdx < getNavigationConfig().length - 1 && <CommandSeparator />}
             </React.Fragment>
           ))}
         </CommandList>

@@ -1,4 +1,4 @@
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 import i18n from "@/i18n";
 import { logger } from "@/utils/logger";
@@ -19,6 +19,11 @@ function getHttpStatus(error: unknown): number {
  * Parses raw Axios errors and normalizes them into a clean NormalizedError object for the UI
  */
 export function handleApiError(error: unknown, showToast = true, customFallbackMsg?: string, overrideErrorMsg?: string): NormalizedError {
+  // Ignore CanceledError entirely to prevent ghost toasts when React Query cancels a request
+  if (axios.isCancel(error)) {
+    return new NormalizedError(499, "Request canceled", undefined, error);
+  }
+
   const statusCode = getHttpStatus(error);
   let fieldErrors: Record<string, boolean> | undefined = undefined;
   let message = "Unknown error";

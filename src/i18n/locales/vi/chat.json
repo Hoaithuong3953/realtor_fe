@@ -42,7 +42,7 @@
   },
   "constants": {
     "time_today": "Hôm nay",
-    "time_last_7_days": "7 ngày trước",
+    "time_last7days": "7 ngày trước",
     "time_older": "Cũ hơn",
     "source_broker": "Ghi chú của Môi giới",
     "source_ai": "AI tự động đúc kết",

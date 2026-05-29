@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 import { Outlet } from "react-router-dom"
 
 import { cn } from "@/lib/utils"
-import { LanguageSwitcher } from "@/components/molecules"
+import { LanguageSwitcher, ThemeToggle } from "@/components/molecules"
 
 type AuthLayoutProps = {
   children?: React.ReactNode
@@ -80,7 +80,8 @@ export function AuthLayout({ children, className }: AuthLayoutProps) {
 
       {/* Right Column - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative">
-        <div className="absolute top-4 right-4 z-50">
+        <div className="absolute top-4 right-4 z-50 flex items-center gap-1">
+          <ThemeToggle />
           <LanguageSwitcher />
         </div>
         <div className="w-full max-w-[420px] animate-in fade-in zoom-in-95 duration-500 relative z-10">

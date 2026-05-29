@@ -13,7 +13,7 @@ import type { UserMenuItemType } from "@/components/molecules"
 import type { NavGroup } from "@/types/ui"
 import { paths } from "@/routes/paths"
 
-export const navigationConfig: NavGroup[] = [
+export const getNavigationConfig = (): NavGroup[] => [
   {
     label: "nav.overview",
     items: [

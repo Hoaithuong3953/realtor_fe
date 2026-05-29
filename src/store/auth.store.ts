@@ -49,3 +49,12 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 )
+
+// Listen to storage events to sync auth state across multiple browser tabs
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (event) => {
+    if (event.key === STORAGE_KEYS.AUTH_STORE) {
+       void useAuthStore.persist.rehydrate()
+    }
+  })
+}

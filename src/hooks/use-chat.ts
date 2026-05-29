@@ -154,11 +154,12 @@ export const useChatStream = (sessionId?: string | number) => {
             setStreamingMessage((prev) => prev + token)
           },
           onMessage: () => {
-            setStreamingMessage("")
-            setIsStreaming(false)
-            void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.messages(sessionId) })
+            void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.messages(sessionId) }).finally(() => {
+              setStreamingMessage("")
+              setIsStreaming(false)
+              callbacks?.onSuccess?.()
+            })
             void queryClient.invalidateQueries({ queryKey: CHAT_KEYS.memories(sessionId) })
-            callbacks?.onSuccess?.()
           },
           onError: () => {
             setStreamingMessage("")

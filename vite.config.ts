@@ -13,5 +13,14 @@ export default defineConfig({
     alias: {
       "@": path.resolve(dirname, "./src")
     }
+  },
+  optimizeDeps: {
+    include: ['@microsoft/fetch-event-source']
+  },
+  build: {
+    chunkSizeWarningLimit: 800,
+    commonjsOptions: {
+      include: [/node_modules/]
+    }
   }
 });

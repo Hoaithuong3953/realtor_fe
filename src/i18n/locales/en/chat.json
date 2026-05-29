@@ -42,7 +42,7 @@
   },
   "constants": {
     "time_today": "Today",
-    "time_last_7_days": "Previous 7 Days",
+    "time_last7days": "Previous 7 Days",
     "time_older": "Older",
     "source_broker": "Broker's note",
     "source_ai": "AI auto-generated",

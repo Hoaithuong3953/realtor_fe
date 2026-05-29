@@ -2,7 +2,7 @@ import * as React from "react"
 import { Outlet } from "react-router-dom"
 
 import { cn } from "@/lib/utils"
-import { LanguageSwitcher } from "@/components/molecules"
+import { LanguageSwitcher, ThemeToggle } from "@/components/molecules"
 
 type ErrorLayoutProps = {
   children?: React.ReactNode
@@ -17,7 +17,8 @@ export function ErrorLayout({ children, className }: ErrorLayoutProps) {
         className
       )}
     >
-      <div className="absolute top-4 right-4 z-50">
+      <div className="absolute top-4 right-4 z-50 flex items-center gap-1">
+        <ThemeToggle />
         <LanguageSwitcher />
       </div>
       {children || <Outlet />}

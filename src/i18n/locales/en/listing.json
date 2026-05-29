@@ -84,7 +84,6 @@
     "detail_address_label": "Specific Address (House No, Street...)",
     "detail_address_placeholder": "Ex: 123 Main Street...",
     "address_placeholder": "Ex: 123 ABC Street...",
-    "address_hint": "Map feature is currently under development",
     "tags_label": "Tags (comma separated)",
     "tags_placeholder": "Ex: near market, frontage, red book",
     "custom_attributes_title": "Additional Attributes",

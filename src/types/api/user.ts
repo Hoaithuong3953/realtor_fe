@@ -41,6 +41,10 @@ export interface RolePublic {
   updated_at: string;
 }
 
+export interface RoleWithPermissions extends RolePublic {
+  permissions: PermissionOut[];
+}
+
 export interface UserCreate {
   email: string;
   password: string;
@@ -93,39 +97,7 @@ export interface UserUpdate {
 
 export const USER_STATUSES = ["active", "inactive"] as const;
 
-export const ROLE_PERMISSIONS: Record<string, string[]> = {
-  SUPER_ADMIN: [
-    "tenant.read", "tenant.update",
-    "user.read", "user.create", "user.update", "user.delete",
-    "role.manage",
-    "listing.create", "listing.read", "listing.update", "listing.delete",
-    "client.create", "client.read", "client.update", "client.delete",
-    "search.read", "search.create",
-    "chat.read", "chat.create"
-  ],
-  TENANT_ADMIN: [
-    "tenant.read", "tenant.update",
-    "user.read", "user.create", "user.update", "user.delete",
-    "role.manage",
-    "listing.create", "listing.read", "listing.update", "listing.delete",
-    "client.create", "client.read", "client.update", "client.delete",
-    "search.read", "search.create",
-    "chat.read", "chat.create"
-  ],
-  BROKER: [
-    "listing.read", "listing.create", "listing.update",
-    "client.create", "client.read", "client.update",
-    "search.read", "search.create",
-    "chat.read", "chat.create"
-  ],
+export interface PermissionResourcePublic {
+  key: string;
+  actions: string[];
 }
-
-export const PERMISSION_RESOURCES = [
-  { key: "listing", actions: ["read", "create", "update", "delete"] },
-  { key: "client", actions: ["read", "create", "update", "delete"] },
-  { key: "user", actions: ["read", "create", "update", "delete"] },
-  { key: "role", actions: ["manage"] },
-  { key: "tenant", actions: ["read", "update"] },
-  { key: "chat", actions: ["read", "create"] },
-  { key: "search", actions: ["read", "create"] },
-]

@@ -11,13 +11,13 @@
       "manage": "Manage"
     },
     "resources": {
-      "tenant": "System (Tenant)",
-      "user": "Personnel (User)",
-      "role": "Roles (Role)",
-      "listing": "Properties (Listing)",
-      "client": "Clients (Client)",
-      "search": "Search (Search)",
-      "chat": "Conversations (Chat)"
+      "tenant": "System",
+      "user": "Personnel",
+      "role": "Roles",
+      "listing": "Properties",
+      "client": "Clients",
+      "search": "Search",
+      "chat": "Conversations"
     },
     "roles": {
       "SUPER_ADMIN": "Super Admin",

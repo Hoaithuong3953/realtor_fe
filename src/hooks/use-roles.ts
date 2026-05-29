@@ -12,3 +12,19 @@ export const useRolesQuery = (options?: UseRolesOptions) => {
     enabled: options?.enabled,
   })
 }
+
+export const useRolesWithPermissionsQuery = (options?: UseRolesOptions) => {
+  return useQuery({
+    queryKey: ["roles", "permissions"],
+    queryFn: () => roleService.getRolesWithPermissions(),
+    enabled: options?.enabled,
+  })
+}
+
+export const usePermissionsMetadataQuery = (options?: UseRolesOptions) => {
+  return useQuery({
+    queryKey: ["roles", "permissions", "metadata"],
+    queryFn: () => roleService.getPermissionsMetadata(),
+    enabled: options?.enabled,
+  })
+}

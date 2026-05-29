@@ -10,17 +10,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import type { RolePublic } from "@/types/api/user"
-import { ROLE_PERMISSIONS, PERMISSION_RESOURCES } from "@/types/api/user"
+import type { RoleWithPermissions, PermissionResourcePublic } from "@/types/api/user"
 import { LoadingScreen } from "@/components/molecules"
 
 export interface PermissionMatrixProps {
-  roles: RolePublic[]
+  roles: RoleWithPermissions[]
+  resources: PermissionResourcePublic[]
   isLoading?: boolean
 }
 
-export const PermissionMatrix = ({ roles, isLoading }: PermissionMatrixProps) => {
+export const PermissionMatrix = ({ roles, resources, isLoading }: PermissionMatrixProps) => {
   const { t } = useTranslation(["role", "common"])
+
+  const formatFallback = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
   if (isLoading) {
     return <LoadingScreen />
@@ -44,11 +46,11 @@ export const PermissionMatrix = ({ roles, isLoading }: PermissionMatrixProps) =>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {PERMISSION_RESOURCES.map((resource) => (
+          {resources.map((resource) => (
             <React.Fragment key={resource.key}>
               <TableRow className="bg-muted/20 hover:bg-muted/20">
                 <TableCell colSpan={roles.length + 1} className="font-semibold text-primary">
-                  {t(`role:matrix.resources.${resource.key}`)}
+                  {t(`role:matrix.resources.${resource.key}`, formatFallback(resource.key))}
                 </TableCell>
               </TableRow>
               {resource.actions.map((action) => {
@@ -56,11 +58,11 @@ export const PermissionMatrix = ({ roles, isLoading }: PermissionMatrixProps) =>
                 return (
                   <TableRow key={permissionCode}>
                     <TableCell className="pl-8 text-muted-foreground">
-                      {t(`role:matrix.actions.${action}`)}
+                      {t(`role:matrix.actions.${action}`, formatFallback(action))}
                     </TableCell>
                     {roles.map((role) => {
-                      const permissions = ROLE_PERMISSIONS[role.code] || []
-                      const hasPermission = permissions.includes(permissionCode)
+                      const permissions = role.permissions || []
+                      const hasPermission = permissions.some(p => p.code === permissionCode)
                       return (
                         <TableCell key={role.id} className="text-center">
                           {hasPermission ? (

@@ -11,13 +11,13 @@
       "manage": "Quản lý"
     },
     "resources": {
-      "tenant": "Hệ thống (Tenant)",
-      "user": "Nhân sự (User)",
-      "role": "Phân quyền (Role)",
-      "listing": "Bất động sản (Listing)",
-      "client": "Khách hàng (Client)",
-      "search": "Tìm kiếm (Search)",
-      "chat": "Hội thoại (Chat)"
+      "tenant": "Hệ thống",
+      "user": "Nhân sự",
+      "role": "Phân quyền",
+      "listing": "Bất động sản",
+      "client": "Khách hàng",
+      "search": "Tìm kiếm",
+      "chat": "Hội thoại"
     },
     "roles": {
       "SUPER_ADMIN": "Super Admin",

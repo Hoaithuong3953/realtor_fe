@@ -91,7 +91,7 @@ export interface UserUpdate {
   status?: string | null;
 }
 
-export const USER_STATUSES = ["active", "inactive", "locked"] as const;
+export const USER_STATUSES = ["active", "inactive"] as const;
 
 export const ROLE_PERMISSIONS: Record<string, string[]> = {
   SUPER_ADMIN: [

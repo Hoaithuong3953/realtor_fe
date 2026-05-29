@@ -20,11 +20,7 @@ export const formatUserStatus = (status: string, t: TFunction): UserStatusFormat
         variant: "secondary",
         label: t("user:constants.status_inactive")
       }
-    case "locked":
-      return {
-        variant: "destructive",
-        label: t("user:constants.status_locked")
-      }
+
     default:
       return {
         variant: "outline",
@@ -33,7 +29,7 @@ export const formatUserStatus = (status: string, t: TFunction): UserStatusFormat
   }
 }
 
-export const formatUserRole = (roleCode: string | null | undefined, t: TFunction): string => {
+export const formatUserRole = (roleCode: string | null | undefined): string => {
   switch (roleCode) {
     case "SUPER_ADMIN":
       return "Super Admin"
@@ -42,6 +38,6 @@ export const formatUserRole = (roleCode: string | null | undefined, t: TFunction
     case "BROKER":
       return "Broker"
     default:
-      return roleCode || t("common:actions.unknown")
+      return roleCode || "-"
   }
 }

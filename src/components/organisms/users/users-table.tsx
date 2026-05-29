@@ -45,7 +45,7 @@ export const UsersTable = ({ data, isLoading, actions }: UsersTableProps) => {
         header: t("user:list.table_role"),
         cell: ({ row }) => {
           const roleCode = row.original.role_code
-          return <span>{formatUserRole(roleCode, t)}</span>
+          return <span>{formatUserRole(roleCode)}</span>
         }
       },
       {

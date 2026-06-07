@@ -5,12 +5,11 @@ import type {
   ListingListResponse,
   ListingStatusUpdate,
   ListingStatus,
-  ListingCreate,
-  ListingUpdate,
   ListingImportRequest,
   ListingImportResponse,
   ImportJobResponse
 } from "@/types/api"
+import type { ListingFormValues } from "@/schemas/listing.schema"
 
 export type GetListingsParams = {
   keyword?: string
@@ -68,20 +67,132 @@ export const listingService = {
 
   /**
    * Create a new listing
-   * [POST] /listings
+   * [POST] /listings (supports multipart file uploads and web URLs)
    */
-  createListing: async (data: ListingCreate): Promise<ListingResponse> => {
-    const response = await apiClient.post<ListingResponse>(API_ENDPOINTS.LISTINGS.ROOT, data)
-    return response.data
+  createListing: async (data: ListingFormValues): Promise<ListingResponse> => {
+    const files: File[] = []
+    const mediaUrls: Record<string, unknown>[] = []
+
+    if (data.media && Array.isArray(data.media)) {
+      data.media.forEach((rawItem) => {
+        const item = rawItem as { file?: File; url?: string }
+        if (item.file && item.file instanceof File) {
+          files.push(item.file)
+        } else if (item.url && typeof item.url === "string" && !item.url.startsWith("blob:")) {
+          mediaUrls.push({ url: item.url, image: item.url })
+        }
+      })
+    }
+
+    let createdListing: ListingResponse
+
+    if (files.length > 0) {
+      const formData = new FormData()
+      
+      formData.append("title", data.title)
+      formData.append("listing_type", data.listing_type)
+      formData.append("property_type", data.property_type)
+      if (data.description !== undefined && data.description !== null) {
+        formData.append("description", data.description)
+      }
+      formData.append("price", String(data.price ?? 0))
+      formData.append("area", String(data.area ?? 0))
+      formData.append("status", data.status || "draft")
+      formData.append("address_text", data.address_text)
+
+      formData.append("location_json", JSON.stringify(data.location_json || {}))
+      formData.append("geo", JSON.stringify(data.geo || {}))
+      formData.append("tags", JSON.stringify(data.tags || []))
+      formData.append("attributes", JSON.stringify(data.attributes || {}))
+
+      files.forEach((file) => {
+        formData.append("files", file)
+      })
+
+      const response = await apiClient.post<ListingResponse>(
+        API_ENDPOINTS.LISTINGS.ROOT,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      createdListing = response.data
+
+      // If there were also web URLs, patch the created listing to combine them
+      if (mediaUrls.length > 0) {
+        const combinedMedia = [...mediaUrls, ...(createdListing.media || [])]
+        const patchResponse = await apiClient.patch<ListingResponse>(
+          API_ENDPOINTS.LISTINGS.DETAIL(createdListing.id),
+          { media: combinedMedia }
+        )
+        createdListing = patchResponse.data
+      }
+    } else {
+      const jsonPayload = {
+        ...data,
+        media: mediaUrls,
+      }
+      const response = await apiClient.post<ListingResponse>(
+        API_ENDPOINTS.LISTINGS.ROOT,
+        jsonPayload
+      )
+      createdListing = response.data
+    }
+
+    return createdListing
   },
 
   /**
    * Update an existing listing
-   * [PATCH] /listings/{id}
+   * [PATCH] /listings/{id} (supports adding new files via subsequent uploadimage PUT call)
    */
-  updateListing: async (id: number | string, data: ListingUpdate): Promise<ListingResponse> => {
-    const response = await apiClient.patch<ListingResponse>(API_ENDPOINTS.LISTINGS.DETAIL(id), data)
-    return response.data
+  updateListing: async (id: number | string, data: ListingFormValues): Promise<ListingResponse> => {
+    const files: File[] = []
+    const retainedMedia: Record<string, unknown>[] = []
+
+    if (data.media && Array.isArray(data.media)) {
+      data.media.forEach((rawItem) => {
+        const item = rawItem as { file?: File; url?: string }
+        if (item.file && item.file instanceof File) {
+          files.push(item.file)
+        } else if (item.url && typeof item.url === "string" && !item.url.startsWith("blob:")) {
+          retainedMedia.push({ url: item.url, image: item.url })
+        }
+      })
+    }
+
+    const patchPayload = {
+      ...data,
+      media: retainedMedia,
+    }
+    
+    const patchResponse = await apiClient.patch<ListingResponse>(
+      API_ENDPOINTS.LISTINGS.DETAIL(id), 
+      patchPayload
+    )
+    let updatedListing = patchResponse.data
+
+    if (files.length > 0) {
+      const formData = new FormData()
+      files.forEach((file) => {
+        formData.append("files", file)
+      })
+
+      const uploadResponse = await apiClient.put<ListingResponse>(
+        API_ENDPOINTS.LISTINGS.UPLOAD_IMAGE(id),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      updatedListing = uploadResponse.data
+    }
+
+    return updatedListing
   },
 
   /**

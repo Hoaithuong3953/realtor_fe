@@ -91,8 +91,11 @@ export const chatService = {
    * [POST] /chat/sessions/{id}/initialize-memory
    */
   initializeMemory: async (sessionId: string | number): Promise<ChatSessionResponse> => {
+    if (!sessionId) {
+      throw new Error("Session ID is required to initialize memory")
+    }
     const response = await apiClient.post<ChatSessionResponse>(
-      `/chat/sessions/${sessionId}/initialize-memory`
+      API_ENDPOINTS.CHAT.SESSION_INITIALIZE_MEMORY(sessionId)
     )
     return response.data
   },
@@ -102,6 +105,9 @@ export const chatService = {
    * [POST] /chat/sessions/{id}/reset-memory
    */
   resetSessionMemory: async (sessionId: string | number): Promise<ChatSessionResponse> => {
+    if (!sessionId) {
+      throw new Error("Session ID is required to reset memory")
+    }
     const response = await apiClient.post<ChatSessionResponse>(
       API_ENDPOINTS.CHAT.SESSION_RESET_MEMORY(sessionId)
     )

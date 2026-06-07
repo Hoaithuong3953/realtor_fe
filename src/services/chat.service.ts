@@ -91,9 +91,7 @@ export const chatService = {
    * [POST] /chat/sessions/{id}/initialize-memory
    */
   initializeMemory: async (sessionId: string | number): Promise<ChatSessionResponse> => {
-    const response = await apiClient.post<ChatSessionResponse>(
-      `/chat/sessions/${sessionId}/initialize-memory`
-    )
+    const response = await apiClient.post<ChatSessionResponse>(API_ENDPOINTS.CHAT.SESSION_INITIALIZE_MEMORY(sessionId))
     return response.data
   },
 

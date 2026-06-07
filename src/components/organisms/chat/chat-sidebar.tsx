@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button, Input } from "@/components/atoms"
 import { TeamSwitcher, NavUser, ActionDropdown, Dropdown } from "@/components/molecules"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Sidebar,
   SidebarContent,
@@ -40,6 +41,7 @@ type ChatSidebarProps = React.ComponentProps<typeof Sidebar> & {
   sessions?: ChatSidebarSession[]
   activeSessionId?: string
   onNewChat?: () => void
+  isLoading?: boolean
 }
 
 function ChatSidebarSessionItem({ 
@@ -150,6 +152,7 @@ export const ChatSidebar = ({
   sessions = [],
   activeSessionId,
   onNewChat,
+  isLoading,
   ...props
 }: ChatSidebarProps) => {
   const { t } = useTranslation("chat")
@@ -257,6 +260,22 @@ export const ChatSidebar = ({
                 />
               </SidebarMenuItem>
             </SidebarMenu>
+          </SidebarGroup>
+        ) : isLoading ? (
+          <SidebarGroup>
+            <SidebarGroupLabel>{t("layout.sidebar_loading_chats", { defaultValue: "Đang tải dữ liệu..." })}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <SidebarMenuItem key={i} className="px-2 py-1.5">
+                    <div className="flex items-center gap-2 w-full px-2 py-1">
+                      <Skeleton className="size-4 shrink-0 rounded" />
+                      <Skeleton className="h-4 w-full max-w-[120px] rounded" />
+                    </div>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
           </SidebarGroup>
         ) : (
           Object.entries(groupedSessions).map(([group, items]) => (

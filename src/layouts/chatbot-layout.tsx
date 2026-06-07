@@ -20,7 +20,7 @@ export function ChatbotLayout() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { t } = useTranslation("chat")
 
-  const { data: sessionsData } = useChatSessionsQuery()
+  const { data: sessionsData, isLoading: isSessionsLoading } = useChatSessionsQuery()
   const { data: sessionDetail } = useChatSessionQuery(activeSessionId, !!activeSessionId)
   
   const { mutate: initializeMemory, isPending: isInitializing } = useInitializeMemoryMutation(activeSessionId)
@@ -80,10 +80,12 @@ export function ChatbotLayout() {
   }
 
   const handleInitializeMemory = () => {
+    if (!activeSessionId) return
     initializeMemory()
   }
 
   const handleResetMemory = () => {
+    if (!activeSessionId) return
     resetMemory(undefined, {
       onSuccess: () => {
         setAggregatedMemory(null)
@@ -104,6 +106,7 @@ export function ChatbotLayout() {
           }))} 
         activeSessionId={activeSessionId}
         onNewChat={handleNewChat}
+        isLoading={isSessionsLoading}
       />
       <SidebarInset className="flex flex-col h-[100dvh] overflow-hidden bg-background">
         <ChatHeader 

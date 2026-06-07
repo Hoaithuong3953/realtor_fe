@@ -9,8 +9,21 @@ export default function PropertiesCreatePage() {
   const navigate = useNavigate()
   const { mutate, isPending } = useCreateListingMutation()
 
-  const handleSubmit = (data: ListingFormValues) => {
-    mutate(data, {
+  const handleSubmit = (formData: ListingFormValues) => {
+    // Extract new files
+    const files = formData.media
+      ?.filter(m => m.file instanceof File)
+      .map(m => m.file as File) || []
+    
+    // Clean data payload: only keep existing URLs (if any, though rare on create)
+    const cleanData = {
+      ...formData,
+      media: formData.media
+        ?.filter(m => !(m.file instanceof File))
+        .map(m => ({ url: m.url })) || []
+    }
+
+    mutate({ data: cleanData, files }, {
       onSuccess: () => {
         // Redirect to properties list on success
         void navigate(paths.dashboard.properties.root)

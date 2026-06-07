@@ -14,10 +14,24 @@ export default function PropertiesEditPage() {
   const { data: listing, isLoading } = useListingDetailQuery(id as string)
   const { mutate, isPending } = useUpdateListingMutation()
 
-  const handleSubmit = (data: ListingFormValues) => {
+  const handleSubmit = (formData: ListingFormValues) => {
     if (!id) return
+    
+    // Extract new files
+    const files = formData.media
+      ?.filter(m => m.file instanceof File)
+      .map(m => m.file as File) || []
+    
+    // Clean data payload
+    const cleanData = {
+      ...formData,
+      media: formData.media
+        ?.filter(m => !(m.file instanceof File))
+        .map(m => ({ url: m.url })) || []
+    }
+
     mutate(
-      { id, data },
+      { id, data: cleanData, files },
       {
         onSuccess: () => {
           // Redirect to properties list on success

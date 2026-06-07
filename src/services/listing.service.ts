@@ -1,5 +1,5 @@
 import { API_ENDPOINTS, API_CONFIG } from "@/constants/api"
-import { apiClient } from "@/lib/api-client"
+import { apiClient, apiWithFiles } from "@/lib/api-client"
 import type { 
   ListingResponse, 
   ListingListResponse,
@@ -70,8 +70,21 @@ export const listingService = {
    * Create a new listing
    * [POST] /listings
    */
-  createListing: async (data: ListingCreate): Promise<ListingResponse> => {
+  createListing: async (data: ListingCreate, files?: File[]): Promise<ListingResponse> => {
+    if (files && files.length > 0) {
+      const response = await apiWithFiles.post<ListingResponse>(API_ENDPOINTS.LISTINGS.ROOT, data, files)
+      return response.data
+    }
     const response = await apiClient.post<ListingResponse>(API_ENDPOINTS.LISTINGS.ROOT, data)
+    return response.data
+  },
+
+  /**
+   * Upload images for an existing listing
+   * [PUT] /listings/{id}/uploadimage
+   */
+  uploadListingImages: async (id: number | string, files: File[]): Promise<ListingResponse> => {
+    const response = await apiWithFiles.put<ListingResponse>(API_ENDPOINTS.LISTINGS.UPLOAD_IMAGE(id), files)
     return response.data
   },
 

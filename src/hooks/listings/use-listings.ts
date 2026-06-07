@@ -88,7 +88,8 @@ export const useCreateListingMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: ListingCreate) => listingService.createListing(data),
+    mutationFn: ({ data, files }: { data: ListingCreate; files?: File[] }) => 
+      listingService.createListing(data, files),
     meta: { errorMsg: t("messages.create_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
@@ -105,8 +106,13 @@ export const useUpdateListingMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string | number; data: ListingUpdate }) =>
-      listingService.updateListing(id, data),
+    mutationFn: async ({ id, data, files }: { id: string | number; data: ListingUpdate; files?: File[] }) => {
+      const updated = await listingService.updateListing(id, data)
+      if (files && files.length > 0) {
+        return await listingService.uploadListingImages(id, files)
+      }
+      return updated
+    },
     meta: { errorMsg: t("messages.update_error") },
     onSuccess: (data, variables) => {
       // Optimistically update the detail view if cached

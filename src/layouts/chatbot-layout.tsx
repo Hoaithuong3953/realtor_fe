@@ -130,6 +130,7 @@ export function ChatbotLayout() {
             onInitialize={handleInitializeMemory}
             onReset={handleResetMemory}
             isInitializing={isInitializing}
+            disabled={!activeSessionId}
           />
         </div>
       </SidebarInset>

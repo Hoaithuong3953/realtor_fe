@@ -17,6 +17,7 @@ type ChatMemoryProps = {
   onInitialize: () => void
   onReset: () => void
   isInitializing?: boolean
+  disabled?: boolean
 }
 
 export const ChatMemory = ({ 
@@ -26,7 +27,8 @@ export const ChatMemory = ({
   aggregatedMemory,
   onInitialize, 
   onReset,
-  isInitializing
+  isInitializing,
+  disabled
 }: ChatMemoryProps) => {
   const { t: tChat } = useTranslation("chat")
   const { t: tCommon } = useTranslation("common")
@@ -123,6 +125,7 @@ export const ChatMemory = ({
                     size="xs" 
                     className="h-8 text-xs border-destructive/20 text-destructive hover:bg-destructive/10" 
                     onClick={() => setShowResetConfirm(true)}
+                    disabled={disabled}
                   >
                     {tChat("components.memory_btn_reset")}
                   </Button>
@@ -131,7 +134,7 @@ export const ChatMemory = ({
                     size="xs" 
                     className="h-8 text-xs gap-1.5" 
                     onClick={onInitialize}
-                    disabled={isInitializing}
+                    disabled={disabled || isInitializing}
                   >
                     {isInitializing ? <Loader2 className="size-3 animate-spin" /> : <RefreshCw className="size-3" />}
                     {tChat("components.memory_btn_refresh")}

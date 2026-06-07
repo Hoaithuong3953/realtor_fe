@@ -4,10 +4,9 @@ import { toast } from "sonner"
 import { listingService, type GetListingsParams } from "@/services/listing.service"
 import type { 
   ListingStatus, 
-  ListingCreate, 
-  ListingUpdate,
   ListingImportRequest 
 } from "@/types/api"
+import type { ListingFormValues } from "@/schemas/listing.schema"
 
 export const LISTING_QUERY_KEYS = {
   all: ["listings"] as const,
@@ -88,7 +87,7 @@ export const useCreateListingMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: ListingCreate) => listingService.createListing(data),
+    mutationFn: (data: ListingFormValues) => listingService.createListing(data),
     meta: { errorMsg: t("messages.create_error") },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: LISTING_QUERY_KEYS.lists() })
@@ -105,7 +104,7 @@ export const useUpdateListingMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string | number; data: ListingUpdate }) =>
+    mutationFn: ({ id, data }: { id: string | number; data: ListingFormValues }) =>
       listingService.updateListing(id, data),
     meta: { errorMsg: t("messages.update_error") },
     onSuccess: (data, variables) => {
